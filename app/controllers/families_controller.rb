@@ -1,18 +1,25 @@
 class FamiliesController < ApplicationController
+  wrap_parameters :family, include: [:last_name, :email, :password, :password_confirmation]
+  skip_before_action :authorize, only: [:create]
+
   def index
     @families = Family.all
     render json: @families, status: :ok
   end
 
   def show 
-    @family = find_family
-    render json: @family, status: :ok
+    family = Family.find_by(id: session[:family_id])
+    if family
+      render json: family, status: :ok
+    else
+      render json: { error: "Not authorized" }, status: :unauthorized
+    end
   end
 
   def create
     @family = Family.create!(family_params)
     if @family.valid?
-      session[:family_id] = family.id 
+      session[:family_id] = @family.id 
       render json: @family, status: :created
     end
   end
