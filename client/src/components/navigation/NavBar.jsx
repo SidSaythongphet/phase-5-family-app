@@ -1,8 +1,12 @@
 import React from 'react'
 
-const NavBar = () => {
+const NavBar = ({ loggedIn, setLoggedIn }) => {
   return (
-    <div>NavBar</div>
+    <div>
+      NavBar
+      { loggedIn ? "Welcome" : "Please Log In"}
+      <button onClick={ () => setLoggedIn(false) } >Logout</button>
+    </div>
   )
 }
 
