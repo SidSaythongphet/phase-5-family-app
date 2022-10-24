@@ -7,6 +7,7 @@ import Home from "./components/static/Home";
 
 function App() {
   const [family, setFamily] = useState(null)
+  const [events, setEvents] = useState(null)
   const [loggedIn, setLoggedIn] = useState(false)
   const navigate = useNavigate()
 
@@ -16,6 +17,7 @@ function App() {
         response.json().then((data) => {
           setFamily(data)
           setLoggedIn(true)
+          setEvents(data.events)
         })
       } else {
         navigate("/login")
@@ -23,13 +25,14 @@ function App() {
     })    
   }, [])
   console.log(family)
+  console.log(events)
 
   return (
     <>
       <NavBar loggedIn={ loggedIn } setLoggedIn={ setLoggedIn } />
       <Routes>
-        <Route path="/" element={ <Home /> } />
-        <Route path="/signup" element={ <SignUp /> } />
+        <Route path="/" element={ <Home events={ events }/> } />
+        <Route path="/signup" element={ <SignUp loggedIn={ loggedIn } setLoggedIn={ setLoggedIn } setFamily={ setFamily } /> } />
         <Route path="/login" element={ <Login loggedIn={ loggedIn } setLoggedIn={ setLoggedIn } setFamily={ setFamily } /> } />
       </Routes>
     </>

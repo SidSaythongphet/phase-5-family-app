@@ -9,8 +9,8 @@ import Switch from '@mui/material/Switch';
 const DatePickerModule = () => {
   const [formData, setFormData] = useState({
     title: '',
-    startDate: null,
-    endDate: null,
+    start: null,
+    end: null,
     allDay: false,
     note: ''
   })
@@ -20,12 +20,30 @@ const DatePickerModule = () => {
       [event.target.name]: event.target.value});
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault()
 
     // throw error if date combination is invalid
-    new Date(formData.startDate) > new Date(formData.endDate) ? console.log("error") : console.log("correct") 
-    console.log(formData)
+    if (new Date(formData.start) > new Date(formData.end)) {
+      console.log("error")
+      return
+    }
+    console.log("processing")
+
+    const response = await fetch('/api/events', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData)
+    })
+
+    const data = await response.json()
+    if (response.ok) {
+      console.log(data)
+    } else {
+      console.log(data.errors)
+    }
   }
 
   return (
@@ -38,25 +56,25 @@ const DatePickerModule = () => {
       />
       <DatePicker
         placeholderText='Start Date'
-        selected={formData.startDate}
+        selected={formData.start}
         dateFormat="M/d/yyyy h:mm:ss a"
         showTimeSelect
-        onChange={  (date) => setFormData({...formData, startDate: date})      }
+        onChange={  (date) => setFormData({...formData, start: date})      }
         selectsStart
-        startDate={formData.startDate}
-        endDate={formData.endDate}
+        startDate={formData.start}
+        endDate={formData.end}
         required
       />
       <DatePicker
         placeholderText='End Date'
-        selected={formData.endDate}
+        selected={formData.end}
         dateFormat="M/d/yyyy h:mm:ss a"
         showTimeSelect
-        onChange={  (date) => setFormData({...formData, endDate: date})      }
+        onChange={  (date) => setFormData({...formData, end: date})      }
         selectsEnd
-        startDate={formData.startDate}
-        endDate={formData.endDate}
-        minDate={formData.startDate}
+        startDate={formData.start}
+        endDate={formData.end}
+        minDate={formData.start}
         required
       />      
       <FormGroup>

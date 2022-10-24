@@ -2,11 +2,11 @@ import React from 'react'
 import CalendarModule from '../calendar/CalendarModule'
 import DatePickerModule from '../event/DatePickerModule'
 
-const Home = () => {
+const Home = ({ events }) => {
   return (
     <div>
       Home
-      <CalendarModule />
+      <CalendarModule events={ events }/>
       <DatePickerModule />
     </div>
   )
