@@ -27,11 +27,15 @@ function App() {
   console.log(family)
   console.log(events)
 
+  const addNewEvent = (newEvent) => {
+    setEvents([...events, newEvent])
+  }
+
   return (
     <>
       <NavBar loggedIn={ loggedIn } setLoggedIn={ setLoggedIn } />
       <Routes>
-        <Route path="/" element={ <Home events={ events }/> } />
+        <Route path="/" element={ <Home events={ events } onAddEvent={ addNewEvent } /> } />
         <Route path="/signup" element={ <SignUp loggedIn={ loggedIn } setLoggedIn={ setLoggedIn } setFamily={ setFamily } /> } />
         <Route path="/login" element={ <Login loggedIn={ loggedIn } setLoggedIn={ setLoggedIn } setFamily={ setFamily } /> } />
       </Routes>

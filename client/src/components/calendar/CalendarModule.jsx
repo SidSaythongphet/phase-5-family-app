@@ -1,7 +1,6 @@
 import React from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import interactionPlugin from '@fullcalendar/interaction';
 
 
 const CalendarModule = ({ events }) => {
@@ -18,10 +17,14 @@ const CalendarModule = ({ events }) => {
 
   return (
     <div>
-      CalendarModule
       <FullCalendar
         plugins={[ dayGridPlugin ]}
         initialView="dayGridMonth"
+        headerToolbar={{
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,dayGridWeek,dayGridDay'
+        }}
         events={ events }
         eventClick={ e => console.log(e.event) }
       />
