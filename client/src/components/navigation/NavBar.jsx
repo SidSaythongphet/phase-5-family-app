@@ -5,7 +5,8 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
-const NavBar = ({ loggedIn, setLoggedIn }) => {
+const NavBar = ({ loggedIn, setLoggedIn, onLogout }) => {
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -13,7 +14,7 @@ const NavBar = ({ loggedIn, setLoggedIn }) => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             { loggedIn ? "Welcome" : "Please Log In"}
           </Typography>
-          <Button color="inherit" onClick={ () => setLoggedIn(false) }>Logout</Button>
+          <Button color="inherit" onClick={ onLogout }>Logout</Button>
         </Toolbar>
       </AppBar>
     </Box>

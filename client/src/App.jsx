@@ -11,6 +11,7 @@ function App() {
   const [user, setUser] = useState(null)
   const [events, setEvents] = useState(null)
   const [loggedIn, setLoggedIn] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -21,6 +22,7 @@ function App() {
           setFamilyMembers(data.users)
           setEvents(data.events)
           setLoggedIn(true)
+          setIsLoading(false)
         })
       } else {
         navigate("/login")
@@ -47,11 +49,27 @@ function App() {
     setFamily([...familyMembers, user])
   }
 
+  const handleLogout = async (e) => {
+    e.preventDefault()
+
+    const response = await fetch('/api/logout', {
+      method: 'DELETE'
+    })
+    if (response.ok) {
+      setFamily(null)
+      setFamilyMembers(null)
+      setUser(null)
+      setEvents(null)
+      setLoggedIn(false)
+      navigate("/login")
+    }
+  }
+
   return (
     <>
-      <NavBar loggedIn={ loggedIn } setLoggedIn={ setLoggedIn } />
+      <NavBar loggedIn={ loggedIn } setLoggedIn={ setLoggedIn } onLogout={ handleLogout }/>
       <Routes>
-        <Route path="/" element={ <Home user={ user } family={ family } familyMembers={ familyMembers } setUser={ setUser } onAddMember={ addFamilyMember } events={ events } onAddEvent={ addNewEvent } /> } />
+        {!isLoading ? <Route path="/" element={ <Home user={ user } family={ family } familyMembers={ familyMembers } setUser={ setUser } onAddMember={ addFamilyMember } events={ events } onAddEvent={ addNewEvent } /> } /> : null}
         <Route path="/signup" element={ <SignUp loggedIn={ loggedIn } setLoggedIn={ setLoggedIn } setFamily={ setFamily } /> } />
         <Route path="/login" element={ <Login loggedIn={ loggedIn } setLoggedIn={ setLoggedIn } setFamily={ setFamily } /> } />
       </Routes>

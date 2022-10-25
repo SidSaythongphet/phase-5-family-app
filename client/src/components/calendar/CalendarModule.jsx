@@ -1,6 +1,7 @@
 import React from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
+import { Paper } from '@mui/material'
 
 
 const CalendarModule = ({ events }) => {
@@ -16,7 +17,7 @@ const CalendarModule = ({ events }) => {
   // console.log(edit)
 
   return (
-    <div>
+    <Paper elevation={2} sx={{ margin: 1 }}>
       <FullCalendar
         plugins={[ dayGridPlugin ]}
         initialView="dayGridMonth"
@@ -28,7 +29,7 @@ const CalendarModule = ({ events }) => {
         events={ events }
         eventClick={ e => console.log(e.event) }
       />
-    </div>
+    </Paper>
   )
 }
 

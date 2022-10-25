@@ -116,7 +116,8 @@ const UserLogin = ({ user, setUser, familyMembers, onAddMember, family }) => {
                         inputProps={{ 'aria-label': 'A' }}
                       />
                     } 
-                    label={ user.name } />
+                    label={ user.name } 
+                    key={ user.id } />
                   )
                 }) 
               }
