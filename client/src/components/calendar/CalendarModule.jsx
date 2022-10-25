@@ -1,20 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import { Paper } from '@mui/material'
 
 
 const CalendarModule = ({ events }) => {
-  // const edit = events.map(ev => {
-  //   if (ev.title === "test1") {
-  //     ev["backgroundColor"] = "brown"
-  //     return ev
-  //   } else {
-  //     return ev
-  //   }
-  // })
+  let colors = ["grey", "red", "orange", "green", "blue", "purple", "brown"]
 
-  // console.log(edit)
+  const edit = events.map(ev => {
+    ev["color"] = colors[ev.user_id]
+    return ev
+  })
+
+  console.log(edit)
 
   return (
     <Paper elevation={2} sx={{ margin: 1 }}>
@@ -26,7 +24,8 @@ const CalendarModule = ({ events }) => {
           center: 'title',
           right: 'dayGridMonth,dayGridWeek,dayGridDay'
         }}
-        events={ events }
+        events={ edit }
+        eventDisplay="block"
         eventClick={ e => console.log(e.event) }
       />
     </Paper>

@@ -8,9 +8,8 @@ class EventsController < ApplicationController
 
   def create
     family = Family.find_by(id: session[:family_id])
-    @event = family.events.build(family_params)
+    @event = family.events.create!(event_params)
     if @event.valid?
-      @event.save
       render json: @event, status: :created 
     end
   end
@@ -21,7 +20,7 @@ class EventsController < ApplicationController
     Event.find_by(id: params[:id])
   end
 
-  def family_params
-    params.require(:event).permit(:title, :start, :end, :allDay, :family_id, :note)
+  def event_params
+    params.require(:event).permit(:title, :start, :end, :allDay, :family_id, :user_id, :note)
   end
 end

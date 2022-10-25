@@ -14,7 +14,7 @@ const Home = ({ user, family, familyMembers, setUser, onAddMember, events, onAdd
         <Grid item xs={3} container>
           <Stack justifyContent="space-evenly">
             <EventListModule events={ events } />
-            <DatePickerModule onAddEvent={ onAddEvent } />
+            <DatePickerModule user={ user } onAddEvent={ onAddEvent } />
           </Stack>
         </Grid>
         <Grid item xs={8}>

@@ -7,14 +7,17 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { Paper } from '@mui/material';
 
-const DatePickerModule = ({ onAddEvent }) => {
-  const [formData, setFormData] = useState({
+
+const DatePickerModule = ({ user, onAddEvent }) => {
+  const initialState = {
     title: '',
     start: null,
     end: null,
     allDay: false,
-    note: ''
-  })
+    note: '',
+    user_id: user.id
+  }
+  const [formData, setFormData] = useState(initialState)
 
   const handleChange = (event) => {
     setFormData({...formData,
@@ -42,6 +45,7 @@ const DatePickerModule = ({ onAddEvent }) => {
     const data = await response.json()
     if (response.ok) {
       onAddEvent(data)
+      setFormData(initialState)
     } else {
       console.log(data.errors)
     }
