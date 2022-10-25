@@ -3,14 +3,15 @@ import React from 'react'
 import CalendarModule from '../calendar/CalendarModule'
 import EventListModule from '../calendar/EventListModule'
 import DatePickerModule from '../event/DatePickerModule'
+import UserLogin from '../session/UserLogin'
 
-const Home = ({ events, onAddEvent }) => {
+const Home = ({ user, family, familyMembers, setUser, onAddMember, events, onAddEvent }) => {
   return (
-    <div>
-      Home
-      <Grid container>
+    <>
+      { family ? <UserLogin user={ user } family={ family } familyMembers={ familyMembers } setUser={ setUser } onAddMember={ onAddMember }/> : null }
+      <Grid container spacing={2}>
         <Grid item xs={3} container>
-          <Stack>
+          <Stack justifyContent="space-evenly">
             <EventListModule events={ events } />
             <DatePickerModule onAddEvent={ onAddEvent } />
           </Stack>
@@ -22,7 +23,7 @@ const Home = ({ events, onAddEvent }) => {
           <div>Family</div>
         </Grid>
       </Grid>
-    </div>
+    </>
   )
 }
 

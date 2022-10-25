@@ -42,7 +42,7 @@ const Login = ({ loggedIn, setLoggedIn, setFamily }) => {
         <input type="submit" />
       </form>
       <h1> or Sign Up </h1>
-      <SignUp />
+      <SignUp loggedIn={ loggedIn } setLoggedIn={ setLoggedIn } setFamily={ setFamily } />
     </div>
   )
 }
