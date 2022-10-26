@@ -3,6 +3,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import NavBar from "./components/navigation/NavBar";
 import Login from "./components/session/Login";
 import SignUp from "./components/session/SignUp";
+import UserLogin from "./components/session/UserLogin";
 import Home from "./components/static/Home";
 
 function App() {
@@ -67,11 +68,16 @@ function App() {
 
   return (
     <>
-      <NavBar loggedIn={ loggedIn } setLoggedIn={ setLoggedIn } onLogout={ handleLogout }/>
+      <NavBar user={ user } loggedIn={ loggedIn } setLoggedIn={ setLoggedIn } onLogout={ handleLogout }/>
       <Routes>
-        {!isLoading ? <Route path="/" element={ <Home user={ user } family={ family } familyMembers={ familyMembers } setUser={ setUser } onAddMember={ addFamilyMember } events={ events } onAddEvent={ addNewEvent } /> } /> : null}
-        <Route path="/signup" element={ <SignUp loggedIn={ loggedIn } setLoggedIn={ setLoggedIn } setFamily={ setFamily } /> } />
-        <Route path="/login" element={ <Login loggedIn={ loggedIn } setLoggedIn={ setLoggedIn } setFamily={ setFamily } /> } />
+        {!isLoading 
+        ? <>
+          <Route path="/" element={ <Home user={ user } family={ family } familyMembers={ familyMembers } setUser={ setUser } onAddMember={ addFamilyMember } events={ events } onAddEvent={ addNewEvent } /> } /> 
+          <Route path="/signup" element={ <SignUp loggedIn={ loggedIn } setLoggedIn={ setLoggedIn } setFamily={ setFamily } /> } />
+          <Route path="/login" element={ <Login loggedIn={ loggedIn } setLoggedIn={ setLoggedIn } setFamily={ setFamily } /> } />
+          <Route path="/family/:last_name" element={ <UserLogin user={ user } family={ family } familyMembers={ familyMembers } setUser={ setUser } onAddMember={ addFamilyMember }/> } /> 
+        </>
+        : null}
       </Routes>
     </>
   );

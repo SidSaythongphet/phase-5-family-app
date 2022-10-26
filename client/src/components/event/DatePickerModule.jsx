@@ -33,6 +33,10 @@ const DatePickerModule = ({ user, onAddEvent }) => {
       return
     }
     console.log("processing")
+    setFormData({
+      ...formData,
+      user_id: user.id
+    })
 
     const response = await fetch('/api/events', {
       method: 'POST',

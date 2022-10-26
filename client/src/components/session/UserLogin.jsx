@@ -11,6 +11,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import { useNavigate } from 'react-router-dom';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -21,6 +22,7 @@ const UserLogin = ({ user, setUser, familyMembers, onAddMember, family }) => {
   const [open, setOpen] = useState(true);
   const [show, setShow] = useState(false);
   const { register, setValue, handleSubmit } = useForm()
+  const navigate = useNavigate()
 
   useEffect(() => {
     // User Login menu is opened either when:
@@ -45,7 +47,6 @@ const UserLogin = ({ user, setUser, familyMembers, onAddMember, family }) => {
 
   const onSubmit = async form => {
     setValue("family_id",family.id )
-    console.log(form)
 
     const response = await fetch('/api/users', {
       method: 'POST',
@@ -59,6 +60,8 @@ const UserLogin = ({ user, setUser, familyMembers, onAddMember, family }) => {
     if (response.ok) {
       setUser(data)
       onAddMember(data)
+      navigate("/")
+      setOpen(false)
     } else {
       console.log(data.errors)
     }
@@ -92,7 +95,7 @@ const UserLogin = ({ user, setUser, familyMembers, onAddMember, family }) => {
     <>
       <Dialog
         //open if user does not exist
-        open={!user}
+        open={open}
         TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}
