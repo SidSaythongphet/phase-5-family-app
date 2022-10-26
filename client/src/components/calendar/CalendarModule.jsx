@@ -4,15 +4,13 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import { Paper } from '@mui/material'
 
 
-const CalendarModule = ({ events }) => {
+const CalendarModule = ({ events, onSelectEvent }) => {
   let colors = ["grey", "red", "orange", "green", "blue", "purple", "brown"]
 
   const edit = events.map(ev => {
     ev["color"] = colors[ev.user_id]
     return ev
   })
-
-  console.log(edit)
 
   return (
     <Paper elevation={2} sx={{ margin: 1 }}>
@@ -26,7 +24,7 @@ const CalendarModule = ({ events }) => {
         }}
         events={ edit }
         eventDisplay="block"
-        eventClick={ e => console.log(e.event) }
+        eventClick={ onSelectEvent }
       />
     </Paper>
   )

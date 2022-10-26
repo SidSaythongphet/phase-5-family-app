@@ -53,7 +53,7 @@ const DatePickerModule = ({ user, onAddEvent }) => {
 
   return (
     <Paper elevation={2} sx={{ margin: 1 }}>
-
+      <h4>New Event</h4>
       <form onSubmit={ handleSubmit }>
         <input 
           placeholder='Event Title' 
