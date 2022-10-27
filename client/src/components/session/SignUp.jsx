@@ -1,10 +1,8 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
-import { useNavigate } from 'react-router-dom';
 
-const SignUp = ({ loggedIn, setLoggedIn, setFamily }) => {
+const SignUp = ({ onLogIn }) => {
   const { register, handleSubmit } = useForm()
-  const navigate = useNavigate()
 
   const onSubmit = async form => {
 
@@ -18,9 +16,7 @@ const SignUp = ({ loggedIn, setLoggedIn, setFamily }) => {
 
     const data = await response.json()
     if (response.ok) {
-      setFamily(data)
-      navigate("/")
-      setLoggedIn(true)
+      onLogIn(data)
     } else {
       console.log(data.errors)
     }

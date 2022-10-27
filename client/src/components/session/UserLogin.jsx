@@ -86,6 +86,7 @@ const UserLogin = ({ user, setUser, familyMembers, onAddMember, family }) => {
     if (response.ok) {
       setUser(data)
       setOpen(false)
+      navigate("/")
     } else {
       console.log("error")
     }

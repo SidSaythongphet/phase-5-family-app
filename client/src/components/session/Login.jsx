@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import SignUp from './SignUp';
 
-const Login = ({ loggedIn, setLoggedIn, setFamily }) => {
+const Login = ({ onLogIn, loggedIn }) => {
   const { register, handleSubmit } = useForm()
   const navigate = useNavigate()
 
@@ -25,9 +25,7 @@ const Login = ({ loggedIn, setLoggedIn, setFamily }) => {
 
     const data = await response.json()
     if (response.ok) {
-      setFamily(data)
-      navigate("/")
-      setLoggedIn(true)
+      onLogIn(data)
     } else {
       console.log(data.errors)
     }
@@ -42,7 +40,7 @@ const Login = ({ loggedIn, setLoggedIn, setFamily }) => {
         <input type="submit" />
       </form>
       <h1> or Sign Up </h1>
-      <SignUp loggedIn={ loggedIn } setLoggedIn={ setLoggedIn } setFamily={ setFamily } />
+      <SignUp loggedIn={ loggedIn } onLogIn={ onLogIn } />
     </div>
   )
 }

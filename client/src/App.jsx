@@ -50,6 +50,15 @@ function App() {
     setFamily([...familyMembers, user])
   }
 
+  const handleLogIn = (data) => {
+    setFamily(data)
+    setFamilyMembers(data.users)
+    setEvents(data.events)
+    navigate("/family/:last_name")
+    setLoggedIn(true)
+    setIsLoading(false)
+  }
+
   const handleLogout = async (e) => {
     e.preventDefault()
 
@@ -73,11 +82,13 @@ function App() {
         {!isLoading 
         ? <>
           <Route path="/" element={ <Home user={ user } family={ family } familyMembers={ familyMembers } setUser={ setUser } onAddMember={ addFamilyMember } events={ events } onAddEvent={ addNewEvent } /> } /> 
-          <Route path="/signup" element={ <SignUp loggedIn={ loggedIn } setLoggedIn={ setLoggedIn } setFamily={ setFamily } /> } />
-          <Route path="/login" element={ <Login loggedIn={ loggedIn } setLoggedIn={ setLoggedIn } setFamily={ setFamily } /> } />
           <Route path="/family/:last_name" element={ <UserLogin user={ user } family={ family } familyMembers={ familyMembers } setUser={ setUser } onAddMember={ addFamilyMember }/> } /> 
         </>
-        : null}
+        : null }
+        <>
+          <Route path="/signup" element={ <SignUp onLogIn={ handleLogIn } loggedIn={ loggedIn } /> } />
+          <Route path="/login" element={ <Login onLogIn={ handleLogIn } loggedIn={ loggedIn } /> } />
+        </>
       </Routes>
     </>
   );
