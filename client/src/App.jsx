@@ -21,7 +21,7 @@ function App() {
         response.json().then((data) => {
           setFamily(data)
           setFamilyMembers(data.users)
-          setEvents(data.events)
+          setEvents(addColor(data.events))
           setLoggedIn(true)
           setIsLoading(false)
         })
@@ -48,6 +48,21 @@ function App() {
   }
   const addFamilyMember = (user) => {
     setFamily([...familyMembers, user])
+  }
+
+  const addColor = (events) => {
+    let colors = ["grey", "red", "orange", "green", "blue", "purple", "brown"]
+
+    const edit = events.map(ev => {
+      ev["color"] = colors[ev.user_id]
+      if (new Date(ev.start).toDateString() !== new Date(ev.end).toDateString()) {
+        ev["textColor"] = "black"
+        ev["display"] = "background"
+      }
+      return ev
+    })
+
+    return edit
   }
 
   const handleLogIn = (data) => {

@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import { Paper } from '@mui/material';
+import { Button, Paper, TextField, Typography } from '@mui/material';
 
-
-const DatePickerModule = ({ user, onAddEvent }) => {
+const NewEventContainer = ({ user, onAddEvent }) => {
   const initialState = {
     title: '',
     start: null,
@@ -57,7 +55,7 @@ const DatePickerModule = ({ user, onAddEvent }) => {
 
   return (
     <Paper elevation={2} sx={{ margin: 1 }}>
-      <h4>New Event</h4>
+      <Typography>New Event</Typography>
       <form onSubmit={ handleSubmit }>
         <input 
           placeholder='Event Title' 
@@ -91,16 +89,18 @@ const DatePickerModule = ({ user, onAddEvent }) => {
         <FormGroup>
           <FormControlLabel control={<Switch onChange={ () => setFormData({...formData, allDay: !formData.allDay})}/>} label="All Day" />
         </FormGroup>
-        <textarea 
-          placeholder='Note:'
+        <TextField 
+          label='Note:'
           name='note'
+          multiline
+          rows={3}
           value={ formData.note }
           onChange={ handleChange }
         />
-        <input type="submit" />
+        <Button type="submit">Submit</Button>
       </form>
     </Paper>
   );
 }
 
-export default DatePickerModule
+export default NewEventContainer

@@ -1,8 +1,8 @@
-import { Grid, Stack } from '@mui/material'
-import React, { useState } from 'react'
-import CalendarModule from '../calendar/CalendarModule'
-import EventListModule from '../calendar/EventListModule'
-import DatePickerModule from '../event/DatePickerModule'
+import { Button, Grid, Stack } from '@mui/material'
+import React, { useState, useEffect } from 'react'
+import CalendarContainer from '../calendar/CalendarContainer'
+import EventListContainer from '../event/EventListContainer'
+import NewEventContainer from '../event/NewEventContainer'
 import EventInfoContainer from '../event/EventInfoContainer'
 import FamilyContainer from '../family/FamilyContainer'
 import UserLogin from '../session/UserLogin'
@@ -10,9 +10,14 @@ import UserLogin from '../session/UserLogin'
 const Home = ({ user, family, familyMembers, setUser, onAddMember, events, setEvents, onAddEvent }) => {
   const [eventInfo, setEventInfo] = useState(null)
   const [filteredEvents, setFilteredEvents] = useState(events)
+  const [open, setOpen] = useState(false)
 
   const handleSelectEvent = (e) => {
     const selectedId = e.event.id
+    if (eventInfo && parseInt(eventInfo.id) === parseInt(selectedId)) {
+      setEventInfo(null)
+      return
+    }
     const selectedEvent = events.find(event => event.id == selectedId)
     const eventsUser = familyMembers.find(user => user.id === selectedEvent.user_id)
     selectedEvent.user = eventsUser.name
@@ -32,22 +37,39 @@ const Home = ({ user, family, familyMembers, setUser, onAddMember, events, setEv
       const unfiltered = events.filter(event => parseInt(event.user_id) === parseInt(targetUserId))
       setFilteredEvents([...filteredEvents, ...unfiltered])
     }
+    
+    if (eventInfo && parseInt(eventInfo.user_id) === parseInt(targetUserId)) {
+      setEventInfo(null)
+    }
   }
 
+  const newEvent = () => {
+    if (open) {
+      return(
+        <NewEventContainer user={ user } onAddEvent={ onAddEvent } />
+      )
+    } else {
+      return(
+        <Button>Add New Event</Button>
+      )
+    } 
+  }
 
   return (
     <>
       { family ? <UserLogin user={ user } family={ family } familyMembers={ familyMembers } setUser={ setUser } onAddMember={ onAddMember }/> : null }
-      <Grid container>
-        <Grid item xs={3} container>
-          <Stack>
-            {user ? <EventListModule user={ user } events={ events } /> : null}
+      <Grid container maxHeight="100vh">
+        <Grid item xs={3} container maxHeight="100vh">
+          <Stack justifyContent="space-between">
+            <Stack>
+              {user ? <EventListContainer user={ user } events={ events } /> : null}
+              {user ? <NewEventContainer user={ user } onAddEvent={ onAddEvent } /> : null}
+            </Stack>
             {eventInfo ? <EventInfoContainer eventInfo={ eventInfo }/> : null}
-            {user ? <DatePickerModule user={ user } onAddEvent={ onAddEvent } /> : null}
           </Stack>
         </Grid>
         <Grid item xs={8}>
-          <CalendarModule events={ filteredEvents } onSelectEvent={ handleSelectEvent } />
+          <CalendarContainer events={ filteredEvents } onSelectEvent={ handleSelectEvent } />
         </Grid>
         <Grid item xs={1}>
           <FamilyContainer familyMembers={ familyMembers } onHandleFilter={ handleFilter }/>

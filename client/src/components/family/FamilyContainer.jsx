@@ -3,8 +3,6 @@ import { Paper } from '@mui/material';
 import MemberTab from './MemberTab';
 
 const FamilyContainer = ({ familyMembers, onHandleFilter }) => {
-  let colors = ["grey", "red", "orange", "green", "blue", "purple", "brown"]
-  const [hide, setHide] = useState(false)
   // make seperate component to spread hide state in each
 
   return (
