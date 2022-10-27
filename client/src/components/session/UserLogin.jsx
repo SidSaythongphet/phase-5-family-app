@@ -96,7 +96,7 @@ const UserLogin = ({ user, setUser, familyMembers, onAddMember, family }) => {
     <>
       <Dialog
         //open if user does not exist
-        open={open}
+        open={!user}
         TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}

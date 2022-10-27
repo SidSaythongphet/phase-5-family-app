@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Paper } from '@mui/material';
+import MemberTab from './MemberTab';
 
-const FamilyContainer = ({ familyMembers }) => {
+const FamilyContainer = ({ familyMembers, onHandleFilter }) => {
   let colors = ["grey", "red", "orange", "green", "blue", "purple", "brown"]
+  const [hide, setHide] = useState(false)
+  // make seperate component to spread hide state in each
 
   return (
     <Paper elevation={2} sx={{ margin: 1 }}>
@@ -12,15 +15,7 @@ const FamilyContainer = ({ familyMembers }) => {
         ?
         familyMembers.map(user => {
           return(
-            <Paper 
-              key={ user.id } 
-              sx={{ 
-                backgroundColor: colors[user.id], 
-                margin: "5px"
-              }}
-            >
-              { user.name }
-            </Paper>
+            <MemberTab key={ user.id } user={ user } onHandleFilter={ onHandleFilter }/>
           )
         })
         :

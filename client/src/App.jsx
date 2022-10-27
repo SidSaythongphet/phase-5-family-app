@@ -81,7 +81,7 @@ function App() {
       <Routes>
         {!isLoading 
         ? <>
-          <Route path="/" element={ <Home user={ user } family={ family } familyMembers={ familyMembers } setUser={ setUser } onAddMember={ addFamilyMember } events={ events } onAddEvent={ addNewEvent } /> } /> 
+          <Route path="/" element={ <Home user={ user } family={ family } familyMembers={ familyMembers } setUser={ setUser } onAddMember={ addFamilyMember } events={ events } setEvents={ setEvents } onAddEvent={ addNewEvent } /> } /> 
           <Route path="/family/:last_name" element={ <UserLogin user={ user } family={ family } familyMembers={ familyMembers } setUser={ setUser } onAddMember={ addFamilyMember }/> } /> 
         </>
         : null }
