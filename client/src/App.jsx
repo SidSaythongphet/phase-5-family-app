@@ -73,8 +73,8 @@ function App() {
 
   const handleLogIn = (data) => {
     setFamily(data)
-    setFamilyMembers(data.users)
-    setEvents(data.events)
+    setFamilyMembers(colorCoordinateMembers(data.users))
+    setEvents(addColor(data.events, familyMembers))
     navigate("/family/:last_name")
     setLoggedIn(true)
     setIsLoading(false)

@@ -33,9 +33,8 @@ const Login = ({ onLogIn, loggedIn }) => {
 
   return (
     <>
-      <h1>Log In</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack>
+        <Stack spacing={1}>
           <Controller
             control={ control }
             name="email"
@@ -47,6 +46,7 @@ const Login = ({ onLogIn, loggedIn }) => {
               onChange={ onChange }
               onBlur={ onBlur }
               inputRef={ ref }
+              size="small"
               />
             )}
           />
@@ -62,12 +62,11 @@ const Login = ({ onLogIn, loggedIn }) => {
               onChange={ onChange }
               onBlur={ onBlur }
               inputRef={ ref }
+              size="small"
               />
             )}
           />
-          {/* <input placeholder="Email"{...register("email", { required: true })} /> */}
-          {/* <input placeholder="Password" type="password"{...register("password", { required: true, maxLength: 20 })} /> */}
-          <Button type='submit'>Log In</Button>
+          <Button variant="contained" type='submit'>Log In</Button>
         </Stack>
       </form>
     </>

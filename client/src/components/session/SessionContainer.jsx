@@ -6,10 +6,10 @@ import SignUp from './SignUp'
 const SessionContainer = ({ onLogIn, loggedIn }) => {
   return (
     <>
-      <Grid container justifyContent="center" alignItems="center" maxHeight="100vh">
+      <Grid container justifyContent="center" alignItems="center" maxHeight="100vh" spacing={10}>
         <Grid item>
-          <Typography>Title</Typography>
-          <Typography>
+          <Typography variant='h2' align='right'>Plann<span style={{color:"green"}}>r</span></Typography>
+          <Typography variant='h6' align='right'>
             Schedule together.
           </Typography>
         </Grid>
@@ -25,11 +25,19 @@ const SessionContainer = ({ onLogIn, loggedIn }) => {
               bgcolor="white"
               borderRadius="25px"
               padding="25px"
+              minWidth="300px"
             >
-              <Login onLogIn={ onLogIn } loggedIn={ loggedIn } />
-              <Divider variant='middle' />
-              <Typography>Create New Account</Typography>
-              <SignUp onLogIn={ onLogIn } loggedIn={ loggedIn } />
+              <Grid container flexDirection="column" >
+                <Grid item>
+                  <Login onLogIn={ onLogIn } loggedIn={ loggedIn } />
+                </Grid>
+                <br/>
+                <Divider />
+                <br/>
+                <Grid item alignSelf="center">
+                  <SignUp onLogIn={ onLogIn } loggedIn={ loggedIn } />
+                </Grid>
+              </Grid>
             </Box>
           </Box>
         </Grid>
