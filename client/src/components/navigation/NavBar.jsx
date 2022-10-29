@@ -15,8 +15,15 @@ const NavBar = ({ user, loggedIn, onLogout }) => {
             { loggedIn ? "Welcome" : "Please Log In"}
             { user ? user.name : null }
           </Typography>
-          <Button color="inherit" >Switch User</Button>
-          <Button color="inherit" onClick={ onLogout }>Logout</Button>
+            { loggedIn 
+              ?
+              <>
+                <Button color="inherit" >Switch User</Button>
+                <Button color="inherit" onClick={ onLogout }>Logout</Button>
+              </> 
+              :
+              null
+            }
         </Toolbar>
       </AppBar>
     </Box>

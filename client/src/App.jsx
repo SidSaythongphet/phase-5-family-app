@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import NavBar from "./components/navigation/NavBar";
-import Login from "./components/session/Login";
-import SignUp from "./components/session/SignUp";
+import SessionContainer from "./components/session/SessionContainer";
 import UserLogin from "./components/session/UserLogin";
 import Home from "./components/static/Home";
 
@@ -20,8 +19,8 @@ function App() {
       if (response.ok) {
         response.json().then((data) => {
           setFamily(data)
-          setFamilyMembers(data.users)
-          setEvents(addColor(data.events))
+          setFamilyMembers(colorCoordinateMembers(data.users))
+          setEvents(addColor(data.events, familyMembers))
           setLoggedIn(true)
           setIsLoading(false)
         })
@@ -50,11 +49,18 @@ function App() {
     setFamily([...familyMembers, user])
   }
 
-  const addColor = (events) => {
+  const colorCoordinateMembers = (members) => {
     let colors = ["grey", "red", "orange", "green", "blue", "purple", "brown"]
 
+    return members.map((member, i) => {
+      member["color"] = colors[i + 1]
+      return member
+    })
+  }
+
+  const addColor = (events, users) => {
     const edit = events.map(ev => {
-      ev["color"] = colors[ev.user_id]
+      ev["color"] = users.find(user => user.id === ev.user_id).color
       if (new Date(ev.start).toDateString() !== new Date(ev.end).toDateString()) {
         ev["textColor"] = "black"
         ev["display"] = "background"
@@ -92,7 +98,7 @@ function App() {
 
   return (
     <>
-      <NavBar user={ user } loggedIn={ loggedIn } setLoggedIn={ setLoggedIn } onLogout={ handleLogout }/>
+      { loggedIn ? <NavBar user={ user } loggedIn={ loggedIn } setLoggedIn={ setLoggedIn } onLogout={ handleLogout }/> : null}
       <Routes>
         {!isLoading 
         ? <>
@@ -101,8 +107,7 @@ function App() {
         </>
         : null }
         <>
-          <Route path="/signup" element={ <SignUp onLogIn={ handleLogIn } loggedIn={ loggedIn } /> } />
-          <Route path="/login" element={ <Login onLogIn={ handleLogIn } loggedIn={ loggedIn } /> } />
+          <Route path="/login" element={ <SessionContainer onLogIn={ handleLogIn } loggedIn={ loggedIn } /> } />
         </>
       </Routes>
     </>

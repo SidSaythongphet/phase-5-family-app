@@ -3,8 +3,7 @@ import { Paper } from '@mui/material';
 
 const MemberTab = ({ user, onHandleFilter }) => {
   const [hide, setHide] = useState(false)
-  let colors = ["grey", "red", "orange", "green", "blue", "purple", "brown"]
-  const bgdColor = hide ? null : colors[user.id]
+  const bgdColor = hide ? null : user.color
 
   const handleUserClick = (e) => {
     onHandleFilter(e)
