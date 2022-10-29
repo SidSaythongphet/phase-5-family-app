@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
-import SignUp from './SignUp';
+import { Button, Stack, TextField } from '@mui/material';
 
 const Login = ({ onLogIn, loggedIn }) => {
-  const { register, handleSubmit } = useForm()
+  const { handleSubmit, control } = useForm()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -32,16 +32,45 @@ const Login = ({ onLogIn, loggedIn }) => {
   }
 
   return (
-    <div>
+    <>
       <h1>Log In</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input placeholder="Email"{...register("email", { required: true })} />
-        <input placeholder="Password" type="password"{...register("password", { required: true, maxLength: 20 })} />
-        <input type="submit" />
+        <Stack>
+          <Controller
+            control={ control }
+            name="email"
+            rules={{ required: true }}
+            render={({ field: { onChange, onBlur, value, ref } }) => (
+              <TextField 
+              placeholder="Email"
+              value={ value }
+              onChange={ onChange }
+              onBlur={ onBlur }
+              inputRef={ ref }
+              />
+            )}
+          />
+          <Controller
+            control={ control }
+            name="password"
+            rules={{ required: true, maxLength: 20 }}
+            render={({ field: { onChange, onBlur, value, ref } }) => (
+              <TextField 
+              placeholder="Password"
+              type="password"
+              value={ value }
+              onChange={ onChange }
+              onBlur={ onBlur }
+              inputRef={ ref }
+              />
+            )}
+          />
+          {/* <input placeholder="Email"{...register("email", { required: true })} /> */}
+          {/* <input placeholder="Password" type="password"{...register("password", { required: true, maxLength: 20 })} /> */}
+          <Button type='submit'>Log In</Button>
+        </Stack>
       </form>
-      <h1> or Sign Up </h1>
-      <SignUp loggedIn={ loggedIn } onLogIn={ onLogIn } />
-    </div>
+    </>
   )
 }
 

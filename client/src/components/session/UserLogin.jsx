@@ -111,6 +111,8 @@ const UserLogin = ({ user, setUser, familyMembers, onAddMember, family }) => {
                   return (
                     <FormControlLabel 
                     value={ user.name } 
+                    label={ user.name } 
+                    key={ user.id } 
                     control={ 
                       <Radio
                         checked={selectedValue.name === user.name}
@@ -119,9 +121,7 @@ const UserLogin = ({ user, setUser, familyMembers, onAddMember, family }) => {
                         name={ user.name } 
                         inputProps={{ 'aria-label': 'A' }}
                       />
-                    } 
-                    label={ user.name } 
-                    key={ user.id } />
+                    } />
                   )
                 }) 
               }
