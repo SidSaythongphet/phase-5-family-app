@@ -4,8 +4,10 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
-const NavBar = ({ user, loggedIn, onLogout }) => {
+const NavBar = ({ onOpenUsers, user, loggedIn, onLogout }) => {
+  const navigate = useNavigate()
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -18,7 +20,7 @@ const NavBar = ({ user, loggedIn, onLogout }) => {
             { loggedIn 
               ?
               <>
-                <Button color="inherit" >Switch User</Button>
+                <Button color="inherit" onClick={ onOpenUsers }>Switch User</Button>
                 <Button color="inherit" onClick={ onLogout }>Logout</Button>
               </> 
               :

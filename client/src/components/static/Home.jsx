@@ -7,7 +7,8 @@ import EventInfoContainer from '../event/EventInfoContainer'
 import FamilyContainer from '../family/FamilyContainer'
 import UserLogin from '../session/UserLogin'
 
-const Home = ({ user, family, familyMembers, setUser, onAddMember, events, setEvents, onAddEvent }) => {
+
+const Home = ({ user, family, familyMembers, setUser, onAddMember, events, setEvents, onAddEvent, openUserSelect, onOpenUsers }) => {
   const [eventInfo, setEventInfo] = useState(null)
   const [filteredEvents, setFilteredEvents] = useState(events)
   const [open, setOpen] = useState(false)
@@ -57,7 +58,7 @@ const Home = ({ user, family, familyMembers, setUser, onAddMember, events, setEv
 
   return (
     <>
-      { family ? <UserLogin user={ user } family={ family } familyMembers={ familyMembers } setUser={ setUser } onAddMember={ onAddMember }/> : null }
+      <UserLogin openUserSelect={ openUserSelect } onOpenUsers={ onOpenUsers } user={ user } family={ family } familyMembers={ familyMembers } setUser={ setUser } onAddMember={ onAddMember }/>
       <Grid container maxHeight="100vh">
         <Grid item xs={3} container maxHeight="100vh">
           <Stack justifyContent="space-between">

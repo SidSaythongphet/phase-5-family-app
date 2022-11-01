@@ -12,6 +12,7 @@ function App() {
   const [events, setEvents] = useState(null)
   const [loggedIn, setLoggedIn] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+  const [openUserSelect, setOpenUserSelect] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -19,8 +20,8 @@ function App() {
       if (response.ok) {
         response.json().then((data) => {
           setFamily(data)
-          setFamilyMembers(colorCoordinateMembers(data.users))
-          setEvents(addColor(data.events, familyMembers))
+          setFamilyMembers(data.users)
+          setEvents(data.events)
           setLoggedIn(true)
           setIsLoading(false)
         })
@@ -49,35 +50,37 @@ function App() {
     setFamily([...familyMembers, user])
   }
 
-  const colorCoordinateMembers = (members) => {
-    let colors = ["grey", "red", "orange", "green", "blue", "purple", "brown"]
+  // const colorCoordinateMembers = (members) => {
+  //   let colors = ["grey", "red", "orange", "green", "blue", "purple", "brown"]
 
-    return members.map((member, i) => {
-      member["color"] = colors[i + 1]
-      return member
-    })
-  }
+  //   return members.map((member, i) => {
+  //     member["color"] = colors[i + 1]
+  //     return member
+  //   })
+  // }
 
-  const addColor = (events, users) => {
-    const edit = events.map(ev => {
-      ev["color"] = users.find(user => user.id === ev.user_id).color
-      if (new Date(ev.start).toDateString() !== new Date(ev.end).toDateString()) {
-        ev["textColor"] = "black"
-        ev["display"] = "background"
-      }
-      return ev
-    })
+  // const addColor = (events, users) => {
+  //   if (!events) return
+  //   const edit = events.map(ev => {
+  //     ev["color"] = users.find(user => user.id === ev.user_id).color
+  //     if (new Date(ev.start).toDateString() !== new Date(ev.end).toDateString()) {
+  //       ev["textColor"] = "black"
+  //       ev["display"] = "background"
+  //     }
+  //     return ev
+  //   })
 
-    return edit
-  }
+  //   return edit
+  // }
 
   const handleLogIn = (data) => {
     setFamily(data)
-    setFamilyMembers(colorCoordinateMembers(data.users))
-    setEvents(addColor(data.events, familyMembers))
-    navigate("/family/:last_name")
+    setFamilyMembers(data.user)
+    setEvents(data.events, familyMembers)
     setLoggedIn(true)
     setIsLoading(false)
+    setOpenUserSelect(true)
+    navigate(`/family/${data.last_name}`)
   }
 
   const handleLogout = async (e) => {
@@ -96,14 +99,18 @@ function App() {
     }
   }
 
+  const handleOpenUserSelect = () => {
+    setOpenUserSelect(!openUserSelect)
+  }
+
   return (
     <>
-      { loggedIn ? <NavBar user={ user } loggedIn={ loggedIn } setLoggedIn={ setLoggedIn } onLogout={ handleLogout }/> : null}
+      { loggedIn ? <NavBar onOpenUsers={ handleOpenUserSelect } user={ user } familyMembers={ familyMembers } loggedIn={ loggedIn } setLoggedIn={ setLoggedIn } onLogout={ handleLogout }/> : null}
       <Routes>
         {!isLoading 
         ? <>
-          <Route path="/" element={ <Home user={ user } family={ family } familyMembers={ familyMembers } setUser={ setUser } onAddMember={ addFamilyMember } events={ events } setEvents={ setEvents } onAddEvent={ addNewEvent } /> } /> 
-          <Route path="/family/:last_name" element={ <UserLogin user={ user } family={ family } familyMembers={ familyMembers } setUser={ setUser } onAddMember={ addFamilyMember }/> } /> 
+          <Route path="/" element={ <Home openUserSelect={ openUserSelect } onOpenUsers={ handleOpenUserSelect } user={ user } family={ family } familyMembers={ familyMembers } setUser={ setUser } onAddMember={ addFamilyMember } events={ events } setEvents={ setEvents } onAddEvent={ addNewEvent } /> } /> 
+          <Route path="/family/:last_name" element={ <UserLogin openUserSelect={ openUserSelect } onOpenUsers={ handleOpenUserSelect } user={ user } family={ family } familyMembers={ familyMembers } setUser={ setUser } onAddMember={ addFamilyMember }/> } /> 
         </>
         : null }
         <>
