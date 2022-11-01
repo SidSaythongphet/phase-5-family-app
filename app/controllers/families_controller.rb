@@ -18,7 +18,7 @@ class FamiliesController < ApplicationController
 
   def create
     @family = Family.create!(family_params)
-    @family.users.create!(name: params[:name])
+    @family.users.create!(name: params[:name], color: "#ff0000")
     if @family.valid?
       session[:family_id] = @family.id 
       render json: @family, status: :created
@@ -32,7 +32,7 @@ class FamiliesController < ApplicationController
   end
 
   def family_params
-    params.require(:family).permit(:name, :last_name, :email, :password, :password_confirmation)
+    params.require(:family).permit(:last_name, :email, :password, :password_confirmation)
   end
 
 end
