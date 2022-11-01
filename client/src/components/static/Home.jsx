@@ -59,7 +59,7 @@ const Home = ({ user, family, familyMembers, setUser, onAddMember, events, setEv
   return (
     <>
       <UserLogin openUserSelect={ openUserSelect } onOpenUsers={ onOpenUsers } user={ user } family={ family } familyMembers={ familyMembers } setUser={ setUser } onAddMember={ onAddMember }/>
-      <Grid container maxHeight="100vh">
+      <Grid container maxHeight="100vh" spacing={1}>
         <Grid item xs={3} container maxHeight="100vh">
           <Stack justifyContent="space-between">
             <Stack>
@@ -69,10 +69,10 @@ const Home = ({ user, family, familyMembers, setUser, onAddMember, events, setEv
             {eventInfo ? <EventInfoContainer eventInfo={ eventInfo }/> : null}
           </Stack>
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={8} >
           <CalendarContainer events={ filteredEvents } onSelectEvent={ handleSelectEvent } />
         </Grid>
-        <Grid item xs={1}>
+        <Grid item xs={1} container maxHeight="90vh">
           <FamilyContainer familyMembers={ familyMembers } onHandleFilter={ handleFilter }/>
         </Grid>
       </Grid>
