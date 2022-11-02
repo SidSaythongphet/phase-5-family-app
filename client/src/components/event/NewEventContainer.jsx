@@ -6,7 +6,7 @@ import Switch from '@mui/material/Switch';
 import { Button, Divider, Grid, Paper, TextField, Typography } from '@mui/material';
 import { useForm, Controller } from "react-hook-form";
 
-const NewEventContainer = ({ user, onAddEvent }) => {
+const NewEventContainer = ({ user, onAddEvent, setOpen }) => {
   const { handleSubmit, control } = useForm({
     defaultValues: {
       title: '',
@@ -38,6 +38,7 @@ const NewEventContainer = ({ user, onAddEvent }) => {
     const data = await response.json()
     if (response.ok) {
       onAddEvent(data)
+      setOpen(false)
     } else {
       console.log(data.errors)
     }
@@ -101,6 +102,9 @@ const NewEventContainer = ({ user, onAddEvent }) => {
                       required
                       onBlur={ onBlur }
                       inputRef={ ref }
+                      showPopperArrow={ false }
+                      popperProps={{ strategy: "fixed" }}
+                      popperPlacement="bottom-end"
                     />
                   )}
                 />
@@ -124,6 +128,9 @@ const NewEventContainer = ({ user, onAddEvent }) => {
                       required
                       onBlur={ onBlur }
                       inputRef={ ref }
+                      showPopperArrow={ false }
+                      popperProps={{ strategy: "fixed" }}
+                      popperPlacement="bottom-end"
                     />
                   )}
                 />
@@ -150,6 +157,7 @@ const NewEventContainer = ({ user, onAddEvent }) => {
             </Grid>
             <Grid item container justifyContent="end">
               <Button type="submit" variant='contained'>Add</Button>
+              <Button variant='contained' onClick={ () => setOpen(false) }>Cancel</Button>
             </Grid>
           </Grid>
         </Grid>

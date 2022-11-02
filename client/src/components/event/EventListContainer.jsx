@@ -7,12 +7,10 @@ const EventListContainer = ({ user, events }) => {
   // filter events to current user
   const myEvents = events.filter(event => event.user_id === user.id)
   return (
-    <Paper elevation={2} sx={{ margin: 1 }}>
-      <Stack sx={{ margin: 1 }}>
-        <Typography textAlign="center">My Events</Typography>
+    <Paper elevation={2} sx={{ margin: 1, height: "40vh"}} >
         <FullCalendar 
           plugins={[ listPlugin ]}
-          headerToolbar='false'
+          headerToolbar=''
           initialView="timeline"
           views={{
             timeline: {
@@ -21,8 +19,9 @@ const EventListContainer = ({ user, events }) => {
           }}}
           events={ myEvents }
           eventClick={ e => console.log(e.event) }
+          height="40vh"
+          contentHeight="100%"
         />
-      </Stack>
     </Paper>
   )
 }

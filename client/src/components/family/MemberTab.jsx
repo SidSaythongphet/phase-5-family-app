@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Paper } from '@mui/material';
+import { Paper, Typography } from '@mui/material';
 
 const MemberTab = ({ user, onHandleFilter }) => {
   const [hide, setHide] = useState(false)
@@ -19,7 +19,7 @@ const MemberTab = ({ user, onHandleFilter }) => {
       onClick={ handleUserClick }
       id={ user.id }
     >
-      { user.name }
+      <Typography textAlign="center" id={ user.id }>{ user.name }</Typography>
   </Paper>
   )
 }
