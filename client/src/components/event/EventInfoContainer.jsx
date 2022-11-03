@@ -1,9 +1,10 @@
 import React from 'react';
 import { Button, Paper, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
+import DeleteConfirmation from '../popup/DeleteConfirmation';
 
-const EventInfoContainer = ({ eventInfo }) => {
-  const { title, allDay, start, end, note, user, color } = eventInfo
+const EventInfoContainer = ({ eventInfo, currentUser, onDeleteEvent }) => {
+  const { title, allDay, start, end, note, user, user_id, color } = eventInfo
 
   const renderEventTime = () => {
     if (new Date(start).toDateString() === new Date(end).toDateString()) {
@@ -27,8 +28,16 @@ const EventInfoContainer = ({ eventInfo }) => {
         { renderEventTime() }
         { note !== "" ? <Typography>Note: { note }</Typography> : null }
         <Stack direction="row" justifyContent="right">
-          <Button>Edit</Button>
-          <Button>Cancel Event</Button>
+          {
+            user_id === currentUser.id
+            ?
+            <>
+              <Button variant='contained'>Edit</Button>
+              <DeleteConfirmation id={ eventInfo.id } onDeleteEvent={ onDeleteEvent }/>
+            </>
+            : 
+            null
+          }
         </Stack>
       </Stack>
     </Paper>
