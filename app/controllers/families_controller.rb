@@ -10,7 +10,7 @@ class FamiliesController < ApplicationController
   def show 
     family = Family.find_by(id: session[:family_id])
     if family
-      render json: family, status: :ok
+      render json: family, include: ['users', 'events', 'events.user.color'], status: :ok
     else
       render json: { error: "Not authorized" }, status: :unauthorized
     end

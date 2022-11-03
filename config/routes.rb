@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     get "/user", to: "users#show"
     resources :families, only: [:index, :show, :create]
     resources :users, only: [:index, :show, :create]
-    resources :events, only: [:index, :create]
+    resources :events, only: [:index, :create, :destroy]
   end
 
 end
