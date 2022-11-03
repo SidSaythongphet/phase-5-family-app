@@ -57,7 +57,7 @@ const NewEventContainer = ({ user, onAddEvent, setOpen }) => {
               <Controller
                 control={ control }
                 name="title"
-                rules={{ required: true, pattern: /^[A-Za-z]+$/i }}
+                rules={{ required: true }}
                 render={({ field: { onChange, onBlur, value, ref } }) => (
                   <TextField 
                     label="Event Title"

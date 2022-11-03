@@ -4,7 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Stack, TextField } from '@mui/material';
 
 const Login = ({ onLogIn, loggedIn }) => {
-  const { handleSubmit, control } = useForm()
+  const { handleSubmit, control } = useForm({
+    email: "",
+    password: ""
+  })
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -39,6 +42,7 @@ const Login = ({ onLogIn, loggedIn }) => {
             control={ control }
             name="email"
             rules={{ required: true }}
+            defaultValue=""
             render={({ field: { onChange, onBlur, value, ref } }) => (
               <TextField 
               placeholder="Email"
@@ -54,6 +58,7 @@ const Login = ({ onLogIn, loggedIn }) => {
             control={ control }
             name="password"
             rules={{ required: true, maxLength: 20 }}
+            defaultValue=""
             render={({ field: { onChange, onBlur, value, ref } }) => (
               <TextField 
               placeholder="Password"

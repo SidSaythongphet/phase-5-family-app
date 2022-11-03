@@ -59,7 +59,6 @@ const UserLogin = ({ user, setUser, familyMembers, onAddMember, family, openUser
     if (response.ok) {
       setUser(data)
       onAddMember(data)
-      navigate("/")
       onOpenUsers(false)
     } else {
       console.log(data.errors)
@@ -85,7 +84,6 @@ const UserLogin = ({ user, setUser, familyMembers, onAddMember, family, openUser
     if (response.ok) {
       setUser(data)
       onOpenUsers(false)
-      navigate("/")
     } else {
       console.log("error")
     }
@@ -113,7 +111,9 @@ const UserLogin = ({ user, setUser, familyMembers, onAddMember, family, openUser
           padding="100px"
           bgcolor= "rgba(187, 189, 190, 0.486)"
         >
-          <Button onClick={ (e) => onOpenUsers(false) }>X</Button>
+          <Grid container justifyContent="end">
+            <Button onClick={ () => onOpenUsers(false) }>X</Button>
+          </Grid>
           <Grid container spacing={10}>
             <Grid item xs={12}>
               <Typography variant='h3' textAlign="center" gutterBottom>{ family.last_name }</Typography>

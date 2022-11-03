@@ -2,85 +2,76 @@ import React, { useEffect, useState } from "react";
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import NavBar from "./components/navigation/NavBar";
 import SessionContainer from "./components/session/SessionContainer";
-import UserLogin from "./components/session/UserLogin";
+import FamilyHome from "./components/static/FamilyHome";
 import Home from "./components/static/Home";
 
 function App() {
   const [family, setFamily] = useState(null)
   const [familyMembers, setFamilyMembers] = useState(null)
   const [user, setUser] = useState(null)
-  const [events, setEvents] = useState(null)
+  const [familyEvents, setFamilyEvents] = useState(null)
   const [loggedIn, setLoggedIn] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
   const [openUserSelect, setOpenUserSelect] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
-    fetch('/api/family').then((response) => {
+    const fetchFamily = async () => {
+      const response = await fetch('/api/family')
+      const data = await response.json()
       if (response.ok) {
-        response.json().then((data) => {
-          setFamily(data)
-          setFamilyMembers(data.users)
-          setEvents(data.events)
-          setLoggedIn(true)
-          setIsLoading(false)
-        })
+        console.log(data)
+        setFamily(data)
+        setFamilyMembers(data.users)
+        setLoggedIn(true)
+        navigate(`/family/${data.last_name}/${data.id}`)
       } else {
         navigate("/login")
+        console.log(data.errors)
       }
-    })    
+    }    
 
-    fetch('/api/user').then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
-          setUser(data)
-        })
-      }
-    })    
+    const fetchUser = async () => {
+      const response = await fetch('/api/user')
+      const data = await response.json()
+      // if (response.ok) {
+        setUser(data)
+      // }
+    }
+    
+    const fetchEvents = async () => {
+      const response = await fetch('/api/events')
+      const data = await response.json()
+      // if (response.ok) {
+        setFamilyEvents(data.map(ev =>  {
+          ev["color"] = ev.user.color
+          return ev
+        }))
+      // }
+    }
+
+    fetchFamily().then(fetchEvents().then(fetchUser()))
+    if (family) fetchUser().catch(console.error)
   }, [])
+
   console.log("Current Family:", family)
   console.log("Current Family Members:", familyMembers)
   console.log("Current User:", user)
-  console.log("Family's Events", events)
+  console.log("Current Family Events:", familyEvents)
 
-  const addNewEvent = (newEvent) => {
-    setEvents([...events, newEvent])
-  }
   const addFamilyMember = (user) => {
     setFamily([...familyMembers, user])
   }
 
-  // const colorCoordinateMembers = (members) => {
-  //   let colors = ["grey", "red", "orange", "green", "blue", "purple", "brown"]
-
-  //   return members.map((member, i) => {
-  //     member["color"] = colors[i + 1]
-  //     return member
-  //   })
-  // }
-
-  // const addColor = (events, users) => {
-  //   if (!events) return
-  //   const edit = events.map(ev => {
-  //     ev["color"] = users.find(user => user.id === ev.user_id).color
-  //     if (new Date(ev.start).toDateString() !== new Date(ev.end).toDateString()) {
-  //       ev["textColor"] = "black"
-  //       ev["display"] = "background"
-  //     }
-  //     return ev
-  //   })
-
-  //   return edit
-  // }
-
   const handleLogIn = (data) => {
     setFamily(data)
-    setFamilyMembers(data.user)
-    setEvents(data.events, familyMembers)
+    setFamilyMembers(data.users)
+    setFamilyEvents(data.events.map(ev =>  {
+      ev["color"] = ev.user.color
+      return ev
+    }))
     setLoggedIn(true)
-    setIsLoading(false)
     setOpenUserSelect(true)
-    navigate(`/family/${data.last_name}`)
+    navigate(`/family/${data.last_name}/${data.id}`)
   }
 
   const handleLogout = async (e) => {
@@ -93,7 +84,7 @@ function App() {
       setFamily(null)
       setFamilyMembers(null)
       setUser(null)
-      setEvents(null)
+      setFamilyEvents(null)
       setLoggedIn(false)
       navigate("/login")
     }
@@ -105,17 +96,43 @@ function App() {
 
   return (
     <>
-      { loggedIn ? <NavBar onOpenUsers={ handleOpenUserSelect } user={ user } familyMembers={ familyMembers } loggedIn={ loggedIn } setLoggedIn={ setLoggedIn } onLogout={ handleLogout }/> : null}
+      { loggedIn 
+        ? 
+        <NavBar 
+          onOpenUsers={ handleOpenUserSelect } 
+          user={ user } 
+          familyMembers={ familyMembers } 
+          loggedIn={ loggedIn } 
+          setLoggedIn={ setLoggedIn } 
+          onLogout={ handleLogout }
+        /> 
+        : 
+        null
+      }
       <Routes>
-        {!isLoading 
-        ? <>
-          <Route path="/" element={ <Home openUserSelect={ openUserSelect } onOpenUsers={ handleOpenUserSelect } user={ user } family={ family } familyMembers={ familyMembers } setUser={ setUser } onAddMember={ addFamilyMember } events={ events } setEvents={ setEvents } onAddEvent={ addNewEvent } /> } /> 
-          <Route path="/family/:last_name" element={ <UserLogin openUserSelect={ openUserSelect } onOpenUsers={ handleOpenUserSelect } user={ user } family={ family } familyMembers={ familyMembers } setUser={ setUser } onAddMember={ addFamilyMember }/> } /> 
-        </>
-        : null }
-        <>
-          <Route path="/login" element={ <SessionContainer onLogIn={ handleLogIn } loggedIn={ loggedIn } /> } />
-        </>
+        <Route path="/" element={ <Home /> } />
+        <Route path="/login" element={ <SessionContainer onLogIn={ handleLogIn } loggedIn={ loggedIn } /> } />
+        {
+          !family
+          ?  <Route path="/" element={ <Home /> } /> 
+          :
+        <Route 
+        path="/family/:last_name/:id" 
+        element={ 
+          <FamilyHome 
+            openUserSelect={ openUserSelect } 
+            onOpenUsers={ handleOpenUserSelect } 
+            user={ user } 
+            family={ family } 
+            familyMembers={ familyMembers } 
+            setUser={ setUser } 
+            onAddMember={ addFamilyMember }
+            setFamilyEvents={ setFamilyEvents } 
+            familyEvents={ familyEvents } 
+          /> 
+        }
+        />
+      }
       </Routes>
     </>
   );

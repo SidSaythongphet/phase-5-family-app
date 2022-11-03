@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import listPlugin from '@fullcalendar/list';
 import FullCalendar from '@fullcalendar/react';
-import { Paper, Typography, Stack } from '@mui/material';
+import { Paper, Skeleton } from '@mui/material';
 
 const EventListContainer = ({ user, events }) => {
-  // filter events to current user
-  const myEvents = events.filter(event => event.user_id === user.id)
+  if (!events) return <Skeleton />
+
   return (
     <Paper elevation={2} sx={{ margin: 1, height: "40vh"}} >
         <FullCalendar 
@@ -17,7 +17,7 @@ const EventListContainer = ({ user, events }) => {
             type: "list",
             duration: { days: 10 }
           }}}
-          events={ myEvents }
+          events={ events }
           eventClick={ e => console.log(e.event) }
           height="40vh"
           contentHeight="100%"
