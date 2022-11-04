@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import { Button, Divider, Grid, Paper, TextField, Typography } from '@mui/material';
+import { Button, Divider, Grid, TextField, Typography, Box } from '@mui/material';
 import { useForm, Controller } from "react-hook-form";
 
+
 const NewEventContainer = ({ user, onAddEvent, setOpen }) => {
+
   const { handleSubmit, control } = useForm({
     defaultValues: {
       title: '',
@@ -19,8 +21,6 @@ const NewEventContainer = ({ user, onAddEvent, setOpen }) => {
   })
 
   const onSubmit = async form => {
-    console.log(form)
-
     // throw error if date combination is invalid
     if (new Date(form.start) > new Date(form.end)) {
       console.log("error")
@@ -45,16 +45,21 @@ const NewEventContainer = ({ user, onAddEvent, setOpen }) => {
   }
 
   return (
-    <Paper elevation={2} sx={{ margin: 1, padding: "10px" }}>
+    <Box
+      sx={{ 
+        width: "25vw", 
+        minWidth: "350px"
+      }}
+    >
       <form onSubmit={ handleSubmit(onSubmit) }>
       <Grid container>
-        <Grid item xs={12} justifyContent="center">
-          <Typography gutterBottom textAlign="center">New Event</Typography>
+        <Grid item xs={12} justifyContent="center" sx={{ backgroundColor: "gray" }}>
+          <Typography gutterBottom textAlign="center" sx={{ margin: "5px" }}>New Event</Typography>
           <Divider />
         </Grid>
           <Grid item xs={12} container rowSpacing={2}>
-            <Grid item xs={12} marginTop="10px">
-              <Controller
+            <Grid item xs={12} margin="10px">
+              <Controller 
                 control={ control }
                 name="title"
                 rules={{ required: true }}
@@ -71,16 +76,17 @@ const NewEventContainer = ({ user, onAddEvent, setOpen }) => {
                 )}
               />
             </Grid>
-            <Grid item container rowSpacing={1}>
+            <Grid item container rowSpacing={1} >
               <Grid item xs={6}>
                 <Typography>All Day</Typography>
               </Grid>
               <Grid item xs={6}>
                 <Controller
                   name="allDay"
-                  control={control}
-                  
-                  render={({ field }) => <FormControlLabel control={<Switch {...field} size="small"/> }/> }
+                  control={control}                
+                  render={({ field }) => 
+                    <FormControlLabel control={ <Switch {...field} size="small"/> } /> 
+                  }
                 />
               </Grid>
               <Grid item xs={6}>
@@ -105,9 +111,9 @@ const NewEventContainer = ({ user, onAddEvent, setOpen }) => {
                       showPopperArrow={ false }
                       popperProps={{ strategy: "fixed" }}
                       popperPlacement="bottom-end"
-                    />
-                  )}
-                />
+                      />
+                      )}
+                      />
               </Grid>
               <Grid item xs={6}>
                 <Typography>End</Typography>
@@ -119,21 +125,21 @@ const NewEventContainer = ({ user, onAddEvent, setOpen }) => {
                   rules={{ required: true }}
                   render={({ field: { onChange, onBlur, value, ref } }) => (
                     <DatePicker
-                      placeholderText='End Date'
-                      selected={ value }
-                      dateFormat="M/d/yyyy h:mm:ss a"
-                      showTimeSelect
-                      onChange={ onChange }
-                      selectsEnd
-                      required
-                      onBlur={ onBlur }
-                      inputRef={ ref }
-                      showPopperArrow={ false }
-                      popperProps={{ strategy: "fixed" }}
-                      popperPlacement="bottom-end"
+                    placeholderText='End Date'
+                    selected={ value }
+                    dateFormat="M/d/yyyy h:mm:ss a"
+                    showTimeSelect
+                    onChange={ onChange }
+                    selectsEnd
+                    required
+                    onBlur={ onBlur }
+                    inputRef={ ref }
+                    showPopperArrow={ false }
+                    popperProps={{ strategy: "fixed" }}
+                    popperPlacement="bottom-end"
                     />
-                  )}
-                />
+                    )}
+                    />
               </Grid>
             </Grid>
             <Grid item xs={12}>
@@ -142,18 +148,18 @@ const NewEventContainer = ({ user, onAddEvent, setOpen }) => {
                 name="note"
                 render={({ field: { onChange, onBlur, value, ref } }) => (
                   <TextField 
-                    label='Note:'
-                    value={ value }
-                    onChange={ onChange }
-                    onBlur={ onBlur }
-                    inputRef={ ref }
-                    size="small"
-                    multiline
-                    fullWidth
-                    rows={3}
+                  label='Note:'
+                  value={ value }
+                  onChange={ onChange }
+                  onBlur={ onBlur }
+                  inputRef={ ref }
+                  size="small"
+                  multiline
+                  fullWidth
+                  rows={3}
                   />
-                )}
-              />
+                  )}
+                  />
             </Grid>
             <Grid item container justifyContent="end">
               <Button type="submit" variant='contained'>Add</Button>
@@ -162,7 +168,7 @@ const NewEventContainer = ({ user, onAddEvent, setOpen }) => {
           </Grid>
         </Grid>
       </form>
-    </Paper>
+    </Box>
   );
 }
 

@@ -7,7 +7,7 @@ const EventListContainer = ({ user, events }) => {
   if (!events) return <Skeleton />
 
   return (
-    <Paper elevation={2} sx={{ margin: 1, height: "40vh"}} >
+    <Paper elevation={2} sx={{ margin: 1, width: "100%", height: "20vh"}} >
         <FullCalendar 
           plugins={[ listPlugin ]}
           headerToolbar=''
@@ -19,7 +19,7 @@ const EventListContainer = ({ user, events }) => {
           }}}
           events={ events }
           eventClick={ e => console.log(e.event) }
-          height="40vh"
+          height="20vh"
           contentHeight="100%"
         />
     </Paper>

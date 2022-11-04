@@ -10,11 +10,11 @@ const CalendarContainer = ({ events, onSelectEvent }) => {
     start: "2022-11-02T20:00:00.000Z",
     end: "2022-11-03T20:00:00.000Z"
   }]
-  console.log(events)
+
   if (!events) return <Skeleton height="90vh"/>
 
   return (
-    <Paper elevation={2} sx={{ margin: 1 }}>
+    <Paper elevation={2} sx={{ margin: 1, height: "90vh" }}>
       <FullCalendar
         plugins={[ dayGridPlugin, timeGridPlugin  ]}
         initialView="dayGridMonth"
@@ -27,6 +27,7 @@ const CalendarContainer = ({ events, onSelectEvent }) => {
         events={  [...test, ...events] }
         eventDisplay="block"
         eventClick={ onSelectEvent }
+        height="100%"
       />
     </Paper>
   )

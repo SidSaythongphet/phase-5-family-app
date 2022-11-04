@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
-import { Paper } from '@mui/material';
+import React from 'react';
+import { Paper, Typography } from '@mui/material';
 import MemberTab from './MemberTab';
 
 const FamilyContainer = ({ familyMembers, onHandleFilter }) => {
-  // make seperate component to spread hide state in each
 
   return (
-    <Paper elevation={2} sx={{ margin: 1 }}>
-      <h1>Legend</h1>
+    <Paper elevation={2} sx={{ margin: 1, width: "100%", paddingTop: "50px", height: "50vh" }}>
+      <Typography textAlign="center" variant='h5'>Filter:</Typography>
       {
         familyMembers.length !== 0
         ?

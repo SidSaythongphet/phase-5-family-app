@@ -3,7 +3,7 @@ import { Paper, Typography } from '@mui/material';
 
 const MemberTab = ({ user, onHandleFilter }) => {
   const [hide, setHide] = useState(false)
-  const bgdColor = hide ? null : user.color
+  const bgdColor = hide ? "gray" : user.color
 
   const handleUserClick = (e) => {
     onHandleFilter(e)
@@ -14,12 +14,12 @@ const MemberTab = ({ user, onHandleFilter }) => {
     <Paper  
       sx={{ 
         backgroundColor: bgdColor, 
-        margin: "5px"
+        margin: "15px"
       }}
       onClick={ handleUserClick }
       id={ user.id }
     >
-      <Typography textAlign="center" id={ user.id }>{ user.name }</Typography>
+      <Typography textAlign="center" variant="button" display="block" id={ user.id }>{ user.name }</Typography>
   </Paper>
   )
 }
