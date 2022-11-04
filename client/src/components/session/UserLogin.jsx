@@ -9,11 +9,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
-import { Avatar, Divider, Grid, Typography, TextField } from '@mui/material';
+import { Avatar, Divider, Grid, Typography, TextField, Skeleton } from '@mui/material';
 import { CirclePicker } from 'react-color';
-
-
-
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -30,7 +27,6 @@ const UserLogin = ({ user, setUser, familyMembers, onAddMember, family, openUser
     family_id: family.id
   })
   const navigate = useNavigate()
-
   useEffect(() => {
     if (user) return setSelectedValue(familyMembers.find(member => member.id === user.id))
   }, [user])
@@ -93,7 +89,6 @@ const UserLogin = ({ user, setUser, familyMembers, onAddMember, family, openUser
     setValue("color", color.hex)
   }
 
-
   return (
     <>
       <Dialog
@@ -126,7 +121,7 @@ const UserLogin = ({ user, setUser, familyMembers, onAddMember, family, openUser
                     {
                       familyMembers.map(user => {
                         return (
-                          <Grid container item xs={2} key={ user.id }>
+                          <Grid container item xs={4} key={ user.id }>
                             <Grid container item xs={12} justifyContent="center">
                               <Avatar sx={{ bgcolor: user.color, width: 56, height: 56 }}/>
                             </Grid>

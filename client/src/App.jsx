@@ -26,16 +26,19 @@ function App() {
         navigate(`/family/${data.last_name}/${data.id}`)
       } else {
         navigate("/login")
-        console.log(data.errors)
+        return
       }
     }    
 
     const fetchUser = async () => {
+      console.log("fetching User")
       const response = await fetch('/api/user')
       const data = await response.json()
-      // if (response.ok) {
+      if (response.ok) {
         setUser(data)
-      // }
+      } else {
+        setOpenUserSelect(true)
+      }
     }
     
     const fetchEvents = async () => {
@@ -49,8 +52,8 @@ function App() {
       // }
     }
 
-    fetchFamily().then(fetchEvents().then(fetchUser()))
-    if (family) fetchUser().catch(console.error)
+    fetchFamily().then(fetchEvents())
+    fetchUser()
   }, [])
 
   console.log("Current Family:", family)
@@ -65,10 +68,10 @@ function App() {
   const handleLogIn = (data) => {
     setFamily(data)
     setFamilyMembers(data.users)
-    setFamilyEvents(data.events.map(ev =>  {
-      ev["color"] = ev.user.color
-      return ev
-    }))
+    // setFamilyEvents(data.events.map(ev =>  {
+    //   ev["color"] = ev.user.color
+    //   return ev
+    // }))
     setLoggedIn(true)
     setOpenUserSelect(true)
     navigate(`/family/${data.last_name}/${data.id}`)

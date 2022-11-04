@@ -7,6 +7,7 @@ import EventInfoContainer from '../event/EventInfoContainer'
 import FamilyContainer from '../family/FamilyContainer'
 import UserLogin from '../session/UserLogin'
 import Fab from '@mui/material/Fab';
+import NewEventButton from '../event/NewEventButton'
 
 const FamilyHome = ({ user, family, familyMembers, familyEvents, setUser, onAddMember, openUserSelect, onOpenUsers, setFamilyEvents }) => {
   const [eventInfo, setEventInfo] = useState(null)
@@ -16,9 +17,11 @@ const FamilyHome = ({ user, family, familyMembers, familyEvents, setUser, onAddM
 
   useEffect(() => {
     if (!filteredEvents) return setFilteredEvents(familyEvents)
-    if (!userEvents) return setUserEvents(familyEvents.filter(event => event.user_id === user.id))
+    if (user && !userEvents) return setUserEvents(familyEvents.filter(event => event.user_id === user.id))
     console.log("rendered")
   }, [familyEvents])
+
+  // console.log("Current Users Events:", userEvents)
 
   const handleAddEvent = (newEvent) => {
     newEvent["color"] = newEvent.user.color
@@ -70,19 +73,19 @@ const FamilyHome = ({ user, family, familyMembers, familyEvents, setUser, onAddM
     }
   }
 
-  const newEvent = () => {
-    if (open) {
-      return(
-        <NewEventContainer user={ user } onAddEvent={ handleAddEvent } setOpen={ setOpen }/>
-      )
-    } else {
-      return(
-        <Fab variant="extended" size='medium' onClick={ () => setOpen(true) }>
-          New Event
-        </Fab>
-      )
-    } 
-  }
+  // const newEvent = () => {
+  //   if (open) {
+  //     return(
+  //       <NewEventContainer user={ user } onAddEvent={ handleAddEvent } setOpen={ setOpen }/>
+  //     )
+  //   } else {
+  //     return(
+  //       <Fab variant="extended" size='medium' onClick={ () => setOpen(true) }>
+  //         New Event
+  //       </Fab>
+  //     )
+  //   } 
+  // }
 
   return (
     <>
@@ -95,11 +98,14 @@ const FamilyHome = ({ user, family, familyMembers, familyEvents, setUser, onAddM
             <>
               <Grid item xs={12} container justifyContent="space-between">
                 <Grid item xs={12} container alignContent="start" justifyContent="center">
+                  <Grid item xs={12} container justifyContent="center">
+                    <NewEventButton  user={ user } onAddEvent={ handleAddEvent } />
+                  </Grid>
                   <Grid item xs={12}>
                     <EventListContainer user={ user } events={ userEvents } />
                   </Grid>
                   <Grid item xs={12} >
-                    { newEvent() }
+                    {/* { newEvent() } */}
                   </Grid>
                 </Grid>
                 <Grid item xs={12} container alignItems="flex-end">
@@ -114,7 +120,8 @@ const FamilyHome = ({ user, family, familyMembers, familyEvents, setUser, onAddM
         <Grid item xs={8} >
           <CalendarContainer events={ filteredEvents } onSelectEvent={ handleSelectEvent } />
         </Grid>
-        <Grid item xs={1} container maxHeight="90vh">
+        <Grid item xs={1} container maxHeight="90vh" justifyContent="center" alignContent="center">
+          {/* { newEvent() } */}
           <FamilyContainer familyMembers={ familyMembers } onHandleFilter={ handleFilter }/>
         </Grid>
       </Grid>
