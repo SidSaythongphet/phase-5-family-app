@@ -5,4 +5,5 @@ class Family < ApplicationRecord
   accepts_nested_attributes_for :users
 
   validates :email, uniqueness: true
+
 end
