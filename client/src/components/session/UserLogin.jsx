@@ -12,13 +12,15 @@ import { Avatar, Divider, Grid, Typography, TextField, Skeleton } from '@mui/mat
 import { CirclePicker } from 'react-color';
 import { FamilyContext } from '../context/family';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../context/user';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const UserLogin = ({ user, setUser }) => {
-  const {family, members, setMembers} = useContext(FamilyContext)
+const UserLogin = () => {
+  const { family, members, setMembers } = useContext(FamilyContext)
+  const { user, setUser } = useContext(UserContext)
   const [show, setShow] = useState(false);
   const [open, setOpen] = useState(true)
   const [color, setColor] = useState("")
@@ -34,7 +36,7 @@ const UserLogin = ({ user, setUser }) => {
   
   useEffect(() => {
     if (user && members) return setSelectedValue(members.find(member => member.id === user.id))
-  }, [user])
+  }, [user, members])
   if (!members) return <Skeleton />
 
   const handleChange = (event) => {

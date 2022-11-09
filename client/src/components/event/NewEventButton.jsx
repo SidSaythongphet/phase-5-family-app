@@ -5,7 +5,7 @@ import NewEventContainer from './NewEventContainer';
 import Grid from '@mui/material/Grid';
 
 
-const NewEventButton = ({ user }) => {
+const NewEventButton = () => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -19,7 +19,7 @@ const NewEventButton = ({ user }) => {
         onClose={ () => setOpen(false) }
         PaperProps={{ square: false }}
       >
-        <NewEventContainer user={ user } setOpen={ setOpen }/>
+        <NewEventContainer setOpen={ setOpen }/>
       </Drawer>
     </>
   );

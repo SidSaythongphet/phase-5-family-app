@@ -4,9 +4,11 @@ import FullCalendar from '@fullcalendar/react';
 import { Paper, Skeleton } from '@mui/material';
 import { useContext } from 'react';
 import { EventContext } from '../context/event';
+import { UserContext } from '../context/user';
 
-const EventListContainer = ({ user }) => {
+const EventListContainer = () => {
   const { allEvents } = useContext(EventContext)
+  const { user } = useContext(UserContext)
 
   if (!user) return <Skeleton />
 

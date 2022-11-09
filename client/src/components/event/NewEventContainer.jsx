@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -7,10 +7,12 @@ import { Button, Divider, Grid, TextField, Typography, Box } from '@mui/material
 import { useForm, Controller } from "react-hook-form";
 import { useContext } from 'react';
 import { EventContext } from '../context/event';
+import { UserContext } from '../context/user';
 
 
-const NewEventContainer = ({ user, setOpen }) => {
+const NewEventContainer = ({ setOpen }) => {
   const { allEvents, setAllEvents, filteredEvents, setFilteredEvents } = useContext(EventContext)
+  const { user } = useContext(UserContext)
 
   const { handleSubmit, control } = useForm({
     defaultValues: {

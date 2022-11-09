@@ -10,7 +10,7 @@ import { Outlet } from 'react-router-dom'
 
 
 
-const FamilyHome = ({ user }) => {
+const FamilyHome = ({ }) => {
   
   // const theme = createTheme({
   //   palette: {
@@ -28,13 +28,13 @@ const FamilyHome = ({ user }) => {
 
             <Grid item xs={12} container alignContent="start" justifyContent="center">
               <Grid item xs={12} container justifyContent="center">
-                <NewEventButton  user={ user } />
+                <NewEventButton />
               </Grid>
               <Grid item xs={12}>
-                <EventListContainer user={ user } />
+                <EventListContainer />
               </Grid>
               <Grid item xs={12}>
-                <EventInfoContainer currentUser={ user }/>
+                <EventInfoContainer />
               </Grid>
             </Grid>
 

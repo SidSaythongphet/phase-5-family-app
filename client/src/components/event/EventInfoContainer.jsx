@@ -2,11 +2,13 @@ import React, { useContext } from 'react';
 import { Button, ButtonGroup, Grid, Paper, Typography } from '@mui/material';
 import DeleteConfirmation from '../popup/DeleteConfirmation';
 import { EventContext } from '../context/event';
+import { UserContext } from '../context/user';
 
-const EventInfoContainer = ({ currentUser, onDeleteEvent }) => {
+const EventInfoContainer = () => {
   const { eventInfo } = useContext(EventContext)
+  const { user } = useContext(UserContext)
   if (!eventInfo) return null
-  const { id, title, allDay, start, end, note, user, user_id, color } = eventInfo
+  const { id, title, allDay, start, end, note, user_id, color } = eventInfo
 
   const renderEventTime = () => {
     if (new Date(start).toDateString() === new Date(end).toDateString()) {
@@ -24,7 +26,7 @@ const EventInfoContainer = ({ currentUser, onDeleteEvent }) => {
     <Paper elevation={2} sx={{ margin: 1, border: 4, borderColor: color, width: "98%", height: "20vh" }} >
       <Grid container sx={{ margin: 1, height: "100%" }} justifyContent="center">
         <Grid item xs={6}>
-          <Typography>{ user } has:</Typography>
+          <Typography>{ eventInfo.user } has:</Typography>
         </Grid>
         <Grid item xs={6}>
           <Typography>{ title }</Typography>
@@ -37,12 +39,12 @@ const EventInfoContainer = ({ currentUser, onDeleteEvent }) => {
         </Grid>
         <Grid item xs={12} alignSelf="center" justifyContent="center">
           {
-            user_id === currentUser.id
+            user_id === user.id
             ?
             <>
             <ButtonGroup>
               <Button variant='contained'>Edit</Button>
-              <DeleteConfirmation id={ id } onDeleteEvent={ onDeleteEvent }/>
+              <DeleteConfirmation id={ id } />
             </ButtonGroup>
             </>
             : 

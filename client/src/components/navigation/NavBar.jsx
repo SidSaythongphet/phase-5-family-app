@@ -9,11 +9,13 @@ import  ButtonGroup from '@mui/material/ButtonGroup';
 import { FamilyContext } from '../context/family';
 import { useNavigate } from 'react-router-dom';
 import { EventContext } from '../context/event';
+import { UserContext } from '../context/user';
 
 
-const NavBar = ({ user, setUser }) => {
+const NavBar = () => {
   const { family, setFamily, setMembers, auth, setAuth } = useContext(FamilyContext)
   const { setAllEvents, setFilteredEvents } = useContext(EventContext)
+  const { user, setUser } = useContext(UserContext)
   const navigate = useNavigate()
   if (!user) return null
 

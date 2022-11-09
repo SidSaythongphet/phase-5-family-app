@@ -1,35 +1,17 @@
 import { Dialog } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Routes, Route } from 'react-router-dom';
 import { EventProvider } from "./components/context/event";
 import { FamilyContext } from "./components/context/family";
+import { UserProvider } from "./components/context/user";
 import NavBar from "./components/navigation/NavBar";
 import SessionContainer from "./components/session/SessionContainer";
 import UserLogin from "./components/session/UserLogin";
 import FamilyHome from "./components/static/FamilyHome";
 import Home from "./components/static/Home";
 
-function App() {
+const App = () => {
   const { family, auth } = useContext(FamilyContext)
-  const [user, setUser] = useState(null)
-  
-  useEffect(() => {
-    
-    const fetchUser = async () => {
-      console.log("fetching User")
-      const response = await fetch('/api/user')
-      const data = await response.json()
-      if (response.ok) {
-        setUser(data)
-      } else {
-
-      }
-    }
-  
-    fetchUser()
-  }, [])
-
-  console.log("Current User:", user)
 
   if (!family) {
     return (
@@ -42,39 +24,25 @@ function App() {
 
   return (
     <>
+      <UserProvider>
       <EventProvider>
-        { auth
-          ? 
-          <NavBar 
-            user={ user }
-            setUser={ setUser }
-          /> 
-          : 
-          null
-        }
+        { auth ? <NavBar /> : null }
         <Routes>
           <Route path="/" element={ <Home /> } />
           <Route path="/login" element={ <SessionContainer /> } />
-          <Route 
-            path="/family/:last_name/:id" 
-            element={ 
-              <FamilyHome 
-                user={ user } 
-                setUser={ setUser } 
-              /> 
-            }
-          >
+          <Route path="/family/:last_name/:id" element={ <FamilyHome /> } >
             <Route 
               path="users" 
               element={( 
                 <Dialog open>
-                  <UserLogin user={ user } setUser={ setUser } /> 
+                  <UserLogin /> 
                 </Dialog>
               )}
             />
           </Route>
         </Routes>
       </EventProvider>
+      </UserProvider>
     </>
   );
 }
