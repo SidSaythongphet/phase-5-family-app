@@ -14,13 +14,19 @@ const MemberTab = ({ user, onHandleFilter }) => {
     <Paper  
       sx={{ 
         backgroundColor: bgdColor, 
-        margin: "15px"
+        '&:hover': {
+          backgroundColor: bgdColor,
+          opacity: [0.8, 0.8, 0.8],
+        },
+        marginTop: "10px", 
+        borderRadius: "25px",
+        width: "100%"
       }}
       onClick={ handleUserClick }
       id={ user.id }
     >
       <Typography textAlign="center" variant="button" display="block" id={ user.id }>{ user.name }</Typography>
-  </Paper>
+    </Paper>
   )
 }
 

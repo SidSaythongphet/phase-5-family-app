@@ -5,8 +5,11 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { useContext } from 'react';
+import { FamilyContext } from '../context/family';
 
 const SignUp = ({ onLogIn }) => {
+  const {setFamily, setAuth} = useContext(FamilyContext)
   const { handleSubmit, control } = useForm()
   const [open, setOpen] = useState(false);
 
@@ -19,7 +22,6 @@ const SignUp = ({ onLogIn }) => {
   };
 
   const onSubmit = async form => {
-
     const response = await fetch('/api/signup', {
       method: 'POST',
       headers: {
@@ -31,6 +33,8 @@ const SignUp = ({ onLogIn }) => {
     const data = await response.json()
     if (response.ok) {
       setOpen(false)
+      setFamily(data)
+      setAuth(true)
       onLogIn(data)
     } else {
       console.log(data.errors)

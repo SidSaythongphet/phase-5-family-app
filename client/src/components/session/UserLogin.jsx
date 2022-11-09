@@ -7,16 +7,18 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
-import { Avatar, Divider, Grid, Typography, TextField, Skeleton } from '@mui/material';
+import { Avatar, Divider, Grid, Typography, TextField } from '@mui/material';
 import { CirclePicker } from 'react-color';
+import { useContext } from 'react';
+import { FamilyContext } from '../context/family';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const UserLogin = ({ user, setUser, familyMembers, onAddMember, family, openUserSelect, onOpenUsers }) => {
+const UserLogin = ({ user, setUser, onAddMember, openUserSelect, onOpenUsers }) => {
+  const {family, members} = useContext(FamilyContext)
   const [show, setShow] = useState(false);
   const [color, setColor] = useState("")
   const [selectedValue, setSelectedValue] = useState('');
@@ -26,9 +28,9 @@ const UserLogin = ({ user, setUser, familyMembers, onAddMember, family, openUser
     color: color,
     family_id: family.id
   })
-  const navigate = useNavigate()
+
   useEffect(() => {
-    if (user) return setSelectedValue(familyMembers.find(member => member.id === user.id))
+    if (user) return setSelectedValue(members.find(member => member.id === user.id))
   }, [user])
 
   const handleClose = () => {
@@ -36,7 +38,7 @@ const UserLogin = ({ user, setUser, familyMembers, onAddMember, family, openUser
   };
 
   const handleChange = (event) => {
-    const selected = familyMembers.find(user => user.name === event.target.value)
+    const selected = members.find(user => user.name === event.target.value)
     setSelectedValue(selected);
   };
 
@@ -53,9 +55,9 @@ const UserLogin = ({ user, setUser, familyMembers, onAddMember, family, openUser
 
     const data = await response.json()
     if (response.ok) {
+      onOpenUsers(false)
       setUser(data)
       onAddMember(data)
-      onOpenUsers(false)
     } else {
       console.log(data.errors)
     }
@@ -119,7 +121,7 @@ const UserLogin = ({ user, setUser, familyMembers, onAddMember, family, openUser
                 <RadioGroup>
                   <Grid container justifyContent="center">
                     {
-                      familyMembers.map(user => {
+                      members.map(user => {
                         return (
                           <Grid container item xs={4} key={ user.id }>
                             <Grid container item xs={12} justifyContent="center">

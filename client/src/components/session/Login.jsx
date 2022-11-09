@@ -2,8 +2,11 @@ import React, { useEffect } from 'react';
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import { Button, Stack, TextField } from '@mui/material';
+import { useContext } from 'react';
+import { FamilyContext } from '../context/family';
 
 const Login = ({ onLogIn, loggedIn }) => {
+  const {setFamily, setAuth} = useContext(FamilyContext)
   const { handleSubmit, control } = useForm({
     email: "",
     password: ""
@@ -28,6 +31,8 @@ const Login = ({ onLogIn, loggedIn }) => {
 
     const data = await response.json()
     if (response.ok) {
+      setFamily(data)
+      setAuth(true)
       onLogIn(data)
     } else {
       console.log(data.errors)
