@@ -3,7 +3,7 @@ import React from 'react'
 import Login from './Login'
 import SignUp from './SignUp'
 
-const SessionContainer = ({ }) => {
+const SessionContainer = () => {
   return (
     <>
       <Grid container justifyContent="center" alignItems="center" maxHeight="100vh" spacing={10}>

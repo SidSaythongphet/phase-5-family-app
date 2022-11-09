@@ -1,10 +1,9 @@
 class EventsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
 
-
   def index
     family = Family.find_by(id: session[:family_id])
-    @events = family.events.all
+    @events = family.events.all.where("start >= ?", Time.new)
     @events.each do |event| 
       event.color = event.user.color
       event

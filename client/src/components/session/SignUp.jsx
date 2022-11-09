@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { FamilyContext } from '../context/family';
 import { useNavigate } from 'react-router-dom';
 
-const SignUp = ({ }) => {
+const SignUp = () => {
   const {setFamily, setMembers, setAuth} = useContext(FamilyContext)
   const { handleSubmit, control } = useForm()
   const [open, setOpen] = useState(false);

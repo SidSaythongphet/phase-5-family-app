@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import { Paper, Skeleton } from '@mui/material'
@@ -7,13 +7,16 @@ import { useContext } from 'react';
 import { EventContext } from '../context/event';
 import { FamilyContext } from '../context/family';
 
-const CalendarContainer = ({ }) => {
-  const { allEvents, filteredEvents, eventInfo, setEventInfo } = useContext(EventContext)
+const CalendarContainer = () => {
+  const { allEvents, filteredEvents, eventInfo, setEventInfo, pastEvents } = useContext(EventContext)
   const { members } = useContext(FamilyContext)
+  console.log(pastEvents)
+
   const test = [{
     title: "test",
     start: "2022-11-02T20:00:00.000Z",
-    end: "2022-11-03T20:00:00.000Z"
+    end: "2022-11-03T20:00:00.000Z", 
+    color: "#008000"
   }]
 
   const handleSelectEvent = (e) => {
@@ -22,6 +25,7 @@ const CalendarContainer = ({ }) => {
       setEventInfo(null)
       return
     }
+    if (pastEvents.find(evnt => parseInt(evnt.id) === parseInt(selectedId))) return
     const selectedEvent = allEvents.find(evnt => parseInt(evnt.id) === parseInt(selectedId))
     const eventsUser = members.find(user => user.id === selectedEvent.user_id)
     selectedEvent.user = eventsUser.name
@@ -41,7 +45,7 @@ const CalendarContainer = ({ }) => {
           right: 'dayGridMonth,timeGridWeek,timeGridDay'
         }}
         allDaySlot={ false }
-        events={  [...test, ...filteredEvents] }
+        events={  [...filteredEvents, ...pastEvents, ...test] }
         eventDisplay="block"
         eventClick={ handleSelectEvent }
         height="100%"

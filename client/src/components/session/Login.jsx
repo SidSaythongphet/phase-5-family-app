@@ -5,7 +5,7 @@ import { Button, Stack, TextField } from '@mui/material';
 import { useContext } from 'react';
 import { FamilyContext } from '../context/family';
 
-const Login = ({ }) => {
+const Login = () => {
   const {setFamily, setMembers, auth, setAuth} = useContext(FamilyContext)
   const { handleSubmit, control } = useForm({
     email: "",
@@ -17,7 +17,7 @@ const Login = ({ }) => {
     if (auth === true) {
       navigate("/")
     }
-  }, [auth])
+  }, [auth, navigate])
 
   const onSubmit = async form => {
 

@@ -1,10 +1,10 @@
 import React from 'react';
-import { Grid, Paper, Skeleton, Typography } from '@mui/material';
+import { Paper, Skeleton, Typography } from '@mui/material';
 import MemberTab from './MemberTab';
 import { useContext } from 'react';
 import { FamilyContext } from '../context/family';
 
-const FamilyContainer = ({ }) => {
+const FamilyContainer = () => {
   const { members } = useContext(FamilyContext)
 
   if (!members) return <Skeleton />
