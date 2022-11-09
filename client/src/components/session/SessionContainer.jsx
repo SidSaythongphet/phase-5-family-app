@@ -3,7 +3,7 @@ import React from 'react'
 import Login from './Login'
 import SignUp from './SignUp'
 
-const SessionContainer = ({ onLogIn, loggedIn }) => {
+const SessionContainer = ({ }) => {
   return (
     <>
       <Grid container justifyContent="center" alignItems="center" maxHeight="100vh" spacing={10}>
@@ -29,13 +29,13 @@ const SessionContainer = ({ onLogIn, loggedIn }) => {
             >
               <Grid container flexDirection="column" >
                 <Grid item>
-                  <Login onLogIn={ onLogIn } loggedIn={ loggedIn } />
+                  <Login />
                 </Grid>
                 <br/>
                 <Divider />
                 <br/>
                 <Grid item alignSelf="center">
-                  <SignUp onLogIn={ onLogIn } loggedIn={ loggedIn } />
+                  <SignUp />
                 </Grid>
               </Grid>
             </Box>

@@ -5,9 +5,12 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { Button, Divider, Grid, TextField, Typography, Box } from '@mui/material';
 import { useForm, Controller } from "react-hook-form";
+import { useContext } from 'react';
+import { EventContext } from '../context/event';
 
 
-const NewEventContainer = ({ user, onAddEvent, setOpen }) => {
+const NewEventContainer = ({ user, setOpen }) => {
+  const { allEvents, setAllEvents, filteredEvents, setFilteredEvents } = useContext(EventContext)
 
   const { handleSubmit, control } = useForm({
     defaultValues: {
@@ -37,7 +40,8 @@ const NewEventContainer = ({ user, onAddEvent, setOpen }) => {
 
     const data = await response.json()
     if (response.ok) {
-      onAddEvent(data)
+      setAllEvents([...allEvents, data])
+      setFilteredEvents([...filteredEvents, data])
       setOpen(false)
     } else {
       console.log(data.errors)

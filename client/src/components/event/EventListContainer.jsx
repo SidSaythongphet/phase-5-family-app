@@ -1,13 +1,19 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import listPlugin from '@fullcalendar/list';
 import FullCalendar from '@fullcalendar/react';
 import { Paper, Skeleton } from '@mui/material';
+import { useContext } from 'react';
+import { EventContext } from '../context/event';
 
-const EventListContainer = ({ user, events }) => {
-  if (!events) return <Skeleton />
+const EventListContainer = ({ user }) => {
+  const { allEvents } = useContext(EventContext)
+
+  if (!user) return <Skeleton />
+
+  const userEvents = allEvents.filter(evnt => evnt.user_id === user.id)
 
   return (
-    <Paper elevation={2} sx={{ margin: 1, width: "100%", height: "20vh"}} >
+    <Paper elevation={2} sx={{ margin: 1, width: "100%", height: "25vh"}} >
         <FullCalendar 
           plugins={[ listPlugin ]}
           headerToolbar=''
@@ -15,11 +21,11 @@ const EventListContainer = ({ user, events }) => {
           views={{
             timeline: {
             type: "list",
-            duration: { days: 10 }
+            duration: { days: 7 }
           }}}
-          events={ events }
-          eventClick={ e => console.log(e.event) }
-          height="20vh"
+          events={ userEvents }
+          // eventClick={ e => console.log(e.event) }
+          height="25vh"
           contentHeight="100%"
         />
     </Paper>

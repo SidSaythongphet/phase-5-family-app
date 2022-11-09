@@ -1,10 +1,12 @@
-import React from 'react';
-import { Button, Paper, Typography } from '@mui/material';
-import { Stack } from '@mui/system';
+import React, { useContext } from 'react';
+import { Button, ButtonGroup, Grid, Paper, Typography } from '@mui/material';
 import DeleteConfirmation from '../popup/DeleteConfirmation';
+import { EventContext } from '../context/event';
 
-const EventInfoContainer = ({ eventInfo, currentUser, onDeleteEvent }) => {
-  const { title, allDay, start, end, note, user, user_id, color } = eventInfo
+const EventInfoContainer = ({ currentUser, onDeleteEvent }) => {
+  const { eventInfo } = useContext(EventContext)
+  if (!eventInfo) return null
+  const { id, title, allDay, start, end, note, user, user_id, color } = eventInfo
 
   const renderEventTime = () => {
     if (new Date(start).toDateString() === new Date(end).toDateString()) {
@@ -19,27 +21,35 @@ const EventInfoContainer = ({ eventInfo, currentUser, onDeleteEvent }) => {
   }
 
   return (
-    <Paper elevation={2} sx={{ margin: 1, border: 4, borderColor: color }} >
-      <Stack sx={{ margin: 1 }}>
-        <Stack direction="row" justifyContent="space-between">
+    <Paper elevation={2} sx={{ margin: 1, border: 4, borderColor: color, width: "98%", height: "20vh" }} >
+      <Grid container sx={{ margin: 1, height: "100%" }} justifyContent="center">
+        <Grid item xs={6}>
           <Typography>{ user } has:</Typography>
+        </Grid>
+        <Grid item xs={6}>
           <Typography>{ title }</Typography>
-        </Stack>
-        { renderEventTime() }
-        { note !== "" ? <Typography>Note: { note }</Typography> : null }
-        <Stack direction="row" justifyContent="right">
+        </Grid>
+        <Grid item xs={12}>
+          { renderEventTime() }
+        </Grid>
+        <Grid item xs={11}>
+          { note !== "" ? <Typography>Note: { note }</Typography> : null }
+        </Grid>
+        <Grid item xs={12} alignSelf="center" justifyContent="center">
           {
             user_id === currentUser.id
             ?
             <>
+            <ButtonGroup>
               <Button variant='contained'>Edit</Button>
-              <DeleteConfirmation id={ eventInfo.id } onDeleteEvent={ onDeleteEvent }/>
+              <DeleteConfirmation id={ id } onDeleteEvent={ onDeleteEvent }/>
+            </ButtonGroup>
             </>
             : 
             null
           }
-        </Stack>
-      </Stack>
+        </Grid>
+      </Grid>
     </Paper>
   )
 }

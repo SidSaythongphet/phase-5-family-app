@@ -1,11 +1,13 @@
 import React from 'react';
-import { Grid, Paper, Typography } from '@mui/material';
+import { Grid, Paper, Skeleton, Typography } from '@mui/material';
 import MemberTab from './MemberTab';
 import { useContext } from 'react';
 import { FamilyContext } from '../context/family';
 
-const FamilyContainer = ({ onHandleFilter }) => {
+const FamilyContainer = ({ }) => {
   const { members } = useContext(FamilyContext)
+
+  if (!members) return <Skeleton />
 
   return (
     <Paper elevation={2} sx={{ marginRight: 1, width: "100%", padding: "50px 5px", height: "50vh" }}>
@@ -15,7 +17,7 @@ const FamilyContainer = ({ onHandleFilter }) => {
           ?
           members.map(user => {
             return(
-              <MemberTab key={ user.id } user={ user } onHandleFilter={ onHandleFilter }/>
+              <MemberTab key={ user.id } user={ user } />
             )
           })
           :

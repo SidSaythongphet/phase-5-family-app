@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useForm, Controller } from "react-hook-form";
 import { Box, Button, Divider, Stack, TextField } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useContext } from 'react';
 import { FamilyContext } from '../context/family';
+import { useNavigate } from 'react-router-dom';
 
-const SignUp = ({ onLogIn }) => {
-  const {setFamily, setAuth} = useContext(FamilyContext)
+const SignUp = ({ }) => {
+  const {setFamily, setMembers, setAuth} = useContext(FamilyContext)
   const { handleSubmit, control } = useForm()
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate()
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -34,8 +35,9 @@ const SignUp = ({ onLogIn }) => {
     if (response.ok) {
       setOpen(false)
       setFamily(data)
+      setMembers(data.users)
       setAuth(true)
-      onLogIn(data)
+      navigate(`/family/${data.last_name}/${data.id}/users`)
     } else {
       console.log(data.errors)
     }

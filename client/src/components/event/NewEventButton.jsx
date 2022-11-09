@@ -5,28 +5,21 @@ import NewEventContainer from './NewEventContainer';
 import Grid from '@mui/material/Grid';
 
 
-const NewEventButton = ({ user, onAddEvent }) => {
+const NewEventButton = ({ user }) => {
   const [open, setOpen] = useState(false);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
   return (
     <>
       <Grid item xs={12}>
-        <Button variant="contained" onClick={ handleDrawerOpen } sx={{ margin: 1, padding: "10px", width: "100%" }}>New Event</Button>
+        <Button variant="contained" color="success" onClick={ () => setOpen(true) } sx={{ margin: 1, padding: "10px", width: "100%" }}>New Event</Button>
       </Grid>
       <Drawer
         anchor='left'
         open={open}
-        onClose={handleDrawerClose}
+        onClose={ () => setOpen(false) }
         PaperProps={{ square: false }}
       >
-        <NewEventContainer user={ user } onAddEvent={ onAddEvent } setOpen={ setOpen }/>
+        <NewEventContainer user={ user } setOpen={ setOpen }/>
       </Drawer>
     </>
   );

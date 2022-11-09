@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { EventContext } from '../context/event';
 
-const DeleteConfirmation = ({ id, onDeleteEvent }) => {
+const DeleteConfirmation = ({ id }) => {
+  const { allEvents, setAllEvents, filteredEvents, setFilteredEvents, setEventInfo } = useContext(EventContext)
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -24,7 +26,11 @@ const DeleteConfirmation = ({ id, onDeleteEvent }) => {
 
     const data = await response.json()
     if (response.ok) {
-      onDeleteEvent(id)
+      const familyList = allEvents.filter(evnt => evnt.id !== id)
+      setAllEvents(familyList)
+      const filteredList = filteredEvents.filter(evnt => evnt.id !== id)
+      setFilteredEvents(filteredList)
+      setEventInfo(false)
       setOpen(false)
     } else {
       console.log(data.error)
@@ -34,7 +40,7 @@ const DeleteConfirmation = ({ id, onDeleteEvent }) => {
 
   return (
     <>
-      <Button variant="contained" onClick={handleClickOpen}>
+      <Button variant="contained" color="error" onClick={handleClickOpen}>
         Cancel Event
       </Button>
       <Dialog

@@ -16,6 +16,7 @@ class EventsController < ApplicationController
     family = Family.find_by(id: session[:family_id])
     @event = family.events.create!(event_params)
     if @event.valid?
+      @event.color = @event.user.color
       render json: @event, status: :created 
     end
   end

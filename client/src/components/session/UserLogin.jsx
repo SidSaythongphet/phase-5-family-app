@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Controller, useForm } from "react-hook-form";
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -8,34 +8,34 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import Box from '@mui/material/Box';
-import { Avatar, Divider, Grid, Typography, TextField } from '@mui/material';
+import { Avatar, Divider, Grid, Typography, TextField, Skeleton } from '@mui/material';
 import { CirclePicker } from 'react-color';
-import { useContext } from 'react';
 import { FamilyContext } from '../context/family';
+import { useNavigate } from 'react-router-dom';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const UserLogin = ({ user, setUser, onAddMember, openUserSelect, onOpenUsers }) => {
-  const {family, members} = useContext(FamilyContext)
+const UserLogin = ({ user, setUser }) => {
+  const {family, members, setMembers} = useContext(FamilyContext)
   const [show, setShow] = useState(false);
+  const [open, setOpen] = useState(true)
   const [color, setColor] = useState("")
   const [selectedValue, setSelectedValue] = useState('');
 
+  const navigate = useNavigate()
+  
   const { register, setValue, handleSubmit, control } = useForm({
     name: "",
     color: color,
     family_id: family.id
   })
-
+  
   useEffect(() => {
-    if (user) return setSelectedValue(members.find(member => member.id === user.id))
+    if (user && members) return setSelectedValue(members.find(member => member.id === user.id))
   }, [user])
-
-  const handleClose = () => {
-    onOpenUsers(false);
-  };
+  if (!members) return <Skeleton />
 
   const handleChange = (event) => {
     const selected = members.find(user => user.name === event.target.value)
@@ -55,9 +55,8 @@ const UserLogin = ({ user, setUser, onAddMember, openUserSelect, onOpenUsers }) 
 
     const data = await response.json()
     if (response.ok) {
-      onOpenUsers(false)
       setUser(data)
-      onAddMember(data)
+      setMembers([...members, data])
     } else {
       console.log(data.errors)
     }
@@ -81,7 +80,8 @@ const UserLogin = ({ user, setUser, onAddMember, openUserSelect, onOpenUsers }) 
     const data = await response.json()
     if (response.ok) {
       setUser(data)
-      onOpenUsers(false)
+      setOpen(false)
+      navigate(`/family/${family.last_name}/${family.id}`)
     } else {
       console.log("error")
     }
@@ -95,10 +95,10 @@ const UserLogin = ({ user, setUser, onAddMember, openUserSelect, onOpenUsers }) 
     <>
       <Dialog
         //open if user does not exist
-        open={ openUserSelect }
+        open={ open }
         TransitionComponent={Transition}
         keepMounted
-        onClose={handleClose}
+        onClose={ () => navigate(`/family/${family.last_name}/${family.id}`) }
         fullWidth
         maxWidth="xl"
       >
@@ -109,7 +109,7 @@ const UserLogin = ({ user, setUser, onAddMember, openUserSelect, onOpenUsers }) 
           bgcolor= "rgba(187, 189, 190, 0.486)"
         >
           <Grid container justifyContent="end">
-            <Button onClick={ () => onOpenUsers(false) }>X</Button>
+            <Button onClick={ () => navigate(`/family/${family.last_name}/${family.id}`) }>X</Button>
           </Grid>
           <Grid container spacing={10}>
             <Grid item xs={12}>

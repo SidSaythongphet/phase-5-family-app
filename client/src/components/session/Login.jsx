@@ -5,8 +5,8 @@ import { Button, Stack, TextField } from '@mui/material';
 import { useContext } from 'react';
 import { FamilyContext } from '../context/family';
 
-const Login = ({ onLogIn, loggedIn }) => {
-  const {setFamily, setAuth} = useContext(FamilyContext)
+const Login = ({ }) => {
+  const {setFamily, setMembers, auth, setAuth} = useContext(FamilyContext)
   const { handleSubmit, control } = useForm({
     email: "",
     password: ""
@@ -14,10 +14,10 @@ const Login = ({ onLogIn, loggedIn }) => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (loggedIn === true) {
+    if (auth === true) {
       navigate("/")
     }
-  }, [loggedIn])
+  }, [auth])
 
   const onSubmit = async form => {
 
@@ -32,8 +32,9 @@ const Login = ({ onLogIn, loggedIn }) => {
     const data = await response.json()
     if (response.ok) {
       setFamily(data)
+      setMembers(data.users)
       setAuth(true)
-      onLogIn(data)
+      navigate(`/family/${data.last_name}/${data.id}/users`)
     } else {
       console.log(data.errors)
     }
