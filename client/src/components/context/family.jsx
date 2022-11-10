@@ -16,7 +16,7 @@ const FamilyProvider = ({ children }) => {
         setMembers(data.users)
         setAuth(true)
       } else {
-        console.log("Error")
+        console.log(data.errors)
         return
       }
     }   

@@ -26,7 +26,7 @@ const App = () => {
     <>
       <UserProvider>
       <EventProvider>
-        { auth ? <NavBar /> : null }
+        <NavBar/>
         <Routes>
           <Route path="/" element={ <Home /> } />
           <Route path="/login" element={ <SessionContainer /> } />

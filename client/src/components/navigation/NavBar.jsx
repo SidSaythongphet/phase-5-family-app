@@ -10,6 +10,7 @@ import { FamilyContext } from '../context/family';
 import { useNavigate } from 'react-router-dom';
 import { EventContext } from '../context/event';
 import { UserContext } from '../context/user';
+import { Skeleton } from '@mui/material';
 
 
 const NavBar = () => {
@@ -17,7 +18,7 @@ const NavBar = () => {
   const { setAllEvents, setFilteredEvents } = useContext(EventContext)
   const { user, setUser } = useContext(UserContext)
   const navigate = useNavigate()
-  if (!user) return null
+  if (!user) return <Skeleton sx={{ height: "800px" }}/>
 
   const theme = createTheme({
     palette: {
@@ -46,31 +47,31 @@ const NavBar = () => {
 
   return (
     <ThemeProvider theme={theme}>
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ bgcolor: 'primary.dark' }}>
-        <Toolbar>
-          <Box sx={{ marginRight: "19vw"}}>
-            <Typography variant="h4">Plannr</Typography>
-          </Box>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            { auth ? "Hello, " : null}
-            { user ? user.name : null }
-          </Typography>
-            { auth 
-              ?
-              <>
-                <ButtonGroup>
-                  <Button variant="contained" sx={{ backgroundColor: "primary.dark" }} >{ family.last_name }</Button>
-                  <Button variant="contained" sx={{ backgroundColor: "primary.light" }} onClick={ () => navigate(`/family/${family.last_name}/${family.id}/users`) }>Switch User</Button>
-                  <Button variant="contained" sx={{ backgroundColor: "primary.light" }} onClick={ handleLogout }>Logout</Button>
-                </ButtonGroup>
-              </> 
-              :
-              null
-            }
-        </Toolbar>
-      </AppBar>
-    </Box>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static" sx={{ bgcolor: 'primary.dark' }}>
+          <Toolbar>
+            <Box sx={{ marginRight: "19vw"}}>
+              <Typography variant="h4">Plannr</Typography>
+            </Box>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              { auth ? "Hello, " : null}
+              { user ? user.name : null }
+            </Typography>
+              { auth 
+                ?
+                <>
+                  <ButtonGroup>
+                    <Button variant="contained" sx={{ backgroundColor: "primary.dark" }} >{ family.last_name }</Button>
+                    <Button variant="contained" sx={{ backgroundColor: "primary.light" }} onClick={ () => navigate(`/family/${family.last_name}/${family.id}/users`) }>Switch User</Button>
+                    <Button variant="contained" sx={{ backgroundColor: "primary.light" }} onClick={ handleLogout }>Logout</Button>
+                  </ButtonGroup>
+                </> 
+                :
+                null
+              }
+          </Toolbar>
+        </AppBar>
+      </Box>
     </ThemeProvider>
   );
 }
