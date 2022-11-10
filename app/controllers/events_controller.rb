@@ -23,7 +23,7 @@ class EventsController < ApplicationController
   def update
     @event = find_event
     if @event.update!(event_params)
-      render json: @event. status: :accepted
+      render json: @event, status: :accepted
     end
   end
   
