@@ -18,7 +18,7 @@ const NavBar = () => {
   const { setAllEvents, setFilteredEvents } = useContext(EventContext)
   const { user, setUser } = useContext(UserContext)
   const navigate = useNavigate()
-  if (!user) return <Skeleton sx={{ height: "800px" }}/>
+  if (!user) return <Skeleton sx={{ height: "80px" }}/>
 
   const theme = createTheme({
     palette: {
@@ -47,7 +47,7 @@ const NavBar = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, height: "80px" }}>
         <AppBar position="static" sx={{ bgcolor: 'primary.dark' }}>
           <Toolbar>
             <Box sx={{ marginRight: "19vw"}}>

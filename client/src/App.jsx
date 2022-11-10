@@ -1,9 +1,10 @@
-import { Dialog } from "@mui/material";
+import { Dialog, Drawer } from "@mui/material";
 import React, { useContext } from "react";
 import { Routes, Route } from 'react-router-dom';
 import { EventProvider } from "./components/context/event";
 import { FamilyContext } from "./components/context/family";
 import { UserProvider } from "./components/context/user";
+import NewEventContainer from "./components/event/NewEventContainer";
 import NavBar from "./components/navigation/NavBar";
 import SessionContainer from "./components/session/SessionContainer";
 import UserLogin from "./components/session/UserLogin";
@@ -37,6 +38,14 @@ const App = () => {
                 <Dialog open>
                   <UserLogin /> 
                 </Dialog>
+              )}
+            />
+            <Route 
+              path="create_event" 
+              element={( 
+                <Drawer open>
+                  <NewEventContainer /> 
+                </Drawer>
               )}
             />
           </Route>

@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     get "/past_events", to: "past_events#index"
     resources :families, only: [:index, :show, :create]
     resources :users, only: [:index, :show, :create]
-    resources :events, only: [:index, :create, :destroy]
+    resources :events, only: [:index, :create, :update, :destroy]
   end
 
 end
