@@ -10,7 +10,6 @@ import { FamilyContext } from '../context/family';
 const CalendarContainer = () => {
   const { allEvents, filteredEvents, eventInfo, setEventInfo, pastEvents } = useContext(EventContext)
   const { members } = useContext(FamilyContext)
-  console.log(pastEvents)
 
   const test = [{
     title: "test",

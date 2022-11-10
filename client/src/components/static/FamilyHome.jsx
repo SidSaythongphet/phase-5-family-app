@@ -7,6 +7,7 @@ import FamilyContainer from '../family/FamilyContainer'
 import NewEventButton from '../event/NewEventButton'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Outlet } from 'react-router-dom'
+import NewTaskForm from '../task/NewTaskForm'
 
 
 
@@ -39,7 +40,7 @@ const FamilyHome = ({ }) => {
             </Grid>
 
             <Grid item xs={12} container alignItems="flex-end">
-              Tasks
+              <NewTaskForm />
             </Grid>
 
           </Grid>

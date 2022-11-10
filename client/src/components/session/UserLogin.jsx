@@ -37,6 +37,7 @@ const UserLogin = () => {
   useEffect(() => {
     if (user && members) return setSelectedValue(members.find(member => member.id === user.id))
   }, [user, members])
+  
   if (!members) return <Skeleton />
 
   const handleChange = (event) => {
