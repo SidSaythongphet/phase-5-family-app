@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     resources :families, only: [:index, :show, :create]
     resources :users, only: [:index, :show, :create]
     resources :events, only: [:index, :create, :update, :destroy]
-    resources :tasks
+    resources :tasks, only: [:index, :create, :update, :destroy]
   end
 
 end

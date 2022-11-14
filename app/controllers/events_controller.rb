@@ -3,7 +3,7 @@ class EventsController < ApplicationController
 
   def index
     family = Family.find_by(id: session[:family_id])
-    @events = family.events.all.where("start >= ?", Time.new)
+    @events = family.events.all.where("start >= ?", DateTime.now.iso8601)
     @events.each do |event| 
       event.color = event.user.color
       event

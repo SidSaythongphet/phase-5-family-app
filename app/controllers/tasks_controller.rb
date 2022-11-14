@@ -23,7 +23,13 @@ class TasksController < ApplicationController
   end
 
   def destroy
-
+    @task = find_task
+    if @task
+      @task.destroy
+      render json: {}
+    else
+      render_not_found_response
+    end
   end
 
   private
