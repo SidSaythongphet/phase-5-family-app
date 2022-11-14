@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -7,17 +7,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { EventContext } from '../context/event';
 
-const DeleteConfirmation = ({ id }) => {
+const DeleteEventConfirmation = ({ id, open, setOpen }) => {
   const { allEvents, setAllEvents, filteredEvents, setFilteredEvents, setEventInfo } = useContext(EventContext)
-  const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
   
   const handleDelete = async () => {
     const response = await fetch(`/api/events/${id}`, {
@@ -40,12 +31,9 @@ const DeleteConfirmation = ({ id }) => {
 
   return (
     <>
-      <Button variant="contained" color="error" onClick={handleClickOpen}>
-        Cancel Event
-      </Button>
       <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={ () => setOpen(false) }
         aria-labelledby="alert-dialog-delete-confirmation-title"
         aria-describedby="alert-dialog-delete-confirmation-description"
       >
@@ -58,7 +46,7 @@ const DeleteConfirmation = ({ id }) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" onClick={handleClose}>Keep Event</Button>
+          <Button variant="contained" onClick={ () => setOpen(false) }>Keep Event</Button>
           <Button variant="contained" onClick={ handleDelete }>
             Cancel Event
           </Button>
@@ -68,4 +56,4 @@ const DeleteConfirmation = ({ id }) => {
   )
 }
 
-export default DeleteConfirmation
+export default DeleteEventConfirmation

@@ -34,7 +34,7 @@ const CalendarContainer = () => {
   if (!allEvents || allEvents.errors ) return <Skeleton height="90vh"/>
 
   return (
-    <Paper elevation={2} sx={{ margin: 1, height: "90vh" }}>
+    <Paper elevation={2} sx={{ height: "100%", marging: 1 }}>
       <FullCalendar
         plugins={[ dayGridPlugin, timeGridPlugin  ]}
         initialView="dayGridMonth"

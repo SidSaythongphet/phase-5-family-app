@@ -1,13 +1,15 @@
 import React, { useContext } from 'react';
 import { Button, ButtonGroup, Grid, Paper, Typography } from '@mui/material';
-import DeleteConfirmation from '../popup/DeleteConfirmation';
+import DeleteEventConfirmation from '../popup/DeleteEventConfirmation';
 import { EventContext } from '../context/event';
 import { UserContext } from '../context/user';
+import { useState } from 'react';
 
 const EventInfoContainer = () => {
+  const [open, setOpen] = useState(false)
   const { eventInfo } = useContext(EventContext)
   const { user } = useContext(UserContext)
-  if (!eventInfo) return null
+  if (!eventInfo) return <Grid item xs={12} sx={{ height: "100%" }} />
   const { id, title, allDay, start, end, note, user_id, color } = eventInfo
 
   const renderEventTime = () => {
@@ -23,36 +25,41 @@ const EventInfoContainer = () => {
   }
 
   return (
-    <Paper elevation={2} sx={{ margin: 1, border: 4, borderColor: color, width: "98%", height: "20vh" }} >
-      <Grid container sx={{ margin: 1, height: "100%" }} justifyContent="center">
-        <Grid item xs={6}>
-          <Typography>{ eventInfo.user } has:</Typography>
+    <Grid item xs={12} sx={{ height: "100%" }}>
+      <Paper elevation={2} sx={{ borderBottom: 10, borderTop: 10, borderColor: color, height: "90%", borderRadius: 4 }} >
+        <Grid container sx={{ height: "100%" }} justifyContent="center">
+          <Grid item xs={6}>
+            <Typography>{ eventInfo.user } has:</Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography>{ title }</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            { renderEventTime() }
+          </Grid>
+          <Grid item xs={11}>
+            { note !== "" ? <Typography>Note: { note }</Typography> : null }
+          </Grid>
+          <Grid item xs={12} alignSelf="center" justifyContent="center">
+            {
+              user_id === user.id
+              ?
+              <>
+                <ButtonGroup>
+                  <Button variant='contained'>Edit</Button>
+                  <Button variant="contained" color="error" onClick={ () => setOpen(true) }>
+                    Cancel Event
+                  </Button>
+                </ButtonGroup>
+                <DeleteEventConfirmation id={ id } open={ open } setOpen={ setOpen } />
+              </>
+              : 
+              null
+            }
+          </Grid>
         </Grid>
-        <Grid item xs={6}>
-          <Typography>{ title }</Typography>
-        </Grid>
-        <Grid item xs={12}>
-          { renderEventTime() }
-        </Grid>
-        <Grid item xs={11}>
-          { note !== "" ? <Typography>Note: { note }</Typography> : null }
-        </Grid>
-        <Grid item xs={12} alignSelf="center" justifyContent="center">
-          {
-            user_id === user.id
-            ?
-            <>
-            <ButtonGroup>
-              <Button variant='contained'>Edit</Button>
-              <DeleteConfirmation id={ id } />
-            </ButtonGroup>
-            </>
-            : 
-            null
-          }
-        </Grid>
-      </Grid>
-    </Paper>
+      </Paper>
+    </Grid>
   )
 }
 

@@ -10,7 +10,7 @@ import { FamilyContext } from '../context/family';
 import { useNavigate } from 'react-router-dom';
 import { EventContext } from '../context/event';
 import { UserContext } from '../context/user';
-import { Skeleton } from '@mui/material';
+import { Grid, Skeleton } from '@mui/material';
 
 
 const NavBar = () => {
@@ -47,20 +47,18 @@ const NavBar = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ flexGrow: 1, height: "80px" }}>
-        <AppBar position="static" sx={{ bgcolor: 'primary.dark' }}>
-          <Toolbar>
-            <Box sx={{ marginRight: "19vw"}}>
-              <Typography variant="h4">Plannr</Typography>
-            </Box>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+      <Box sx={{ height: "6vh" }}>
+        <AppBar position="absolute" sx={{ height: "6vh", bgcolor: 'primary.dark' }} elevation={0}>
+          <Toolbar disableGutters sx={{ height: "100%", alignItems: "center" }} >
+            <Typography variant="h3" component="div" sx={{ height: "100%", width: "25vw" }} textAlign="center">- P l a n n r -</Typography>
+            <Typography variant="h6" component="div" sx={{ height: "100%", flexGrow: 1 }}>
               { auth ? "Hello, " : null}
               { user ? user.name : null }
             </Typography>
               { auth 
                 ?
                 <>
-                  <ButtonGroup>
+                  <ButtonGroup >
                     <Button variant="contained" sx={{ backgroundColor: "primary.dark" }} >{ family.last_name }</Button>
                     <Button variant="contained" sx={{ backgroundColor: "primary.light" }} onClick={ () => navigate(`/family/${family.last_name}/${family.id}/users`) }>Switch User</Button>
                     <Button variant="contained" sx={{ backgroundColor: "primary.light" }} onClick={ handleLogout }>Logout</Button>
