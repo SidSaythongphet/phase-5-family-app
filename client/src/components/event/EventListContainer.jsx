@@ -15,8 +15,8 @@ const EventListContainer = () => {
   const userEvents = allEvents.filter(evnt => evnt.user_id === user.id)
 
   return (
-    <Grid item container alignContent="center" xs={12} sx={{ height: "100%", borderRadius: 4 }}>
-      <Paper elevation={2} sx={{ width: "100%", height: "100%", borderRadius: 4 }} >
+    <Grid item container alignContent="center" xs={12} sx={{ height: "100%", borderRadius: 4  }}>
+      <Paper elevation={2} sx={{ width: "100%", height: "100%", borderRadius: 4, border: 4, borderColor: "primary.light" }} >
         <Grid item sx={{ height: "100%", marginTop: 1.7 }}>
           <FullCalendar 
             plugins={[ listPlugin ]}

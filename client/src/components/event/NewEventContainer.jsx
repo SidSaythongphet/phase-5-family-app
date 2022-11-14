@@ -3,13 +3,14 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import { Button, Divider, Grid, TextField, Typography, Box, Drawer } from '@mui/material';
+import { Button, Divider, Grid, TextField, Typography, Box, Drawer, ButtonGroup } from '@mui/material';
 import { useForm, Controller } from "react-hook-form";
 import { useContext } from 'react';
 import { EventContext } from '../context/event';
 import { UserContext } from '../context/user';
 import { useNavigate } from 'react-router-dom';
 import { FamilyContext } from '../context/family';
+import CreateNewDrawer from '../popup/CreateNewDrawer';
 
 const NewEventContainer = () => {
   const { allEvents, setAllEvents, filteredEvents, setFilteredEvents } = useContext(EventContext)
@@ -57,33 +58,30 @@ const NewEventContainer = () => {
   }
 
   return (
-    <Drawer
+    <>
+    {/* <Drawer
       anchor='left'
       open={ open }
       onClose={ () => navigate(`/family/${family.last_name}/${family.id}`) }
-      PaperProps={{ square: false, sx: { height: "50vh" } }}
+      PaperProps={{ square: false, sx: { width: "25vw",  height: "50vh", overflow: "hidden" } }}
       SlideProps={{ appear: true }}
       
     >
-      <Box
-        sx={{ 
-          width: "25vw", 
-          minWidth: "350px"
-        }}
-      >
-        <form onSubmit={ handleSubmit(onSubmit) }>
-          <Grid container>
-            <Grid item xs={12} container justifyContent="space-between" sx={{ backgroundColor: user.color }}>
-              <Grid item xs={10}>
-                <Typography gutterBottom textAlign="center" sx={{ margin: "5px" }}>New Event</Typography>
-              </Grid>
-              <Grid item xs={1} justifyContent="end">
-                <Button sx={{ bgcolor: "primary.dark" }}>X</Button>
-              </Grid>
-              <Divider />
-            </Grid>
-            <Grid item xs={12} container rowSpacing={2}>
-              <Grid item xs={12} margin="10px">
+      <Grid container height="100%" width= "100%" direction="column" justifyContent="flex-start">
+        <Grid item container alignItems="center" justifyContent="space-between" sx={{ backgroundColor: "primary.light", height: "3vh" }}>
+          <Grid item xs={10}>
+            <Typography gutterBottom textAlign="center">New Event</Typography>
+          </Grid>
+          <Grid item xs={2} alignSelf="flex-start" justifySelf="flex-end">
+            <Button size="small" sx={{ color: "primary.dark", padding: 0 }} onClick={ () => navigate(`/family/${family.last_name}/${family.id}`) }>X</Button>
+          </Grid>
+        </Grid> */}
+        <CreateNewDrawer item="Event">
+
+
+          <form onSubmit={ handleSubmit(onSubmit) }>
+        <Grid item container direction="column" justifyContent="space-between" sx={{ height: "47vh" }}>
+              <Grid item margin="10px" sx={{ bgcolor: "lightgray" }}>
                 <Controller 
                   control={ control }
                   name="title"
@@ -91,35 +89,35 @@ const NewEventContainer = () => {
                   render={({ 
                     field: { onChange, onBlur, value, ref } }) => (
                       <TextField 
-                        label="Event Title"
-                        fullWidth
-                        value={ value }
-                        onChange={ onChange }
-                        onBlur={ onBlur }
-                        inputRef={ ref }
-                        size="small"
+                      label="Event Title"
+                      fullWidth
+                      value={ value }
+                      onChange={ onChange }
+                      onBlur={ onBlur }
+                      inputRef={ ref }
+                      size="small"
                       />
-                    )
-                  }
-                />
+                      )
+                    }
+                    />
               </Grid>
-              <Grid item container rowSpacing={1} >
-                <Grid item xs={6}>
+              <Grid item container rowSpacing={1} justifySelf="flex-start">
+                <Grid item xs={5} margin="10px">
                   <Typography>All Day</Typography>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={5} margin="10px">
                   <Controller
                     name="allDay"
                     control={control}                
                     render={({ field }) => 
                       <FormControlLabel control={ <Switch {...field} size="small"/> } /> 
                     }
-                  />
+                    />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={5} margin="10px">
                   <Typography>Start</Typography>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={5} margin="10px">
                   <Controller
                     control={ control }
                     name="start"
@@ -142,12 +140,12 @@ const NewEventContainer = () => {
                         />
                       )
                     }
-                  />
+                    />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={5} margin="10px">
                   <Typography>End</Typography>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={5} margin="10px">
                   <Controller
                     control={ control }
                     name="end"
@@ -155,52 +153,55 @@ const NewEventContainer = () => {
                     render={({ 
                       field: { onChange, onBlur, value, ref } }) => (
                         <DatePicker
-                          placeholderText='End Date'
-                          selected={ value }
-                          dateFormat="M/d/yyyy h:mm:ss a"
-                          showTimeSelect
-                          onChange={ onChange }
-                          selectsEnd
-                          required
-                          onBlur={ onBlur }
-                          inputRef={ ref }
-                          showPopperArrow={ false }
-                          popperProps={{ strategy: "fixed" }}
-                          popperPlacement="bottom-end"
+                        placeholderText='End Date'
+                        selected={ value }
+                        dateFormat="M/d/yyyy h:mm:ss a"
+                        showTimeSelect
+                        onChange={ onChange }
+                        selectsEnd
+                        required
+                        onBlur={ onBlur }
+                        inputRef={ ref }
+                        showPopperArrow={ false }
+                        popperProps={{ strategy: "fixed" }}
+                        popperPlacement="bottom-end"
                         />
-                      )
+                        )
                     }
-                  />
+                    />
                 </Grid>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item margin="10px" sx={{ bgcolor: "lightgray" }}>
                 <Controller
                   control={ control }
                   name="note"
                   render={({ field: { onChange, onBlur, value, ref } }) => (
                     <TextField 
-                      label='Note:'
-                      value={ value }
-                      onChange={ onChange }
-                      onBlur={ onBlur }
-                      inputRef={ ref }
-                      size="small"
-                      multiline
-                      fullWidth
-                      rows={3}
+                    label='Note:'
+                    value={ value }
+                    onChange={ onChange }
+                    onBlur={ onBlur }
+                    inputRef={ ref }
+                    size="small"
+                    multiline
+                    fullWidth
+                    rows={3}
                     />
-                  )}
+                    )}
                 />
               </Grid>
-              <Grid item container justifyContent="end">
-                <Button type="submit" variant='contained'>Add</Button>
-                <Button variant='contained' onClick={ () => navigate(`/family/${family.last_name}/${family.id}`) }>Cancel</Button>
-              </Grid>
+              <Grid item container>
+                <ButtonGroup size="small" fullWidth>
+                  <Button type="submit" variant='contained'>Add</Button>
+                  <Button variant='contained' onClick={ () => navigate(`/family/${family.last_name}/${family.id}`) }>Cancel</Button>
+                </ButtonGroup>
             </Grid>
-          </Grid>
-        </form>
-      </Box>
-    </Drawer>
+        </Grid>
+          </form>
+                  </CreateNewDrawer>
+      {/* </Grid>
+    </Drawer> */}
+    </>
   );
 }
 
