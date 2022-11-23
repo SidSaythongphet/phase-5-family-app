@@ -5,13 +5,16 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { FamilyProvider } from './components/context/family';
+import { UserProvider } from './components/context/user';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Router>
       <FamilyProvider>
+      <UserProvider>
         <App />
+      </UserProvider>
       </FamilyProvider>
     </Router>
   </React.StrictMode>

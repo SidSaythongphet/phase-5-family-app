@@ -1,14 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { TaskContext } from '../context/task';
 
-const DeleteTaskConfirmation = ({ task, open, setOpen }) => {
-  const { familyTasks, setFamilyTasks, userTasks, setUserTasks } = useContext(TaskContext)
+const DeleteTaskConfirmation = ({ task, open, setOpen, onDeleteTask }) => {
 
   const handleDelete = async () => {
     const response = await fetch(`/api/tasks/${task.id}`, {
@@ -17,13 +15,7 @@ const DeleteTaskConfirmation = ({ task, open, setOpen }) => {
 
     const data = await response.json()
     if (response.ok) {
-      if (task.task_for_type === "Family") {
-        const filterFamilyTasks = familyTasks.filter(tsk => tsk.id !== task.id)
-        setFamilyTasks(filterFamilyTasks)
-      } else if (task.task_for_type === "User") {
-        const filterUserTasks = userTasks.filter(tsk => tsk.id !== task.id)
-        setUserTasks(filterUserTasks)
-      }
+      onDeleteTask(task)
     } else {
       console.log(data.error)
       setOpen(false)

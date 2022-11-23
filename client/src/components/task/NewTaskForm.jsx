@@ -1,20 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import { Button, Divider, Grid, TextField, Typography, Box, Drawer, Radio, RadioGroup, FormControl } from '@mui/material';
+import { Button, Grid, TextField, Radio, RadioGroup, FormControl } from '@mui/material';
 import { useForm, Controller } from "react-hook-form";
 import { useContext } from 'react';
-import { EventContext } from '../context/event';
 import { UserContext } from '../context/user';
-import { useNavigate } from 'react-router-dom';
 import { FamilyContext } from '../context/family';
+import CreateNewDrawer from '../popup/CreateNewDrawer';
+import { useNavigate } from 'react-router-dom';
 
 
 
-const NewTaskForm = () => {
+const NewTaskForm = ({ open, setOpen, onAddTask }) => {
   const { family } = useContext(FamilyContext)
   const { user } = useContext(UserContext)
-  const { handleSubmit, control, setValue } = useForm({
+  const navigate = useNavigate()
+
+  const { handleSubmit, control, setValue, reset, formState, formState: { isSubmitSuccessful } } = useForm({
     defaultValues: {
       title: '',
       task_for_type: '',
@@ -22,11 +23,19 @@ const NewTaskForm = () => {
     }
   })
 
+  useEffect(() => {
+    if (formState.isSubmitSuccessful) {
+      reset({
+        title: '',
+        task_for_type: '',
+        task_for_id: ''
+      })
+    }
+  }, [formState, reset])
+
   if( !family || !user ) return null
 
   const onSubmit = async form => {
-    console.log(form)
-
     const response = await fetch('/api/tasks', {
       method: 'POST',
       headers: {
@@ -37,7 +46,9 @@ const NewTaskForm = () => {
 
     const data = await response.json()
     if (response.ok) {
-      console.log(data)
+      onAddTask(data)
+      setOpen(false)
+      navigate(`/${family.last_name.toLowerCase()}/tasks`)
     } else {
       console.log(data.errors)
     }
@@ -57,26 +68,18 @@ const NewTaskForm = () => {
   ]
 
   return (
-    <form onSubmit={ handleSubmit(onSubmit) }>
-      <Grid container >
-        <Grid item xs={12} container justifyContent="space-between">
-          <Grid item xs={10}>
-            <Typography gutterBottom textAlign="center" sx={{ margin: "5px" }}>New Task</Typography>
-          </Grid>
-          <Grid item xs={1} justifyContent="end">
-            <Button>X</Button>
-          </Grid>
-          <Divider />
-        </Grid>
-        <Grid item xs={12} container>
-          <Grid item xs={6}>
-            <Controller 
-              control={ control }
-              name="title"
-              rules={{ required: true }} 
-              render={
-                ({ field: { onChange, onBlur, value, ref } }) => (
-                  <TextField 
+    <CreateNewDrawer item="Task" open={ open } setOpen={ setOpen }>
+      <form onSubmit={ handleSubmit(onSubmit) }>
+        <Grid container height="22vh">
+          <Grid item xs={12} container justifyContent="center">
+            <Grid item xs={12} margin= "15px">
+              <Controller 
+                control={ control }
+                name="title"
+                rules={{ required: true }} 
+                render={
+                  ({ field: { onChange, onBlur, value, ref } }) => (
+                    <TextField 
                     label="Add Title"
                     fullWidth
                     value={ value }
@@ -84,50 +87,39 @@ const NewTaskForm = () => {
                     onBlur={ onBlur }
                     inputRef={ ref }
                     size="small"
-                  />
-                )
-              }
-            />
-          </Grid>
-          <FormControl required component="fieldset">
-            {/* <RadioGroup>
-              <FormControlLabel 
-                value={ user.id } 
-                label={ user.name }
-                labelPlacement="top"
-                control={ 
-                  <Radio
-                    onChange={ handleChange }
-                    value={ user.id } 
-                    name={ user.name } 
-                  />
-                } 
-              />
-            </RadioGroup> */}
-            <Controller 
-              name="task_for_type"
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <RadioGroup {...field} row >
-                  { options.map((option => (
-                    <FormControlLabel 
-                      value={ option.type }
-                      control={<Radio onChange={ () => setValue("task_for_id", option.id)}/> }
-                      label={ option.name }
-                      key={ option.type }
                     />
-                  )))}
-                </RadioGroup>
-              )}
-            />
-          </FormControl>
-          <Grid item xs={6} container justifyContent="end">
-            <Button type="submit" variant='contained'>Save</Button>
+                  )
+                }
+              />
+            </Grid>
+            <Grid item xs={12} container justifyContent="center">
+              <FormControl required component="fieldset">
+                <Controller 
+                  name="task_for_type"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <RadioGroup {...field} >
+                      { options.map((option => (
+                        <FormControlLabel 
+                        value={ option.type }
+                        control={ <Radio onChange={ () => setValue("task_for_id", option.id)}/> }
+                        label={ option.name }
+                        key={ option.type }
+                        />
+                        )))}
+                    </RadioGroup>
+                  )}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} container justifyContent="center">
+              <Button size="small" type="submit" variant='contained' sx={{ width: "100%" }}>Save</Button>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
-    </form>
+      </form>
+    </CreateNewDrawer>
   )
 }
 
