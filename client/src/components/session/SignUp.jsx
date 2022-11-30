@@ -37,7 +37,7 @@ const SignUp = () => {
       setFamily(data)
       setMembers(data.users)
       setAuth(true)
-      navigate(`/family/${data.last_name}/${data.id}/users`)
+      navigate(`/${data.last_name}/users`)
     } else {
       console.log(data.errors)
     }

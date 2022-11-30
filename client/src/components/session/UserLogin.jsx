@@ -84,7 +84,7 @@ const UserLogin = () => {
     if (response.ok) {
       setUser(data)
       setOpen(false)
-      navigate(`/family/${family.last_name}/${family.id}`)
+      navigate(`/${family.last_name}/${selectedValue.name}`)
     } else {
       console.log("error")
     }
@@ -94,6 +94,13 @@ const UserLogin = () => {
     setValue("color", color.hex)
   }
 
+  const handleOnClose = () => {
+    if (!user) return
+
+    setOpen(false)
+    navigate(`/${family.last_name}/${user.name}`)
+  }
+
   return (
     <>
       <Dialog
@@ -101,7 +108,7 @@ const UserLogin = () => {
         open={ open }
         TransitionComponent={Transition}
         keepMounted
-        onClose={ () => navigate(`/family/${family.last_name}/${family.id}`) }
+        onClose={ handleOnClose }
         fullWidth
         maxWidth="xl"
       >
@@ -112,7 +119,7 @@ const UserLogin = () => {
           bgcolor= "rgba(187, 189, 190, 0.486)"
         >
           <Grid container justifyContent="end">
-            <Button onClick={ () => navigate(`/family/${family.last_name}/${family.id}`) }>X</Button>
+            <Button onClick={ handleOnClose }>X</Button>
           </Grid>
           <Grid container spacing={10}>
             <Grid item xs={12}>
