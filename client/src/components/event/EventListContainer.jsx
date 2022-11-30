@@ -1,23 +1,36 @@
 import React from 'react'
-import listPlugin from '@fullcalendar/list';
 import FullCalendar from '@fullcalendar/react';
-import { Grid, Paper, Skeleton } from '@mui/material';
+import listPlugin from '@fullcalendar/list';
+import { Grid, Paper, Skeleton, Typography } from '@mui/material';
 import { useContext } from 'react';
-import { EventContext } from '../context/event';
 import { UserContext } from '../context/user';
+import { FamilyContext } from '../context/family';
 
-const EventListContainer = () => {
-  const { allEvents } = useContext(EventContext)
+const EventListContainer = ({ events, header, eventInfo, setEventInfo }) => {
   const { user } = useContext(UserContext)
+  const { members } = useContext(FamilyContext)
 
   if (!user) return <Skeleton />
 
-  const userEvents = allEvents.filter(evnt => evnt.user_id === user.id)
+  const handleSelectEvent = (e) => {
+    const selectedId = e.event.id
+    if (eventInfo && parseInt(eventInfo.id) === parseInt(selectedId)) {
+      setEventInfo(null)
+      return
+    }
+    // if (pastEvents.find(evnt => parseInt(evnt.id) === parseInt(selectedId))) return
+    const selectedEvent = events.find(evnt => parseInt(evnt.id) === parseInt(selectedId))
+    const eventsUser = members.find(user => user.id === selectedEvent.user_id)
+    selectedEvent.user = eventsUser.name
+    setEventInfo({...selectedEvent})
+  }
+
 
   return (
-    <Grid item container alignContent="center" xs={12} sx={{ height: "100%", borderRadius: 4  }}>
+    <Grid item container xs={12} sx={{ height: "100%", borderRadius: 4  }}>
       <Paper elevation={2} sx={{ width: "100%", height: "100%", borderRadius: 4, border: 4, borderColor: "primary.light" }} >
-        <Grid item sx={{ height: "100%", marginTop: 1.7 }}>
+        <Typography textAlign="center" >{ header }</Typography>
+        <Grid item sx={{ height: "90%", marginTop: 1.7 }}>
           <FullCalendar 
             plugins={[ listPlugin ]}
             headerToolbar=''
@@ -27,10 +40,9 @@ const EventListContainer = () => {
                 type: "list",
                 duration: { days: 7 }
               }}}
-            events={ userEvents }
-            // eventClick={ e => console.log(e.event) }
-            height="90%"
-            contentHeight="100%"
+            events={ events }
+            eventClick={ handleSelectEvent }
+            height="100%"
           />
         </Grid>
       </Paper>

@@ -60,14 +60,14 @@ const TaskContainer = () => {
     <>
       <ThemeProvider theme={ theme }>
         <Grid item xs={12} container justifyContent="center" height="50%" alignContent="flex-start">
-          <Grid item xs={6} container justifyContent="center" height="10%" sx={{ margin: 1 }}>
+          <Grid item xs={6} container justifyContent="center" height="10%" sx={{ margin: .5 }}>
             <NewTaskButton setOpen={ setOpen }/>
           </Grid>
-          <Grid container spacing={1} item xs={12}  sx={{ margin: 1, marginTop: 0, marginBottom: 0, height: "50vh" }}>
-            <Grid item xs={6}>
+          <Grid container item xs={12}  sx={{ margin: .5, marginTop: 0, marginBottom: 0, height: "50vh" }}>
+            <Grid item xs={6} sx={{ paddingRight: .5 }}>
               <TaskListContainer type="User" tasks={ userTasks } onDeleteTask={ handleDeleteTask }/>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={6} sx={{ paddingLeft: .5 }}>
               <TaskListContainer type="Family" tasks={ familyTasks } onDeleteTask={ handleDeleteTask }/>
             </Grid>
           </Grid>

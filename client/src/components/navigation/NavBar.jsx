@@ -8,14 +8,12 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import  ButtonGroup from '@mui/material/ButtonGroup';
 import { FamilyContext } from '../context/family';
 import { useNavigate } from 'react-router-dom';
-import { EventContext } from '../context/event';
 import { UserContext } from '../context/user';
-import { Grid, Skeleton } from '@mui/material';
+import { Skeleton } from '@mui/material';
 
 
 const NavBar = () => {
   const { family, setFamily, setMembers, auth, setAuth } = useContext(FamilyContext)
-  const { setAllEvents, setFilteredEvents } = useContext(EventContext)
   const { user, setUser } = useContext(UserContext)
   const navigate = useNavigate()
   if (!user) return <Skeleton sx={{ height: "80px" }}/>
@@ -38,8 +36,6 @@ const NavBar = () => {
       setFamily(null)
       setMembers(null)
       setUser(null)
-      setAllEvents([])
-      setFilteredEvents([])
       setAuth(false)
       navigate("/login")
     }
@@ -48,7 +44,7 @@ const NavBar = () => {
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ height: "6vh" }}>
-        <AppBar position="absolute" sx={{ height: "6vh", bgcolor: 'primary.dark' }} elevation={0}>
+        <AppBar position="fixed" sx={{ height: "6vh", bgcolor: 'primary.dark', zIndex: (theme) => theme.zIndex.drawer + 1 }} elevation={0}>
           <Toolbar disableGutters sx={{ height: "100%", alignItems: "center" }} >
             <Typography variant="h3" component="div" sx={{ height: "100%", width: "25vw" }} textAlign="center">- P l a n n r -</Typography>
             <Typography variant="h6" component="div" sx={{ height: "100%", flexGrow: 1 }}>

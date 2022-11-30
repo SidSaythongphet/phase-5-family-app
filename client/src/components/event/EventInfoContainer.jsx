@@ -1,14 +1,12 @@
 import React, { useContext } from 'react';
 import { Button, ButtonGroup, Grid, Paper, Typography } from '@mui/material';
 import DeleteEventConfirmation from '../popup/DeleteEventConfirmation';
-import { EventContext } from '../context/event';
 import { UserContext } from '../context/user';
 import { useState } from 'react';
-import CircleIcon from '@mui/icons-material/Circle';
+import PersonPinIcon from '@mui/icons-material/PersonPin';
 
-const EventInfoContainer = () => {
+const EventInfoContainer = ({ eventInfo, onDeleteEvent }) => {
   const [open, setOpen] = useState(false)
-  const { eventInfo } = useContext(EventContext)
   const { user } = useContext(UserContext)
   if (!eventInfo) return <Grid item xs={12} sx={{ height: "100%" }} />
   const { id, title, allDay, start, end, note, user_id, color } = eventInfo
@@ -27,9 +25,11 @@ const EventInfoContainer = () => {
 
   return (
     <Grid item xs={12} sx={{ height: "100%" }}>
-      <Paper elevation={2} sx={{ height: "95%", borderRadius: 4, padding: 1 }} >
+      <Paper elevation={2} sx={{ width: "100%", height: "100%", borderRadius: 4, border: 4, borderColor: "primary.light" }} >
         <Grid container sx={{ height: "100%" }} justifyContent="center" alignItems="">
-          <Grid item xs={2} sx={{ bgcolor: color, borderRadius: 4, width: "15px" }}/>
+          {/* <Grid item xs={2} sx={{ bgcolor: color, borderRadius: 4, width: "15px" }}/>
+           */}
+          <Grid item><PersonPinIcon fontSize="large" sx={{ color: "primary.light"}}/></Grid>
           <Grid item xs={4} alignSelf="center" sx={{ borderBottom: 1, borderColor: color }}>
             <Typography sx={{ marginLeft: "5px" }}>
               { eventInfo.user } has:
@@ -56,7 +56,7 @@ const EventInfoContainer = () => {
                     Cancel Event
                   </Button>
                 </ButtonGroup>
-                <DeleteEventConfirmation id={ id } open={ open } setOpen={ setOpen } />
+                <DeleteEventConfirmation id={ id } open={ open } setOpen={ setOpen } onDeleteEvent={ onDeleteEvent } />
               </>
               : 
               null

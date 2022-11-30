@@ -1,15 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { EventContext } from '../context/event';
 
-const DeleteEventConfirmation = ({ id, open, setOpen }) => {
-  const { allEvents, setAllEvents, filteredEvents, setFilteredEvents, setEventInfo } = useContext(EventContext)
-  
+
+const DeleteEventConfirmation = ({ id, open, setOpen, onDeleteEvent }) => {
   const handleDelete = async () => {
     const response = await fetch(`/api/events/${id}`, {
       method: "DELETE"
@@ -17,11 +15,7 @@ const DeleteEventConfirmation = ({ id, open, setOpen }) => {
 
     const data = await response.json()
     if (response.ok) {
-      const familyList = allEvents.filter(evnt => evnt.id !== id)
-      setAllEvents(familyList)
-      const filteredList = filteredEvents.filter(evnt => evnt.id !== id)
-      setFilteredEvents(filteredList)
-      setEventInfo(false)
+      onDeleteEvent(id)
       setOpen(false)
     } else {
       console.log(data.error)
