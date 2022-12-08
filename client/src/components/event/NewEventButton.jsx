@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 const NewEventButton = ({ setOpen }) => {
   return (
     <>
-      <Button component={ Link } to="create" variant="contained" sx={{ width: "100%", bgcolor: "primary.light", borderRadius: 4 }} onClick={ () => setOpen(true) }>New Event</Button>
+      <Button component={ Link } to="create" variant="contained" sx={{ width: "100%", height: "100%", bgcolor: "primary.light", borderRadius: 4 }} onClick={ () => setOpen(true) }>New Event</Button>
     </>
   );
 }

@@ -67,10 +67,10 @@ const EventContainer = () => {
       <ThemeProvider theme={ theme }>
         <Grid item xs={12} container justifyContent="center" height="100%" alignContent="flex-start" >
           <Grid item xs={6} container justifyContent="center" sx={{ height: "38vh", padding: .5 }} >
-            <Grid item xs={12} sx={{ height: "20%" }}>
+            <Grid item xs={12} sx={{ height: "15%", paddingBottom: .5 }}>
               <NewEventButton setOpen={ setOpen }/>
             </Grid>
-            <Grid item xs={12} sx={{ height: "80%" }}>
+            <Grid item xs={12} sx={{ height: "85%", paddingTop: .5 }}>
               <EventInfoContainer eventInfo={ eventInfo } onDeleteEvent={ handleDeleteEvent }/>
             </Grid>
           </Grid>

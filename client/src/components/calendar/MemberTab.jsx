@@ -24,7 +24,7 @@ const MemberTab = ({ user, onHandleUserClick }) => {
       onClick={ handleUserClick }
       id={ user.id }
     >
-      <Typography textAlign="center" variant="button" display="block" id={ user.id }>{ user.name }</Typography>
+      <Typography textAlign="center" variant="button" display="block" id={ user.id } color="white">{ user.name }</Typography>
     </Paper>
   )
 }

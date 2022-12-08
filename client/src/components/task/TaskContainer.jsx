@@ -27,9 +27,6 @@ const TaskContainer = () => {
     
   if (!user) return null
 
-  console.log("Family Tasks:", familyTasks)
-  console.log("User Tasks", userTasks)
-
   const theme = createTheme({
     palette: {
       primary: {
@@ -65,7 +62,7 @@ const TaskContainer = () => {
           </Grid>
           <Grid container item xs={12}  sx={{ margin: .5, marginTop: 0, marginBottom: 0, height: "50vh" }}>
             <Grid item xs={6} sx={{ paddingRight: .5 }}>
-              <TaskListContainer type="User" tasks={ userTasks } onDeleteTask={ handleDeleteTask }/>
+              <TaskListContainer type="My" tasks={ userTasks } onDeleteTask={ handleDeleteTask }/>
             </Grid>
             <Grid item xs={6} sx={{ paddingLeft: .5 }}>
               <TaskListContainer type="Family" tasks={ familyTasks } onDeleteTask={ handleDeleteTask }/>

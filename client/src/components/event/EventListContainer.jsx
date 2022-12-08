@@ -38,7 +38,7 @@ const EventListContainer = ({ events, header, eventInfo, setEventInfo }) => {
             views={{
               timeline: {
                 type: "list",
-                duration: { days: 7 }
+                duration: { days: 5 }
               }}}
             events={ events }
             eventClick={ handleSelectEvent }
