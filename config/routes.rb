@@ -12,9 +12,12 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :show, :create]
     resources :users do
       resources :events
+      resources :tasks
+      resources :user_tasks
     end
     resources :events, only: [:index, :create, :update, :destroy]
     resources :tasks, only: [:index, :create, :update, :destroy]
+    resources :user_tasks, only: [:destroy]
   end
 
 end

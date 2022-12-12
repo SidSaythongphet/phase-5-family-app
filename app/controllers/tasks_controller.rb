@@ -1,15 +1,23 @@
 class TasksController < ApplicationController
+  skip_before_action :authorize, only: [:show]
 
   def index
-    family = Family.find_by(id: session[:family_id])
-    @family_tasks = family.tasks.all
-    user = User.find_by(id: session[:user_id])
-    @user_tasks = user.tasks.all
-    render json: { family_tasks: @family_tasks, user_tasks: @user_tasks }, status: :ok
+    user = User.find_by(id: params[:user_id])
+    @tasks = user.tasks.all
+    render json: @tasks, status: :ok
+  end
+
+  def show 
+    task = Task.find_by(id: params[:id])
+    render json: task, status: :ok
   end
 
   def create
     @task = Task.create!(task_params)
+    params.fetch(:user_ids, []).each do |user_id|
+      user = User.find_by(id: user_id)
+      @task.users << user
+    end
     if @task.valid?
       render json: @task, status: :created
     end
@@ -39,10 +47,10 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :task_for_type, :task_for_id, :completed)
+    params.require(:task).permit(:title, :completed, { user_ids: [] })
   end
 
   def render_not_found_response
-    render json: { error: "Event not found" }, status: :not_found 
+    render json: { error: "Task not found" }, status: :not_found 
   end
 end

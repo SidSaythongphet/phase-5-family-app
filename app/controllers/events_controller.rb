@@ -23,6 +23,7 @@ class EventsController < ApplicationController
   def update
     @event = find_event
     if @event.update!(event_params)
+      @event.color = @event.user.color
       render json: @event, status: :accepted
     end
   end
