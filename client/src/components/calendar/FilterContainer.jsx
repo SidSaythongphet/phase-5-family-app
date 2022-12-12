@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Paper, Skeleton, Typography } from '@mui/material';
-import MemberTab from './MemberTab';
+import MemberChip from './MemberChip';
 import { useContext } from 'react';
 import { FamilyContext } from '../context/family';
 import { Box } from '@mui/system';
@@ -39,7 +39,7 @@ const FilterContainer = ({ onHandleUserClick, onHidePast }) => {
           members.map(user => {
             return(
               <Grid item xs={1.5} key={ user.id }>
-                <MemberTab user={ user } onHandleUserClick={ onHandleUserClick }/>
+                <MemberChip user={ user } onHandleUserClick={ onHandleUserClick }/>
               </Grid>
               )
             })

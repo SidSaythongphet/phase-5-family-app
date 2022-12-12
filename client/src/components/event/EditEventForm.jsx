@@ -1,21 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { Button, Grid, TextField, Radio, RadioGroup, FormControl, Typography, ButtonGroup } from '@mui/material';
+import { Button, Grid, TextField, Typography, ButtonGroup } from '@mui/material';
 import { useForm, Controller } from "react-hook-form";
 import { useContext } from 'react';
 import { UserContext } from '../context/user';
 import { FamilyContext } from '../context/family';
 import CreateNewDrawer from '../popup/CreateNewDrawer';
-import { useNavigate } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Switch from '@mui/material/Switch';
 
-const NewEventForm = ({ open, setOpen, onAddEvent }) => {
-  const { family } = useContext(FamilyContext)
+const EditEventForm = ({ open, setOpen, onUpdateEvent, eventInfo }) => {
   const { user } = useContext(UserContext)
-  const navigate = useNavigate()
-
+  
   const { handleSubmit, control, reset, formState, formState: { isSubmitSuccessful } } = useForm({
     defaultValues: {
       title: '',
@@ -30,15 +27,31 @@ const NewEventForm = ({ open, setOpen, onAddEvent }) => {
   useEffect(() => {
     if (formState.isSubmitSuccessful) {
       reset({
-      title: '',
-      start: null,
-      end: null,
-      allDay: false,
-      note: '',
-      user_id: user.id
-    })
+        title: '',
+        start: null,
+        end: null,
+        allDay: false,
+        note: '',
+        user_id: user.id
+      })
     }
+
   }, [formState, reset])
+
+  useEffect(() => {
+    if (eventInfo) {
+      const { title, allDay, start, end, note } = eventInfo
+      reset({
+        title: title,
+        start: new Date(start),
+        end: new Date(end),
+        allDay: allDay,
+        note: note,
+        user_id: user.id
+      })
+    }
+
+  }, [eventInfo])
 
   const onSubmit = async form => {
     // throw error if date combination is invalid
@@ -47,26 +60,26 @@ const NewEventForm = ({ open, setOpen, onAddEvent }) => {
       return
     }
 
-    const response = await fetch('/api/events', {
-      method: 'POST',
+    const response = await fetch(`/api/events/${eventInfo.id}`, {
+      method: 'PATCH',
       headers: {
         "Content-Type": "application/json",
+        'Accept': "application/json"
       },
       body: JSON.stringify(form)
     })
 
     const data = await response.json()
     if (response.ok) {
-      onAddEvent(data)
+      onUpdateEvent(data)
       setOpen(false)
-      navigate(`/${family.last_name.toLowerCase()}/events`)
     } else {
       console.log(data.errors)
     }
   }
 
   return (
-    <CreateNewDrawer item="New Event" open={ open } setOpen={ setOpen }>
+    <CreateNewDrawer item="Edit Event" open={ open } setOpen={ setOpen }>
       <form onSubmit={ handleSubmit(onSubmit) }>
         <Grid container height="47vh">
           <Grid item xs={12} margin="10px">
@@ -180,8 +193,8 @@ const NewEventForm = ({ open, setOpen, onAddEvent }) => {
           </Grid>
           <Grid item container>
             <ButtonGroup size="small" fullWidth>
-              <Button type="submit" variant='contained'>Add</Button>
-              <Button variant='contained' onClick={ () => navigate(`/family/${family.last_name}/${family.id}`) }>Cancel</Button>
+              <Button type="submit" variant='contained'>Update</Button>
+              <Button variant='contained' onClick={ () => setOpen(false) }>Cancel</Button>
             </ButtonGroup>
           </Grid>
         </Grid>
@@ -190,4 +203,4 @@ const NewEventForm = ({ open, setOpen, onAddEvent }) => {
   )
 }
 
-export default NewEventForm
+export default EditEventForm

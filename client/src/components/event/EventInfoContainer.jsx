@@ -1,13 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, ButtonGroup, Grid, Paper, Typography } from '@mui/material';
 import DeleteEventConfirmation from '../popup/DeleteEventConfirmation';
 import { UserContext } from '../context/user';
-import { useState } from 'react';
 import PersonPinIcon from '@mui/icons-material/PersonPin';
+import EditEventForm from './EditEventForm';
 
-const EventInfoContainer = ({ eventInfo, onDeleteEvent }) => {
+const EventInfoContainer = ({ eventInfo, onDeleteEvent, onUpdateEvent }) => {
   const [open, setOpen] = useState(false)
   const { user } = useContext(UserContext)
+  const [openEdit, setOpenEdit] = useState(false)
+
   if (!eventInfo) return <Grid item xs={12} sx={{ height: "100%" }} />
   const { id, title, allDay, start, end, note, user_id, color } = eventInfo
 
@@ -62,7 +64,7 @@ const EventInfoContainer = ({ eventInfo, onDeleteEvent }) => {
               ?
               <>
                 <ButtonGroup size="small" fullWidth sx={{ padding: .5 }}>
-                  <Button variant='contained' sx={{ borderRadius: 3 }}>Edit</Button>
+                  <Button variant='contained' onClick={ () => setOpenEdit(true) } sx={{ borderRadius: 3 }}>Edit</Button>
                   <Button variant="contained" color="error" onClick={ () => setOpen(true) } sx={{ borderRadius: 3 }}>
                     Cancel Event
                   </Button>
@@ -73,9 +75,10 @@ const EventInfoContainer = ({ eventInfo, onDeleteEvent }) => {
               null
             }
           </Grid>
-          
+
         </Grid>
       </Paper>
+      <EditEventForm open={ openEdit } setOpen={ setOpenEdit } eventInfo={ eventInfo } onUpdateEvent={ onUpdateEvent }/>
     </Grid>
   )
 }

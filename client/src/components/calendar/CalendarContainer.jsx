@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../context/user'
 import Calendar from '../calendar/Calendar'
-import { createTheme, ThemeProvider } from '@mui/material'
 import { Grid } from '@mui/material'
 import NewEventButton from '../event/NewEventButton'
 import NewEventForm from '../event/NewEventForm'
 import FilterContainer from './FilterContainer'
 import EventInfoContainer from '../event/EventInfoContainer'
+import EditEventForm from '../event/EditEventForm'
 
 const CalendarContainer = () => {
   const { user } = useContext(UserContext) 
@@ -15,6 +15,7 @@ const CalendarContainer = () => {
   const [pastEvents, setPastEvents] = useState([])
   const [eventInfo, setEventInfo] = useState(null)
   const [open, setOpen] = useState(false)
+  const [openEdit, setOpenEdit] = useState(false)
   const [hidePast, setHidePast] = useState(false)
 
   useEffect(() => {
@@ -39,14 +40,6 @@ const CalendarContainer = () => {
   }, [])
 
   if (!user) return null
-
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: user.color,
-      },
-    },
-  })
 
   const handleAddEvent = (newEvent) => {
     setAllEvents([...allEvents, newEvent])
@@ -79,12 +72,20 @@ const CalendarContainer = () => {
     setEventInfo(false)
   }
 
+  const handleUpdateEvent = (updatedEvent) => {
+    setEventInfo(updatedEvent)
+    const familyList = allEvents.filter(evnt => evnt.id !== updatedEvent.id)
+    setAllEvents([...familyList, updatedEvent])
+    const filteredList = filteredEvents.filter(evnt => evnt.id !== updatedEvent.id)
+    setFilteredEvents([...filteredList, updatedEvent])
+  }
+
   const handleHidePast = () => {
     setHidePast(!hidePast)
   }
   // height=92vh
   return (
-    <ThemeProvider theme={ theme }>
+    <>
       <Grid item xs={12} container justifyContent="center" sx={{ height: "6vh" }} >
         <Grid item xs={3} justifyContent="center" height="6vh" alignContent="flex-start" sx={{ padding: .5 }} >
           <NewEventButton setOpen={ setOpen } />
@@ -95,14 +96,14 @@ const CalendarContainer = () => {
       </Grid>    
       <Grid item xs={12} container justifyContent="center" sx={{ height: "6vh" }} >
         <Grid item xs={3} justifyContent="center" height="86vh" alignContent="flex-start" sx={{ padding: .5 }}>
-          <EventInfoContainer eventInfo={ eventInfo } onDeleteEvent={ handleDeleteEvent } />
+          <EventInfoContainer eventInfo={ eventInfo } onDeleteEvent={ handleDeleteEvent } onUpdateEvent={ handleUpdateEvent }/>
         </Grid>
         <Grid item xs={9} justifyContent="center" height="86vh" alignContent="flex-start" sx={{ padding: .5 }}>
           <Calendar allEvents={ allEvents} filteredEvents={ filteredEvents } eventInfo={ eventInfo } setEventInfo={ setEventInfo } pastEvents={ pastEvents } hidePast={ hidePast }/>
         </Grid>
       </Grid>
       <NewEventForm open={ open } setOpen={ setOpen } onAddEvent={ handleAddEvent }/>
-    </ThemeProvider>
+    </>  
   )
 }
 

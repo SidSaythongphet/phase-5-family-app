@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Paper, Typography } from '@mui/material';
 
-const MemberTab = ({ user, onHandleUserClick }) => {
+const MemberChip = ({ user, onHandleUserClick }) => {
   const [hide, setHide] = useState(false)
   const bgdColor = hide ? "gray" : user.color
 
@@ -29,4 +29,4 @@ const MemberTab = ({ user, onHandleUserClick }) => {
   )
 }
 
-export default MemberTab
+export default MemberChip
