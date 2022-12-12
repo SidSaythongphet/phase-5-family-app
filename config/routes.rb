@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   
-  scope :api do
+  namespace :api do
     post "/signup", to: "families#create"
     get "/family", to: "families#show"
     delete "/logout", to: "sessions#destroy"
@@ -19,5 +19,7 @@ Rails.application.routes.draw do
     resources :tasks, only: [:index, :create, :update, :destroy]
     resources :user_tasks, only: [:destroy]
   end
+
+  get "*path", to: "fallback#index", constraints: ->(req) { !req.xhr? && req.format.html? }
 
 end
