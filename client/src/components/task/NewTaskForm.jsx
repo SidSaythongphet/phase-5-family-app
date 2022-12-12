@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { Button, Grid, TextField, Radio, RadioGroup, FormControl } from '@mui/material';
+import { Button, Grid, TextField, Radio, RadioGroup, FormControl, Checkbox, FormGroup } from '@mui/material';
 import { useForm, Controller } from "react-hook-form";
 import { useContext } from 'react';
 import { UserContext } from '../context/user';
@@ -11,15 +11,15 @@ import { useNavigate } from 'react-router-dom';
 
 
 const NewTaskForm = ({ open, setOpen, onAddTask }) => {
-  const { family } = useContext(FamilyContext)
+  const { family, members } = useContext(FamilyContext)
   const { user } = useContext(UserContext)
+  const [checkedUsers, setCheckedUsers] = useState([user.id])
   const navigate = useNavigate()
 
-  const { handleSubmit, control, setValue, reset, formState, formState: { isSubmitSuccessful } } = useForm({
+  const { handleSubmit, control, setValue, getValues, reset, formState, formState: { isSubmitSuccessful } } = useForm({
     defaultValues: {
       title: '',
-      task_for_type: '',
-      task_for_id: ''
+      user_ids: checkedUsers
     }
   })
 
@@ -27,11 +27,14 @@ const NewTaskForm = ({ open, setOpen, onAddTask }) => {
     if (formState.isSubmitSuccessful) {
       reset({
         title: '',
-        task_for_type: '',
-        task_for_id: ''
+        user_ids: checkedUsers
       })
     }
   }, [formState, reset])
+
+  useEffect(() => {
+    setValue("user_ids", checkedUsers)
+  }, [checkedUsers])
 
   if( !family || !user ) return null
 
@@ -46,7 +49,9 @@ const NewTaskForm = ({ open, setOpen, onAddTask }) => {
 
     const data = await response.json()
     if (response.ok) {
+      console.log(data)
       onAddTask(data)
+      setCheckedUsers([user.id])
       setOpen(false)
       navigate(`/${family.last_name.toLowerCase()}/tasks`)
     } else {
@@ -54,21 +59,16 @@ const NewTaskForm = ({ open, setOpen, onAddTask }) => {
     }
   }
 
-  const options = [
-    {
-      name: user.name,
-      id: user.id,
-      type: "User"
-    },
-    {
-      name: family.last_name,
-      id: family.id,
-      type: "Family"
+  const handleCheckUser = (e) => {
+    if (checkedUsers.includes(parseInt(e.target.value))) {
+      setCheckedUsers(checkedUsers.filter(id => parseInt(id) !== parseInt(e.target.value)))
+    } else {
+      setCheckedUsers([...checkedUsers, parseInt(e.target.value)])
     }
-  ]
+  }
 
   return (
-    <CreateNewDrawer item="Task" open={ open } setOpen={ setOpen }>
+    <CreateNewDrawer item="New Task" open={ open } setOpen={ setOpen }>
       <form onSubmit={ handleSubmit(onSubmit) }>
         <Grid container height="22vh">
           <Grid item xs={12} container justifyContent="center">
@@ -95,20 +95,21 @@ const NewTaskForm = ({ open, setOpen, onAddTask }) => {
             <Grid item xs={12} container justifyContent="center">
               <FormControl required component="fieldset">
                 <Controller 
-                  name="task_for_type"
+                  name="user_ids"
                   control={control}
                   rules={{ required: true }}
                   render={({ field }) => (
-                    <RadioGroup {...field} >
-                      { options.map((option => (
+                    <FormGroup row={ true } {...field}>
+                      { members.map((member => (
                         <FormControlLabel 
-                        value={ option.type }
-                        control={ <Radio onChange={ () => setValue("task_for_id", option.id)}/> }
-                        label={ option.name }
-                        key={ option.type }
+                        name={ member.name }
+                        value={ member.id }
+                        control={ <Checkbox checked={ checkedUsers.includes(member.id) } onChange={ handleCheckUser }/> }
+                        label={ member.name }
+                        key={member.id }
                         />
-                        )))}
-                    </RadioGroup>
+                      )))}
+                    </FormGroup>  
                   )}
                 />
               </FormControl>

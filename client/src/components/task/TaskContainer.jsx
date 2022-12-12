@@ -3,74 +3,74 @@ import Grid from '@mui/material/Grid'
 import TaskListContainer from '../task/TaskListContainer'
 import NewTaskButton from '../task/NewTaskButton'
 import { UserContext } from '../context/user'
-import { createTheme, ThemeProvider } from '@mui/material'
 import NewTaskForm from './NewTaskForm'
+import { FamilyContext } from '../context/family'
+import TabContainer from './TabContainer'
 
 const TaskContainer = () => {
   const { user } = useContext(UserContext)
-  const [familyTasks, setFamilyTasks] = useState([])
+  const { members } = useContext(FamilyContext)
+  const [targetMember, setTargetMember] = useState([])
+  const [targetTasks, setTargetTasks] = useState([])
   const [userTasks, setUserTasks] = useState([])
   const [open, setOpen] = useState(false)
 
   
   useEffect(() => {
-    const fetchTasks = async () => {
-      const response = await fetch('/api/tasks')
+    if (!user) return
+    const fetchUserTasks = async () => {
+      const response = await fetch(`/api/users/${user.id}/tasks`)
       const data = await response.json()
-      // if (response.ok) {
-        setFamilyTasks(data.family_tasks)
-        setUserTasks(data.user_tasks)
-        // }
+      setUserTasks(data)
       }
-    fetchTasks()
+    fetchUserTasks()
   }, [user])
+
+  useEffect(() => {
+    if (!targetMember.id) return
+    const fetchTargetTasks = async () => {
+      const response = await fetch(`/api/users/${targetMember.id}/tasks`)
+      const data = await response.json()
+      setTargetTasks(data)
+      }
+    fetchTargetTasks()
+  }, [targetMember])
     
   if (!user) return null
 
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: user.color,
-      },
-    },
-  })
-
   const handleAddTask = (newTask) => {
-    if (newTask.task_for_type === "Family") {
-      setFamilyTasks([...familyTasks, newTask])
-    } else if (newTask.task_for_type === "User") {
+    if (newTask.users.find(u => u.id === user.id)) {
       setUserTasks([...userTasks, newTask])
+    }
+    if (newTask.users.find(u => u.id === targetMember.id)) {
+      setTargetTasks([...targetTasks, newTask])
     }
   }
 
   const handleDeleteTask = (deletedTask) => {
-    if (deletedTask.task_for_type === "Family") {
-      const filterFamilyTasks = familyTasks.filter(tsk => tsk.id !== deletedTask.id)
-      setFamilyTasks(filterFamilyTasks)
-    } else if (deletedTask.task_for_type === "User") {
-      const filterUserTasks = userTasks.filter(tsk => tsk.id !== deletedTask.id)
-      setUserTasks(filterUserTasks)
-    }
+    const filterUserTasks = userTasks.filter(tsk => tsk.id !== deletedTask.id)
+    setUserTasks(filterUserTasks)
   }
 
   return (
     <>
-      <ThemeProvider theme={ theme }>
-        <Grid item xs={12} container justifyContent="center" height="50%" alignContent="flex-start">
-          <Grid item xs={6} container justifyContent="center" height="10%" sx={{ margin: .5 }}>
-            <NewTaskButton setOpen={ setOpen }/>
+      <Grid container justifyContent="center" height="100%" alignContent="flex-start"sx={{ padding: .5 }}>
+        <Grid item xs={6} container justifyContent="center" sx={{ height: "6vh", padding: .5 }}>
+          <NewTaskButton setOpen={ setOpen }/>
+        </Grid>
+        <Grid item xs={6} container justifyContent="center" sx={{ height: "6vh", padding: .5, paddingBottom: 0 }}>
+          <TabContainer targetMember={ targetMember } setTargetMember={ setTargetMember }/>
+        </Grid>
+        <Grid container item xs={12}  sx={{ margin: .5, marginTop: 0, marginBottom: 0, height: "80vh" }} justifyContent="center">
+          <Grid item xs={6} sx={{ paddingRight: .5 }} >
+            <TaskListContainer type="My" tasks={ userTasks } onDeleteTask={ handleDeleteTask }/>
           </Grid>
-          <Grid container item xs={12}  sx={{ margin: .5, marginTop: 0, marginBottom: 0, height: "50vh" }}>
-            <Grid item xs={6} sx={{ paddingRight: .5 }}>
-              <TaskListContainer type="My" tasks={ userTasks } onDeleteTask={ handleDeleteTask }/>
-            </Grid>
-            <Grid item xs={6} sx={{ paddingLeft: .5 }}>
-              <TaskListContainer type="Family" tasks={ familyTasks } onDeleteTask={ handleDeleteTask }/>
-            </Grid>
+          <Grid item xs={6} sx={{ paddingLeft: .5 }} >
+            { members.length < 2 ? null : <TaskListContainer type="Family" targetMember={ targetMember } tasks={ targetTasks } onDeleteTask={ handleDeleteTask }/> }
           </Grid>
         </Grid>
-        <NewTaskForm open={ open } setOpen={ setOpen } onAddTask={ handleAddTask }/>
-      </ThemeProvider>
+      </Grid>
+      <NewTaskForm open={ open } setOpen={ setOpen } onAddTask={ handleAddTask }/>
     </>
   )
 }

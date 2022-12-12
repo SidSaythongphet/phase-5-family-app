@@ -4,9 +4,11 @@ import CompleteTaskConfirmation from '../popup/CompleteTaskConfirmation'
 import DeleteTaskConfirmation from '../popup/DeleteTaskConfirmation'
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const TaskItem = ({ task, onDeleteTask }) => {
+const TaskItem = ({ task, onDeleteTask, type }) => {
   const [openConfirm, setOpenConfirm]= useState(false)
   const [openDelete, setOpenDelete]= useState(false)
+
+  const disableFamilyTasks = type === "Family" ? true : false
 
   return (
     <Grid container item xs={12} alignItems="center" justifyContent="space-between" >
@@ -15,14 +17,14 @@ const TaskItem = ({ task, onDeleteTask }) => {
       </Grid>
       <Grid container item xs={2} justifyContent="flex-end">
         <Grid item xs={6}>
-          <Checkbox checked={ task.completed === true ? true : openConfirm } onChange={ () => setOpenConfirm(true) }/>
+          <Checkbox disabled={ disableFamilyTasks } checked={ task.completed === true ? true : openConfirm } onChange={ () => setOpenConfirm(true) }/>
         </Grid>
         <Grid item xs={6}>
-          <IconButton onClick={ () => setOpenDelete(true) } sx={{ color: "white", ":hover": {color: "lightgray"} }} disableRipple><DeleteIcon/></IconButton>
+          { disableFamilyTasks ? null : <IconButton onClick={ () => setOpenDelete(true) } sx={{ color: "white", ":hover": {color: "lightgray"} }} disableRipple><DeleteIcon/></IconButton> }
         </Grid>
       </Grid>
       <CompleteTaskConfirmation open={ openConfirm } setOpen={ setOpenConfirm } task={ task } />
-      <DeleteTaskConfirmation open={ openDelete } setOpen={ setOpenDelete } task={ task } onDeleteTask={ onDeleteTask } />
+      <DeleteTaskConfirmation open={ openDelete } setOpen={ setOpenDelete } task={ task } onDeleteTask={ onDeleteTask } /> 
     </Grid>
   )
 }

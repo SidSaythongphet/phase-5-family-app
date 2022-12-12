@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { UserContext } from '../context/user';
 
 const DeleteTaskConfirmation = ({ task, open, setOpen, onDeleteTask }) => {
+  const { user } = useContext(UserContext)
 
   const handleDelete = async () => {
-    const response = await fetch(`/api/tasks/${task.id}`, {
+    const response = await fetch(`/api/users/${ user.id }/user_tasks/${task.id}`, {
       method: "DELETE"
     })
 
@@ -39,10 +41,8 @@ const DeleteTaskConfirmation = ({ task, open, setOpen, onDeleteTask }) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" onClick={ () => setOpen(false) }>Keep Task</Button>
-          <Button variant="contained" onClick={ handleDelete }>
-            Cancel Task
-          </Button>
+          <Button variant="contained" color="success" onClick={ () => setOpen(false) }>Keep Task</Button>
+          <Button variant="contained" color="error" onClick={ handleDelete }>Cancel Task For Self</Button>
         </DialogActions>
       </Dialog>
     </>

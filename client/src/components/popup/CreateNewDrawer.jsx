@@ -27,11 +27,8 @@ const CreateNewDrawer = ({ children, item, open, setOpen }) => {
     >
       <Grid container height="100%" width= "100%" direction="column" justifyContent="flex-start">
         <Grid item container alignItems="center" justifyContent="space-between" sx={{ backgroundColor: "primary.light", height: "3vh" }}>
-          <Grid item xs={11}>
-            <Typography gutterBottom textAlign="center">New { item }</Typography>
-          </Grid>
-          <Grid item xs={1} alignSelf="flex-start" justifySelf="flex-end">
-            <Button size="small" sx={{ color: "primary.dark", padding: 0 }} onClick={ handleClose }>X</Button>
+          <Grid item xs={12}>
+            <Typography gutterBottom textAlign="center" color="white">{ item }</Typography>
           </Grid>
         </Grid>
         { children }
