@@ -7,7 +7,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import HomeIcon from '@mui/icons-material/Home';
-import MailIcon from '@mui/icons-material/Mail';
+import EventIcon from '@mui/icons-material/Event';
+import TaskIcon from '@mui/icons-material/Task';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Toolbar from '@mui/material/Toolbar';
 import { UserContext } from '../context/user';
@@ -38,7 +39,7 @@ const SideNavigation = () => {
             to={ `/${family.last_name.toLowerCase()}/${user.name.toLowerCase()}`}
           >
             <ListItemIcon>
-              <HomeIcon />
+              <HomeIcon sx={{ color: "white" }} />
             </ListItemIcon>
             <ListItemText primary="Home" sx={{ color: "white", fontWeight: "bold" }}/>
           </ListItemButton>
@@ -51,7 +52,7 @@ const SideNavigation = () => {
             to={ `/${family.last_name.toLowerCase()}/calendar`}
           >
             <ListItemIcon>
-              <CalendarMonthIcon />
+              <CalendarMonthIcon sx={{ color: "white" }} />
             </ListItemIcon>
             <ListItemText primary="Calendar" sx={{ color: "white", fontWeight: "bold" }}/>
           </ListItemButton>
@@ -64,7 +65,7 @@ const SideNavigation = () => {
             to={ `/${family.last_name.toLowerCase()}/events` }        
           >
             <ListItemIcon>
-              <MailIcon />
+              <EventIcon sx={{ color: "white" }} />
             </ListItemIcon>
             <ListItemText primary="Events" sx={{ color: "white", fontWeight: "bold" }}/>
           </ListItemButton>
@@ -77,7 +78,7 @@ const SideNavigation = () => {
             to={ `/${family.last_name.toLowerCase()}/tasks` }        
           >
             <ListItemIcon>
-              <MailIcon />
+              <TaskIcon sx={{ color: "white" }} />
             </ListItemIcon>
             <ListItemText primary="Tasks" sx={{ color: "white", fontWeight: "bold" }}/>
           </ListItemButton>

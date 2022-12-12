@@ -2,18 +2,28 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Typography, Button, Divider } from '@mui/material'
 import { Box, Grid } from '@mui/material'
+import { useEffect } from 'react'
+import { useContext } from 'react'
+import { FamilyContext } from '../context/family'
 
 
 const Home = () => {
   const navigate = useNavigate()
+  const { family } = useContext(FamilyContext)
+
+  useEffect(() => {
+    if (family) {
+      navigate(`/${ family.last_name }/users`)
+    }
+  }, [])
   return (
     <>
-      <Box bgcolor="teal" height="10vh" sx={{ flexGrow: 1 }}/>
+      <Box bgcolor="gray" height="10vh" sx={{ flexGrow: 1 }}/>
       <Grid container justifyContent="space-between" alignItems="center" height="90vh">
         <Grid item xs={6} container justifyContent="start" alignItems="center" marginLeft="100px">
           <Grid item xs={5}>
             <Box
-              bgcolor="teal"
+              bgcolor="gray"
               height="90vh"
               width="500px"
             >
@@ -27,7 +37,7 @@ const Home = () => {
               >
                 <Grid container justifyContent="center" alignItems="center" height="100%">
                   <Grid item xs={12}>
-                    <Typography variant='h2' align='center'>Plann<span style={{ color:"teal" }}>r</span></Typography>
+                    <Typography variant='h2' align='center'>Plann<span style={{ color:"gray" }}>r</span></Typography>
                     <Typography variant='h6' align='center'>
                       Schedule together.
                     </Typography>
@@ -40,24 +50,6 @@ const Home = () => {
               </Box>
             </Box>
           </Grid>
-        </Grid>
-        <Grid item xs={4}>
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            height="60vh"
-            flexDirection="column"
-            maxWidth="100vw"
-            borderRadius="60vh 0 0 60vh"
-            sx={{ 
-              backgroundImage: "url(http://localhost:3000/homepage_image.jpg)", 
-              backgroundRepeat: "no-repeat", 
-              backgroundSize: "contained", 
-              backgroundPositionY: "center", 
-              backgroundPositionX: "90%",
-            }}
-          />
         </Grid>
       </Grid>
     </>

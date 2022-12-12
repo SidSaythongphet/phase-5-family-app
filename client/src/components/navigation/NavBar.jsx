@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import  ButtonGroup from '@mui/material/ButtonGroup';
 import { FamilyContext } from '../context/family';
 import { useNavigate } from 'react-router-dom';
@@ -17,14 +16,6 @@ const NavBar = () => {
   const { user, setUser } = useContext(UserContext)
   const navigate = useNavigate()
   if (!user) return <Skeleton sx={{ height: "80px" }}/>
-
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: user.color,
-      },
-    },
-  })
 
   const handleLogout = async (e) => {
     e.preventDefault()
@@ -42,31 +33,26 @@ const NavBar = () => {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box sx={{ height: "6vh" }}>
-        <AppBar position="fixed" sx={{ height: "6vh", bgcolor: 'primary.dark', zIndex: (theme) => theme.zIndex.drawer + 1 }} elevation={0}>
-          <Toolbar disableGutters sx={{ height: "100%", alignItems: "center" }} >
-            <Typography variant="h3" component="div" sx={{ height: "100%", width: "25vw" }} textAlign="center">- P l a n n r -</Typography>
-            <Typography variant="h6" component="div" sx={{ height: "100%", flexGrow: 1 }}>
-              { auth ? "Hello, " : null}
-              { user ? user.name : null }
-            </Typography>
-              { auth 
-                ?
-                <>
-                  <ButtonGroup >
-                    <Button variant="contained" sx={{ backgroundColor: "primary.dark" }} >{ family.last_name }</Button>
-                    <Button variant="contained" sx={{ backgroundColor: "primary.light" }} onClick={ () => navigate(`/family/${family.last_name}/${family.id}/users`) }>Switch User</Button>
-                    <Button variant="contained" sx={{ backgroundColor: "primary.light" }} onClick={ handleLogout }>Logout</Button>
-                  </ButtonGroup>
-                </> 
-                :
-                null
-              }
-          </Toolbar>
-        </AppBar>
-      </Box>
-    </ThemeProvider>
+    <Box sx={{ height: "6vh" }}>
+      <AppBar position="fixed" sx={{ height: "6vh", bgcolor: 'primary.dark', paddingLeft: 2, paddingRight: 2, zIndex: (theme) => theme.zIndex.drawer + 1 }} elevation={0}>
+        <Toolbar disableGutters sx={{ height: "100%", alignItems: "center" }} >
+          <Typography variant="h3" component="div" sx={{ height: "100%", width: "25vw" }}>- P l a n n r -</Typography>
+          <Typography variant="h6" component="div" sx={{ height: "100%", flexGrow: 1 }}></Typography>
+            { auth 
+              ?
+              <>
+                <ButtonGroup >
+                  <Button variant="contained" sx={{ backgroundColor: "primary.dark" }} >{ family.last_name }</Button>
+                  <Button variant="contained" sx={{ backgroundColor: "primary.light" }} onClick={ () => navigate(`/${ family.last_name }/users`) }>Switch User</Button>
+                  <Button variant="contained" sx={{ backgroundColor: "primary.light" }} onClick={ handleLogout }>Logout</Button>
+                </ButtonGroup>
+              </> 
+              :
+              null
+            }
+        </Toolbar>
+      </AppBar>
+    </Box>
   );
 }
 

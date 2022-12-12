@@ -5,6 +5,8 @@ import { UserContext } from '../context/user'
 import { useState } from 'react'
 import { Typography } from '@mui/material'
 import TimeDisplay from './TimeDisplay'
+import FullCalendar from '@fullcalendar/react'
+import listPlugin from '@fullcalendar/list';
 
 const UserHome = () => {
   const { user } = useContext(UserContext)
@@ -21,7 +23,13 @@ const UserHome = () => {
     fetchEvents()
   }, [])
 
-  console.log(userEvents)
+  const locale = {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  }
+
+  const eventToday = () => userEvents.find(event => event.start.toLocaleString('en', locale) === new Date().toLocaleString('en', locale)) ? true : false
 
   return (
       <Grid container justifyContent="center" padding={5}>
@@ -42,13 +50,23 @@ const UserHome = () => {
         <Grid item xs={8} sx={{ padding: .5, height: "75vh" }}>
           <Paper elevation={2} sx={{ border: 4, borderColor: "primary.light", borderRadius: 4, padding: "2%", width: "100%", height: "100%" }}>
             <Typography textAlign="center" variant="h5" gutterBottom>Today:</Typography>
-              { userEvents.length === 0 
-                ?
-                <Typography textAlign="center" variant="h6">You have no events today</Typography>
-                :
-                <Typography textAlign="center" variant="h6">You have { userEvents.length } events today</Typography>
-              }
-            
+            { !eventToday()
+              ?
+              <Typography textAlign="center" variant="h6">You have no events today</Typography>
+              :
+              <FullCalendar 
+                plugins={[ listPlugin ]}
+                headerToolbar=''
+                initialView="timeline"
+                views={{
+                  timeline: {
+                    type: "list",
+                    duration: { days: 1 }
+                  }}}
+                events={ userEvents }
+                height="90%"
+              />
+            }
           </Paper>
         </Grid>
       </Grid>

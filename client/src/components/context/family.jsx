@@ -15,10 +15,7 @@ const FamilyProvider = ({ children }) => {
         setFamily(data)
         setMembers(data.users)
         setAuth(true)
-      } else {
-        console.log(data.errors)
-        return
-      }
+      } 
     }   
 
     fetchFamily()

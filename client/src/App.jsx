@@ -7,7 +7,7 @@ import EventContainer from "./components/event/EventContainer";
 import NavBar from "./components/navigation/NavBar";
 import SideNavigation from "./components/navigation/SideNavigation";
 import SessionContainer from "./components/session/SessionContainer";
-import UserLogin from "./components/session/UserLogin";
+import UserLogin from "./components/session/user/UserLogin";
 import Home from "./components/static/Home";
 import UserHome from "./components/static/UserHome";
 import NewTaskForm from "./components/task/NewTaskForm";
@@ -53,57 +53,57 @@ const App = () => {
   return (
     <>
       <ThemeProvider theme={theme}>
-          <NavBar/>
-          <SideNavigation/>
-          <Box
-            component="main"
-            sx={{ flexGrow: 1, bgcolor: 'background.default', paddingLeft: "20vw", height: "92vh" }}
-          >
-            <Routes>
-              <Route path="/" element={ <Home /> } />
-              <Route path="/login" element={ <SessionContainer /> } />
-              <Route 
-                path="/:last_name/users" 
+        <NavBar/>
+        <SideNavigation/>
+        <Box
+          component="main"
+          sx={{ flexGrow: 1, bgcolor: 'background.default', paddingLeft: "20vw", height: "92vh" }}
+        >
+          <Routes>
+            <Route path="/" element={ <Home /> } />
+            <Route path="/login" element={ <SessionContainer /> } />
+            <Route 
+              path="/:last_name/users" 
+              element={( 
+                <Dialog open>
+                  <UserLogin /> 
+                </Dialog>
+              )} 
+            />
+            <Route path="/:last_name/:name" element={ <UserHome /> } />
+            <Route path="/:last_name/calendar" element={ <CalendarContainer /> } >
+              <Route
+                path="create" 
                 element={( 
-                  <Dialog open>
-                    <UserLogin /> 
-                  </Dialog>
-                )} 
+                  <Drawer open>
+                    <NewEventForm /> 
+                  </Drawer>
+                )}
               />
-              <Route path="/:last_name/:name" element={ <UserHome /> } />
-              <Route path="/:last_name/calendar" element={ <CalendarContainer /> } >
-                <Route
-                  path="create" 
-                  element={( 
-                    <Drawer open>
-                      <NewEventForm /> 
-                    </Drawer>
-                  )}
-                />
-              </Route>
-              <Route path="/:last_name/events" element={ <EventContainer /> } >
-                <Route
-                  path="create" 
-                  element={( 
-                    <Drawer open>
-                      <NewEventForm /> 
-                    </Drawer>
-                  )}
-                />
-              </Route>
-              <Route path="/:last_name/tasks" element={ <TaskContainer /> } >
-                <Route
-                  path="create" 
-                  element={( 
-                    <Drawer open>
-                      <NewTaskForm /> 
-                    </Drawer>
-                  )}
-                />
-              </Route>
-            </Routes>
-          </Box>
-          <Box sx={{ height: "2vh", width: "100%" , bgcolor: "primary.dark", zIndex: (theme) => theme.zIndex.drawer + 1, margin: 0 }}></Box>
+            </Route>
+            <Route path="/:last_name/events" element={ <EventContainer /> } >
+              <Route
+                path="create" 
+                element={( 
+                  <Drawer open>
+                    <NewEventForm /> 
+                  </Drawer>
+                )}
+              />
+            </Route>
+            <Route path="/:last_name/tasks" element={ <TaskContainer /> } >
+              <Route
+                path="create" 
+                element={( 
+                  <Drawer open>
+                    <NewTaskForm /> 
+                  </Drawer>
+                )}
+              />
+            </Route>
+          </Routes>
+        </Box>
+        <Box sx={{ height: "2vh", width: "100%" , bgcolor: "primary.dark", zIndex: (theme) => theme.zIndex.drawer + 1, margin: 0 }}></Box>
       </ThemeProvider>
     </>
   );

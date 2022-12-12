@@ -6,10 +6,10 @@ import SignUp from './SignUp'
 const SessionContainer = () => {
   return (
     <>
-      <Box bgcolor="teal" height="10vh" sx={{ flexGrow: 1 }}/>
+      <Box bgcolor="gray" height="10vh" sx={{ flexGrow: 1 }}/>
       <Grid container justifyContent="center" alignItems="center" maxHeight="90vh" spacing={10}>
         <Grid item>
-          <Typography variant='h2' align='right'>Plann<span style={{color:"teal"}}>r</span></Typography>
+          <Typography variant='h2' align='right'>Plann<span style={{color:"gray"}}>r</span></Typography>
           <Typography variant='h6' align='right'>
             Schedule together.
           </Typography>

@@ -7,13 +7,10 @@ const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      console.log("fetching User")
       const response = await fetch('/api/user')
       const data = await response.json()
       if (response.ok) {
         setUser(data)
-      } else {
-        console.log("Error")
       }
     }
     
