@@ -5,4 +5,7 @@ class User < ApplicationRecord
   has_many :tasks, through: :user_tasks
 
   validates :name, uniqueness: true
+  validates :name, format: { with: /\A[a-zA-Z]+\z/,
+    message: "Only allows letters" }
+  validates_presence_of :name, :family_id
 end

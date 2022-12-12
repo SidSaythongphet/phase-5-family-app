@@ -79,7 +79,7 @@ const EditEventForm = ({ open, setOpen, onUpdateEvent, eventInfo }) => {
   }
 
   return (
-    <CreateNewDrawer item="Edit Event" open={ open } setOpen={ setOpen }>
+    <CreateNewDrawer item="event" title="Edit Event" open={ open } setOpen={ setOpen }>
       <form onSubmit={ handleSubmit(onSubmit) }>
         <Grid container height="47vh">
           <Grid item xs={12} margin="10px">

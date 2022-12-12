@@ -4,7 +4,7 @@ import { FamilyContext } from '../context/family';
 import { Button, Grid, Typography, Drawer } from '@mui/material';
 import { UserContext } from '../context/user';
 
-const CreateNewDrawer = ({ children, item, open, setOpen }) => {
+const CreateNewDrawer = ({ children, item, title, open, setOpen }) => {
   const { family } = useContext(FamilyContext)
   const { user } = useContext(UserContext)
 
@@ -28,7 +28,7 @@ const CreateNewDrawer = ({ children, item, open, setOpen }) => {
       <Grid container height="100%" width= "100%" direction="column" justifyContent="flex-start">
         <Grid item container alignItems="center" justifyContent="space-between" sx={{ backgroundColor: "primary.light", height: "3vh" }}>
           <Grid item xs={12}>
-            <Typography gutterBottom textAlign="center" color="white">{ item }</Typography>
+            <Typography gutterBottom textAlign="center" color="white">{ title }</Typography>
           </Grid>
         </Grid>
         { children }

@@ -68,7 +68,7 @@ const NewTaskForm = ({ open, setOpen, onAddTask }) => {
   }
 
   return (
-    <CreateNewDrawer item="New Task" open={ open } setOpen={ setOpen }>
+    <CreateNewDrawer item="task" title="New Task" open={ open } setOpen={ setOpen }>
       <form onSubmit={ handleSubmit(onSubmit) }>
         <Grid container height="22vh">
           <Grid item xs={12} container justifyContent="center">

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { Button, Grid, TextField, Radio, RadioGroup, FormControl, Typography, ButtonGroup } from '@mui/material';
+import { Button, Grid, TextField, Typography, ButtonGroup } from '@mui/material';
 import { useForm, Controller } from "react-hook-form";
 import { useContext } from 'react';
 import { UserContext } from '../context/user';
@@ -66,7 +66,7 @@ const NewEventForm = ({ open, setOpen, onAddEvent }) => {
   }
 
   return (
-    <CreateNewDrawer item="New Event" open={ open } setOpen={ setOpen }>
+    <CreateNewDrawer item="event" title="New Event" open={ open } setOpen={ setOpen }>
       <form onSubmit={ handleSubmit(onSubmit) }>
         <Grid container height="47vh">
           <Grid item xs={12} margin="10px">
