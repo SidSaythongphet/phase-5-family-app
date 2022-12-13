@@ -65,7 +65,7 @@ const EventContainer = () => {
   return (
     <>
       <Grid item xs={12} container justifyContent="center" height="100%" alignContent="flex-start" >
-        <Grid item xs={6} container justifyContent="center" sx={{ height: "38vh", padding: .5 }} >
+        <Grid item xs={6} container justifyContent="center" sx={{ height: "42vh", padding: .5 }} >
           <Grid item xs={12} sx={{ height: "15%", paddingBottom: .5 }}>
             <NewEventButton setOpen={ setOpenNew }/>
           </Grid>
@@ -73,10 +73,10 @@ const EventContainer = () => {
             <EventInfoContainer eventInfo={ eventInfo } onDeleteEvent={ handleDeleteEvent } setOpen={ setOpenEdit } onUpdateEvent={ handleUpdateEvent }/>
           </Grid>
         </Grid>
-        <Grid item xs={6} container justifyContent="center" sx={{ height: "38vh", padding: .5 }} >
+        <Grid item xs={6} container justifyContent="center" sx={{ height: "42vh", padding: .5 }} >
           <Calendar left={ "prev" } right={ "next" } allEvents={ allEvents} filteredEvents={ filteredEvents } eventInfo={ eventInfo } setEventInfo={ setEventInfo } pastEvents={ pastEvents }/>
         </Grid>
-        <Grid container item xs={12}  sx={{ height: "54vh", padding: .5 }}>
+        <Grid container item xs={12}  sx={{ height: "50vh", padding: .5 }}>
           <Grid item xs={6} sx={{ paddingRight: .5 }}>
             <EventListContainer events={ userEvents } eventInfo={ eventInfo } setEventInfo={ setEventInfo } header="My Events"/>
           </Grid>
