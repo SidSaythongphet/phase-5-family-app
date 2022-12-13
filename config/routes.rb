@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   
-  namespace :api do
+  scope :api do
     post "/signup", to: "families#create"
     get "/family", to: "families#show"
     delete "/logout", to: "sessions#destroy"
