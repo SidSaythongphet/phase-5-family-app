@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useForm, Controller } from "react-hook-form";
 import { Box, Button, Divider, Stack, TextField } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
@@ -10,9 +10,29 @@ import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
   const {setFamily, setMembers, setAuth} = useContext(FamilyContext)
-  const { handleSubmit, control } = useForm()
+  const { handleSubmit, control, watch, formState: { errors, isSubmitSuccessful }, reset, formState } = useForm({
+    defaultValues: {
+      name: '',
+      last_name: '',
+      email: '',
+      password: '',
+      password_confirmation: '',
+    }
+  })
   const [open, setOpen] = useState(false);
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (formState.isSubmitSuccessful) {
+      reset({
+        name: '',
+        last_name: '',
+        email: '',
+        password: '',
+        password_confirmation: '',
+    })
+    }
+  }, [formState, reset])
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -20,6 +40,13 @@ const SignUp = () => {
 
   const handleClose = () => {
     setOpen(false);
+    reset({
+      name: '',
+      last_name: '',
+      email: '',
+      password: '',
+      password_confirmation: '',
+    })
   };
 
   const onSubmit = async form => {
@@ -38,8 +65,6 @@ const SignUp = () => {
       setMembers(data.users)
       setAuth(true)
       navigate(`/${data.last_name}/users`)
-    } else {
-      console.log(data.errors)
     }
   }
 
@@ -66,7 +91,13 @@ const SignUp = () => {
                   <Controller
                     control={ control }
                     name="name"
-                    rules={{ required: true, pattern: /^[A-Za-z]+$/i }}
+                    rules={{
+                      required: "First Name is required",
+                      pattern: {
+                        value: /^[A-Za-z\-]+$/i,
+                        message: "Invalid",
+                      },
+                    }}
                     render={({ field: { onChange, onBlur, value, ref } }) => (
                       <TextField 
                       placeholder="First name"
@@ -75,13 +106,21 @@ const SignUp = () => {
                       onBlur={ onBlur }
                       inputRef={ ref }
                       size="small"
+                      error={Boolean(errors.name)}
+                      helperText={errors.name ? errors.name.message : ""}
                       />
                     )}
                   />
                   <Controller
                     control={ control }
                     name="last_name"
-                    rules={{ required: true, pattern: /^[A-Za-z]+$/i }}
+                    rules={{
+                      required: "Last Name is required",
+                      pattern: {
+                        value: /^[A-Za-z\-]+$/i,
+                        message: "Invalid",
+                      },
+                    }}
                     render={({ field: { onChange, onBlur, value, ref } }) => (
                       <TextField 
                       placeholder="Last name"
@@ -90,6 +129,8 @@ const SignUp = () => {
                       onBlur={ onBlur }
                       inputRef={ ref }
                       size="small"
+                      error={Boolean(errors.last_name)}
+                      helperText={errors.last_name ? errors.last_name.message : ""}
                       />
                     )}
                   />
@@ -97,7 +138,13 @@ const SignUp = () => {
                 <Controller
                   control={ control }
                   name="email"
-                  rules={{ required: true, pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g }}
+                  rules={{
+                    required: "Email Address is required",
+                    pattern: {
+                      value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+                      message: "Invalid email address",
+                    },
+                  }}
                   render={({ field: { onChange, onBlur, value, ref } }) => (
                     <TextField 
                     placeholder="Email"
@@ -106,13 +153,25 @@ const SignUp = () => {
                     onBlur={ onBlur }
                     inputRef={ ref }
                     size="small"
+                    error={Boolean(errors.email)}
+                    helperText={errors.email ? errors.email.message : ""}
                     />
                   )}
                 />
                 <Controller
                   control={ control }
                   name="password"
-                  rules={{ required: true, maxLength: 20 }}
+                  rules={{
+                    required: "Password is required",
+                    minLength: {
+                      value: 4,
+                      message: "Password must be 4-20 characters "
+                    },
+                    maxLength: {
+                      value: 20,
+                      message: "Password must be 4-20 characters "
+                    },
+                  }}
                   render={({ field: { onChange, onBlur, value, ref } }) => (
                     <TextField 
                     placeholder="Password"
@@ -122,13 +181,22 @@ const SignUp = () => {
                     onBlur={ onBlur }
                     inputRef={ ref }
                     size="small"
+                    error={Boolean(errors.password)}
+                    helperText={errors.password ? errors.password.message : ""}
                     />
                   )}
                 />
                 <Controller
                   control={ control }
                   name="password_confirmation"
-                  rules={{ required: true, maxLength: 20 }}
+                  rules={{
+                    required: "Password Confirmation is required",
+                    validate: (value) => {
+                      if (watch('password') != value) {
+                        return "Passwords do no match";
+                      }
+                    },
+                  }}
                   render={({ field: { onChange, onBlur, value, ref } }) => (
                     <TextField 
                     placeholder="Confirm password"
@@ -138,6 +206,8 @@ const SignUp = () => {
                     onBlur={ onBlur }
                     inputRef={ ref }
                     size="small"
+                    error={Boolean(errors.password_confirmation)}
+                    helperText={errors.password_confirmation ? errors.password_confirmation.message : ""}
                     />
                   )}
                 />
