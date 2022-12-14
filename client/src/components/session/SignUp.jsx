@@ -65,7 +65,7 @@ const SignUp = () => {
       setMembers(data.users)
       setAuth(true)
       navigate(`/${data.last_name}/users`)
-    } 
+    }
   }
 
   return (
