@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
-import { Button, Stack, TextField } from '@mui/material';
+import { Button, LinearProgress, Stack, TextField, Typography } from '@mui/material';
 import { useContext } from 'react';
 import { FamilyContext } from '../context/family';
 
@@ -12,6 +12,8 @@ const Login = () => {
     password: ""
   })
   const navigate = useNavigate()
+  const [isLoading, setIsLoading] = useState(false)
+  const [errors, setErrors] = useState(null)
 
   useEffect(() => {
     if (auth === true) {
@@ -20,6 +22,7 @@ const Login = () => {
   }, [auth, navigate])
 
   const onSubmit = async form => {
+    setIsLoading(true)
 
     const response = await fetch('/api/login', {
       method: 'POST',
@@ -36,8 +39,10 @@ const Login = () => {
       setAuth(true)
       navigate(`/${data.last_name}/users`)
     } else {
-      console.log(data.errors)
+      setErrors(data.errors)
+      setIsLoading(false)
     }
+    
   }
 
   return (
@@ -78,6 +83,8 @@ const Login = () => {
             )}
           />
           <Button variant="contained" type='submit'>Log In</Button>
+          { isLoading ? <LinearProgress /> : null }
+          { errors ? <Typography sx={{ color: "red", fontStyle: "italic" }} textAlign="center">{ errors }</Typography> : null}
         </Stack>
       </form>
     </>
