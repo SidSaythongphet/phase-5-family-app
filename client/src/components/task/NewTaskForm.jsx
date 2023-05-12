@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { Button, Grid, TextField, Radio, RadioGroup, FormControl, Checkbox, FormGroup } from '@mui/material';
+import { Button, Grid, TextField, FormControl, Checkbox, FormGroup } from '@mui/material';
 import { useForm, Controller } from "react-hook-form";
 import { useContext } from 'react';
 import { UserContext } from '../context/user';
