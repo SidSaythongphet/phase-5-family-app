@@ -18,7 +18,7 @@ import NewEventForm from "./components/event/NewEventForm";
 
 
 const App = () => {
-  const { family, auth } = useContext(FamilyContext)
+  const { family } = useContext(FamilyContext)
   const { user } = useContext(UserContext)
 
   if (!family) {

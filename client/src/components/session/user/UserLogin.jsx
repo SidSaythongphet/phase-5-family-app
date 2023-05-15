@@ -19,11 +19,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const UserLogin = () => {
-  const { family, members, setMembers } = useContext(FamilyContext)
+  const { family, members } = useContext(FamilyContext)
   const { user, setUser } = useContext(UserContext)
   const [show, setShow] = useState(false);
   const [open, setOpen] = useState(true)
-  const [color, setColor] = useState("")
   const [selectedValue, setSelectedValue] = useState('');
 
   const navigate = useNavigate()

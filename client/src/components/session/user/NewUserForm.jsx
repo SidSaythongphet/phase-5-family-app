@@ -9,7 +9,7 @@ import { UserContext } from '../../context/user';
 
 const NewUserForm = ({ show, setShow }) => {
   const { family, members, setMembers } = useContext(FamilyContext)
-  const { user, setUser } = useContext(UserContext)
+  const { setUser } = useContext(UserContext)
   const [color, setColor] = useState("")
 
   const navigate = useNavigate()
