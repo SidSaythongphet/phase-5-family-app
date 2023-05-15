@@ -59,7 +59,7 @@ const NewUserForm = ({ show, setShow }) => {
   }
 
   // color codes = red, orange, green, blue, purple, violet
-  const colors = [ "#ff0000", "#ffa500", "#008000", "#0000ff", "#800080", "#ee82ee" ]
+  const colors = [ "#b72803", "#efac28", "#336a29", "#06334b", "#5d3b78", "#b85985" ]
 
   const availableColors = () => {
     let availableColors = []

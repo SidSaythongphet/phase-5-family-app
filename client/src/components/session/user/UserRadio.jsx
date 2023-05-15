@@ -5,7 +5,7 @@ import { Avatar, Grid, Paper } from '@mui/material';
 
 const UserRadio = ({ user, selectedValue, onUserSelect }) => {
   return (
-    <Paper elevation={4} sx={{ borderRadius: 4, margin: 1, padding: 1, paddingTop: 2, width: "10vw" }} id={ user.name } onClick={ onUserSelect } >
+    <Paper elevation={4} sx={{ borderRadius: 4, margin: 1, padding: 1, paddingTop: 2, width: "200px" }} id={ user.name } onClick={ onUserSelect } >
       <Grid container item xs={12} justifyContent="center">
         <Grid item xs={12} container justifyContent="center" id={ user.name } onClick={ onUserSelect } >
           <Avatar sx={{ bgcolor: user.color, width: 56, height: 56 }}/>
@@ -21,6 +21,7 @@ const UserRadio = ({ user, selectedValue, onUserSelect }) => {
                 onChange={ onUserSelect }
                 value={ user.name } 
                 name={ user.name } 
+                color="default"
               />
             } 
           />

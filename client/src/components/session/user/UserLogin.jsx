@@ -85,23 +85,22 @@ const UserLogin = () => {
         TransitionComponent={Transition}
         keepMounted
         onClose={ handleOnClose }
-        fullWidth
         maxWidth="xl"
+        minHeight="90vh"
       >
         <Box
-          minWidth="800px"
-          height="90vh"
+          maxWidth="700px"
           bgcolor= "rgba(187, 189, 190, 0.486)"
         >
-          <Grid container justifyContent="end" height="100%"> 
+          <Grid container > 
             <Grid item xs={12} container height="4%" sx={{ bgcolor: "darkgrey", borderBottom: 1, borderBlockColor: "black" }} direction="row-reverse" alignItems="center">
               <IconButton onClick={ handleOnClose } size="small" sx={{ height: "100%" }}><CloseIcon/></IconButton>
             </Grid>
             <Grid item xs={12} container height="96%" justifyContent="center">
-              <Grid item xs={12} container justifyContent="center" alignItems="end" height="20%">
-                <Typography variant='h3' gutterBottom marginTop="3%">{ family.last_name }</Typography>
+              <Grid item xs={12} container justifyContent="center" alignItems="end">
+                <Typography variant='h3' gutterBottom >{ family.last_name }</Typography>
               </Grid>
-              <Grid item xs={12} container justifyContent="center"sx={{ width: "100%", height: "50%", paddingTop: "10%" }}>
+              <Grid item xs={10} container justifyContent="center" sx={{ width: "100%", height: "50%", paddingTop: "10%" }}>
                 <FormControl sx={{ width: "100%", height: "100%" }}>
                   <RadioGroup>
                     <Grid container justifyContent="center">
@@ -111,7 +110,7 @@ const UserLogin = () => {
                   </RadioGroup>
                 </FormControl>  
               </Grid>        
-              <Grid item xs={12} container justifyContent="center" sx={{ height: "30%" }}>
+              <Grid item xs={12} container justifyContent="center" alignSelf="end" sx={{ height: "150px" }}>
                 {
                   show
                   ?
@@ -119,7 +118,7 @@ const UserLogin = () => {
                   :
                   <>
                     <Grid item> 
-                      <Button variant="contained" onClick={handleChooseUser} sx={{ width: "10vw" }}>Submit</Button>
+                      <Button color="success" variant="contained" onClick={ handleChooseUser } sx={{ width: "200px" }}>Submit</Button>
                     </Grid>              
                   </>
                 }
