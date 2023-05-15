@@ -1,4 +1,4 @@
-import { Dialog, Drawer, Box, Toolbar } from "@mui/material";
+import { Dialog, Drawer, Box } from "@mui/material";
 import React, { useContext } from "react";
 import { Routes, Route } from 'react-router-dom';
 import { FamilyContext } from "./components/context/family";
@@ -45,7 +45,7 @@ const App = () => {
   const theme = createTheme({
     palette: {
       primary: {
-        main: user.color,
+        main: "#b85985",
       },
     },
   })
@@ -57,7 +57,7 @@ const App = () => {
         <SideNavigation/>
         <Box
           component="main"
-          sx={{ flexGrow: 1, bgcolor: 'background.default', paddingLeft: "20vw", height: "92vh" }}
+          sx={{ flexGrow: 1, bgcolor: "primary.dark", paddingLeft: "20vw", height: "92vh" }}
         >
           <Routes>
             <Route path="/" element={ <Home /> } />
