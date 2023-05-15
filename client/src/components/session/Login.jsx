@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { Button, LinearProgress, Stack, TextField, Typography } from '@mui/material';
 import { useContext } from 'react';
 import { FamilyContext } from '../context/family';
-import { useState } from 'react';
 
 const Login = () => {
   const {setFamily, setMembers, auth, setAuth} = useContext(FamilyContext)
