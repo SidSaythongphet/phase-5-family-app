@@ -99,7 +99,7 @@ const SideNavigation = () => {
             '& .MuiDrawer-paper': {
               width: drawerWidth,
               boxSizing: 'border-box',
-              bgcolor: "primary.dark"
+              bgcolor: "primary.light"
             },
           }}
           open

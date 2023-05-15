@@ -34,7 +34,7 @@ const NavBar = () => {
 
   return (
     <Box sx={{ height: "6vh" }}>
-      <AppBar position="fixed" sx={{ height: "6vh", bgcolor: 'primary.dark', paddingLeft: 2, paddingRight: 2, zIndex: (theme) => theme.zIndex.drawer + 1 }} elevation={0}>
+      <AppBar position="fixed" sx={{ height: "6vh", bgcolor: 'primary', paddingLeft: 2, paddingRight: 2, zIndex: (theme) => theme.zIndex.drawer + 1 }} elevation={0}>
         <Toolbar disableGutters sx={{ height: "100%", alignItems: "center" }} >
           <Typography variant="h3" component="div" sx={{ height: "100%", width: "25vw" }}>- P l a n n r -</Typography>
           <Typography variant="h6" component="div" sx={{ height: "100%", flexGrow: 1 }}></Typography>
