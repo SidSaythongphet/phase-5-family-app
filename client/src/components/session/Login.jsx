@@ -82,7 +82,6 @@ const Login = () => {
               />
             )}
           />
-          <Typography variant='body2' color="red" textAlign="center">{ error }</Typography>
           <Button variant="contained" type='submit'>Log In</Button>
           { isLoading ? <LinearProgress /> : null }
           { errors ? <Typography sx={{ color: "red", fontStyle: "italic" }} textAlign="center">{ errors }</Typography> : null}
