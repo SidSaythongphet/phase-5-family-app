@@ -1,24 +1,10 @@
-# README
+# PLANNR APP
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a scheduling and task managing app meant for your family or household. 
 
-Things you may want to cover:
+https://plannr-app.onrender.com/
 
-* Ruby version
 
-* System dependencies
+Frontend is built with React.JS uses Material UI and FullCalendar.
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Backend consists of Ruby on Rails and PostgreSQL.
