@@ -15,7 +15,7 @@ const CreateNewDrawer = ({ children, item, title, open, setOpen }) => {
     navigate(`/${family.last_name.toLowerCase()}/${item.toLowerCase()}s`)
   }
 
-  const height = item === "Task" ? "25vh" : "50vh"
+  const height = item === "task" ? "25vh" : "50vh"
 
   return (
     <Drawer
