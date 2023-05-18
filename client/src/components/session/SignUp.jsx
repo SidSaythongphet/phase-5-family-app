@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useForm, Controller } from "react-hook-form";
-import { Box, Button, Divider, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, Divider, Stack, TextField } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
   const {setFamily, setMembers, setAuth} = useContext(FamilyContext)
-  const { handleSubmit, control, watch, formState: { errors, isSubmitSuccessful }, reset, formState } = useForm({
+  const { handleSubmit, control, watch, formState: { errors, isSubmitSuccessful }, reset } = useForm({
     defaultValues: {
       name: '',
       last_name: '',
@@ -23,7 +23,7 @@ const SignUp = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (formState.isSubmitSuccessful) {
+    if (isSubmitSuccessful) {
       reset({
         name: '',
         last_name: '',
@@ -32,7 +32,7 @@ const SignUp = () => {
         password_confirmation: '',
     })
     }
-  }, [formState, reset])
+  }, [isSubmitSuccessful, reset])
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -94,7 +94,7 @@ const SignUp = () => {
                     rules={{
                       required: "First Name is required",
                       pattern: {
-                        value: /^[A-Za-z\-]+$/i,
+                        value: /^[A-Za-z]+$/i,
                         message: "Invalid",
                       },
                     }}
@@ -117,7 +117,7 @@ const SignUp = () => {
                     rules={{
                       required: "Last Name is required",
                       pattern: {
-                        value: /^[A-Za-z\-]+$/i,
+                        value: /^[A-Za-z]+$/i,
                         message: "Invalid",
                       },
                     }}
@@ -141,7 +141,7 @@ const SignUp = () => {
                   rules={{
                     required: "Email Address is required",
                     pattern: {
-                      value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+                      value: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/g,
                       message: "Invalid email address",
                     },
                   }}
@@ -192,7 +192,7 @@ const SignUp = () => {
                   rules={{
                     required: "Password Confirmation is required",
                     validate: (value) => {
-                      if (watch('password') != value) {
+                      if (watch('password') !== value) {
                         return "Passwords do no match";
                       }
                     },

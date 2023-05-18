@@ -14,7 +14,6 @@ const EventContainer = () => {
   const [pastEvents, setPastEvents] = useState([])
   const [eventInfo, setEventInfo] = useState(null)
   const [openNew, setOpenNew] = useState(false)
-  const [openEdit, setOpenEdit] = useState(false)
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -70,7 +69,7 @@ const EventContainer = () => {
             <NewEventButton setOpen={ setOpenNew }/>
           </Grid>
           <Grid item xs={12} sx={{ height: "85%", paddingTop: .5 }}>
-            <EventInfoContainer eventInfo={ eventInfo } onDeleteEvent={ handleDeleteEvent } setOpen={ setOpenEdit } onUpdateEvent={ handleUpdateEvent }/>
+            <EventInfoContainer eventInfo={ eventInfo } onDeleteEvent={ handleDeleteEvent } onUpdateEvent={ handleUpdateEvent }/>
           </Grid>
         </Grid>
         <Grid item xs={6} container justifyContent="center" sx={{ height: "42vh", padding: .5 }} >

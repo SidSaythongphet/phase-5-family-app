@@ -1,12 +1,10 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FamilyContext } from '../context/family';
-import { Button, Grid, Typography, Drawer } from '@mui/material';
-import { UserContext } from '../context/user';
+import { Grid, Typography, Drawer } from '@mui/material';
 
 const CreateNewDrawer = ({ children, item, title, open, setOpen }) => {
   const { family } = useContext(FamilyContext)
-  const { user } = useContext(UserContext)
 
   const navigate = useNavigate()
 

@@ -16,7 +16,7 @@ const NewEventForm = ({ open, setOpen, onAddEvent }) => {
   const { user } = useContext(UserContext)
   const navigate = useNavigate()
 
-  const { handleSubmit, control, reset, formState, formState: { isSubmitSuccessful } } = useForm({
+  const { handleSubmit, control, reset, formState: { isSubmitSuccessful } } = useForm({
     defaultValues: {
       title: '',
       start: null,
@@ -28,7 +28,7 @@ const NewEventForm = ({ open, setOpen, onAddEvent }) => {
   })
 
   useEffect(() => {
-    if (formState.isSubmitSuccessful) {
+    if (isSubmitSuccessful) {
       reset({
       title: '',
       start: null,
@@ -38,7 +38,7 @@ const NewEventForm = ({ open, setOpen, onAddEvent }) => {
       user_id: user.id
     })
     }
-  }, [formState, reset])
+  }, [isSubmitSuccessful, reset, user.id])
 
   const onSubmit = async form => {
     // throw error if date combination is invalid

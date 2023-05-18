@@ -14,7 +14,7 @@ const NewUserForm = ({ show, setShow }) => {
 
   const navigate = useNavigate()
   
-  const { register, setValue, handleSubmit, control, reset, formState, formState: { isSubmitSuccessful }  } = useForm({
+  const { register, setValue, handleSubmit, control, reset, formState: { isSubmitSuccessful }  } = useForm({
     defaultValues: {
       name: "",
       color: color,
@@ -23,14 +23,14 @@ const NewUserForm = ({ show, setShow }) => {
   })
 
   useEffect(() => {
-    if (formState.isSubmitSuccessful) {
+    if (isSubmitSuccessful) {
       reset({
         name: "",
         color: color,
         family_id: family.id
       })
     }
-  }, [formState, reset])
+  }, [isSubmitSuccessful, reset, color, family.id])
 
   const onSubmit = async form => {
     setValue("family_id", family.id)

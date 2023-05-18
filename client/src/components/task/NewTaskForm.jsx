@@ -16,7 +16,7 @@ const NewTaskForm = ({ open, setOpen, onAddTask }) => {
   const [checkedUsers, setCheckedUsers] = useState([user.id])
   const navigate = useNavigate()
 
-  const { handleSubmit, control, setValue, getValues, reset, formState, formState: { isSubmitSuccessful } } = useForm({
+  const { handleSubmit, control, setValue, reset, formState: { isSubmitSuccessful } } = useForm({
     defaultValues: {
       title: '',
       user_ids: checkedUsers
@@ -24,17 +24,17 @@ const NewTaskForm = ({ open, setOpen, onAddTask }) => {
   })
 
   useEffect(() => {
-    if (formState.isSubmitSuccessful) {
+    if (isSubmitSuccessful) {
       reset({
         title: '',
         user_ids: checkedUsers
       })
     }
-  }, [formState, reset])
+  }, [isSubmitSuccessful, reset, checkedUsers])
 
   useEffect(() => {
     setValue("user_ids", checkedUsers)
-  }, [checkedUsers])
+  }, [checkedUsers, setValue])
 
   if( !family || !user ) return null
 

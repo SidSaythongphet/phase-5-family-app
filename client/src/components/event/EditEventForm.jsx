@@ -4,7 +4,6 @@ import { Button, Grid, TextField, Typography, ButtonGroup } from '@mui/material'
 import { useForm, Controller } from "react-hook-form";
 import { useContext } from 'react';
 import { UserContext } from '../context/user';
-import { FamilyContext } from '../context/family';
 import CreateNewDrawer from '../popup/CreateNewDrawer';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -13,7 +12,7 @@ import Switch from '@mui/material/Switch';
 const EditEventForm = ({ open, setOpen, onUpdateEvent, eventInfo }) => {
   const { user } = useContext(UserContext)
   
-  const { handleSubmit, control, reset, formState, formState: { isSubmitSuccessful } } = useForm({
+  const { handleSubmit, control, reset, formState: { isSubmitSuccessful } } = useForm({
     defaultValues: {
       title: '',
       start: null,
@@ -25,7 +24,7 @@ const EditEventForm = ({ open, setOpen, onUpdateEvent, eventInfo }) => {
   })
 
   useEffect(() => {
-    if (formState.isSubmitSuccessful) {
+    if (isSubmitSuccessful) {
       reset({
         title: '',
         start: null,
@@ -36,7 +35,7 @@ const EditEventForm = ({ open, setOpen, onUpdateEvent, eventInfo }) => {
       })
     }
 
-  }, [formState, reset])
+  }, [isSubmitSuccessful, reset, user.id])
 
   useEffect(() => {
     if (eventInfo) {
@@ -51,7 +50,7 @@ const EditEventForm = ({ open, setOpen, onUpdateEvent, eventInfo }) => {
       })
     }
 
-  }, [eventInfo])
+  }, [eventInfo, reset, user.id])
 
   const onSubmit = async form => {
     // throw error if date combination is invalid
